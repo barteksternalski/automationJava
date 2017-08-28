@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Smoke test">
+    <listeners>
+        <!--<listener class-name="reports.reporter"/>-->
+        <listener class-name="extentReports.extentReportsListener" />
+    </listeners>
+    <test name="api">
+        <classes>
+            <class name="smokeTest"/>
+        </classes>
+    </test>
+</suite>
