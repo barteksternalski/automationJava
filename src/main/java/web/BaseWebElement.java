@@ -1,0 +1,71 @@
+package web;
+
+import com.google.common.base.Function;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.FluentWait;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+public abstract class BaseWebElement {
+
+    protected int timeOfWaiting = 600;
+    protected FluentWait<WebDriver> wait;
+    private WebDriver driver;
+
+    public BaseWebElement(WebDriver driver) {
+        this.driver = driver;
+
+        wait = new FluentWait<>(driver)
+                .withTimeout(timeOfWaiting, TimeUnit.SECONDS)
+                .pollingEvery(2, TimeUnit.SECONDS)
+                .ignoring(NoSuchElementException.class)
+                .ignoring(TimeoutException.class)
+                .ignoring(StaleElementReferenceException.class)
+                .ignoring(WebDriverException.class);
+    }
+
+    public BaseWebElement(WebDriver driver, int timeOfWaiting) {
+        this.driver = driver;
+
+        wait = new FluentWait<>(driver)
+                .withTimeout(timeOfWaiting, TimeUnit.SECONDS)
+                .pollingEvery(10, TimeUnit.SECONDS)
+                .ignoring(NoSuchElementException.class)
+                .ignoring(TimeoutException.class);
+        this.timeOfWaiting = timeOfWaiting;
+    }
+
+    protected WebElement getWebElement(final By by) {
+        return wait.until(new Function<WebDriver, WebElement>() {
+            public WebElement apply(WebDriver d) {
+                return d.findElement(by);
+            }
+        });
+    }
+
+    protected WebElement getWebElement(ExpectedCondition<WebElement> expectedCondition) {
+        return wait.until(expectedCondition);
+    }
+
+    protected List<WebElement> getWebElements(final By by) {
+        return wait.until(new Function<WebDriver, List<WebElement>>() {
+            public List<WebElement> apply(WebDriver d) {
+                return d.findElements(by);
+            }
+        });
+    }
+
+    protected List<WebElement> getWebElements(ExpectedCondition<List<WebElement>> expectedCondition) {
+        return wait.until(expectedCondition);
+    }
+
+    public boolean isElementInvisible(By by) {
+        List elements = driver.findElements(by);
+
+        return elements.size() == 0;
+    }
+
+}
