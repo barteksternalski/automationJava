@@ -1,8 +1,8 @@
 package configuration;
 
-import org.openqa.selenium.WebDriver;
-import util.driver.WebDriverFactory;
-import util.property.PropertyLoader;
+        import org.openqa.selenium.WebDriver;
+        import util.driver.WebDriverFactory;
+        import util.property.PropertyLoader;
 
 public class EnvironmentSetup {
 
