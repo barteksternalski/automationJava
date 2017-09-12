@@ -7,9 +7,16 @@ Feature: User management
     When User creates new user with given data
     #	req				req				req				opt					req			req			opt			req
     #					[---ORGANIZATION INFORMATION - when user type is Organization---]
-      | userType		| CSIONetID		| PartnerType	| OrganizationName	| Logo		| Name		| Email		| Modules	|
-      | <userType>	    | <csioNetId>	| <partnerType>	| <orgName>			| <logo>	| <name>	| <email>	| <modules>	|
+      | userType          | <userType>	  |
+      | CSIONetID	      | <csioNetId>	  |
+      | PartnerType	      | <partnerType> |
+      | OrganizationName  | <orgName>	  |
+      | Logo		      | <logo>	      |
+      | Name		      | <name>	      |
+      | Email		      | <email>	      |
+      | Modules	          | <modules>	  |
     Then User is created
+
 
     Examples:
       | userType		| csioNetId		| partnerType	| orgName	        | logo		| name		| email		| modules	|
@@ -20,8 +27,14 @@ Feature: User management
     Given User is on main page
     When User creates new user with given data
     #	req				req				req				opt					req			req			opt			req
-      | userType		| CSIONetID		| PartnerType	| OrganizationName	| Logo		| Name		| Email		| Modules	|
-      | <userType>	    | <csioNetId>	| <partnerType>	| <orgName>			| <logo>	| <name>	| <email>	| <modules>	|
+      | userType          | <userType>	  |
+      | CSIONetID	      | <csioNetId>	  |
+      | PartnerType	      | <partnerType> |
+      | OrganizationName  | <orgName>	  |
+      | Logo		      | <logo>	      |
+      | Name		      | <name>	      |
+      | Email		      | <email>	      |
+      | Modules	          | <modules>	  |
     Then Proper error message <message> is displayed
 
     Examples:
@@ -58,3 +71,13 @@ Feature: User management
     Given User is on user listing page
     When User deactivates listed user
     Then User is deactivated
+
+  Scenario: User can reset password
+    Given User is on user listing page
+    When User resets password for selected user
+    Then New password is sent to given email
+
+  Scenario: User can be deleted
+    Given User is on user listing page
+    When User deletes selected user
+    Then User is no longer listed

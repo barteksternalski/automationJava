@@ -1,10 +1,11 @@
 package pages;
 
+import net.itarray.automotion.tools.web.BaseWebMobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import web.BaseWebMobileElement;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -32,6 +33,11 @@ public class BasePage extends BaseWebMobileElement {
 
     public List<WebElement> getElements(ExpectedCondition condition) {
         return getWebElements(condition);
+    }
+
+    public void selectElementFromDropdown(WebElement dropdown, String text) {
+        Select select = new Select(dropdown);
+        select.selectByVisibleText(text);
     }
 
 }

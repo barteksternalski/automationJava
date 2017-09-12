@@ -1,8 +1,8 @@
 package configuration;
 
+        import net.itarray.automotion.tools.driver.WebDriverFactory;
+        import net.itarray.automotion.tools.property.PropertyLoader;
         import org.openqa.selenium.WebDriver;
-        import util.driver.WebDriverFactory;
-        import util.property.PropertyLoader;
 
 public class EnvironmentSetup {
 
@@ -17,5 +17,9 @@ public class EnvironmentSetup {
 //        caps.put("requireWindowFocus", true);
 //        driverFactory.updateCapabilities(caps);
         driver = driverFactory.getDriver();
+//        ChromeOptions options = new ChromeOptions();
+//        options.setBinary(System.getProperty("user.dir").concat("\\src\\main\\resources\\drivers\\chromedriver.exe"));
+//        options.addArguments("start-maximized");
+//        driver = new ChromeDriver(options);
     }
 }
