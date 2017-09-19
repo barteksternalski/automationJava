@@ -1,57 +1,11 @@
 Feature: User management
   As u user I want to have possibility to view, create, edit and delete users
 
-#USR-02
-  Scenario Outline: Successfully create new user
-    Given User is on main page
-    When User creates new user with given data
-    #	req				req				req				opt					req			req			opt			req
-    #					[---ORGANIZATION INFORMATION - when user type is Organization---]
-      | userType          | <userType>	  |
-      | CSIONetID	      | <csioNetId>	  |
-      | PartnerType	      | <partnerType> |
-      | OrganizationName  | <orgName>	  |
-      | Logo		      | <logo>	      |
-      | Name		      | <name>	      |
-      | Email		      | <email>	      |
-      | Modules	          | <modules>	  |
-    Then User is created
-
-
-    Examples:
-      | userType		| csioNetId		| partnerType	| orgName	        | logo		| name		| email		| modules	|
-      | temp			| temp			| temp			| temp				| temp		| temp		| temp		| temp		|
-
-#USR-02
-  Scenario Outline: Error handling during new user creation
-    Given User is on main page
-    When User creates new user with given data
-    #	req				req				req				opt					req			req			opt			req
-      | userType          | <userType>	  |
-      | CSIONetID	      | <csioNetId>	  |
-      | PartnerType	      | <partnerType> |
-      | OrganizationName  | <orgName>	  |
-      | Logo		      | <logo>	      |
-      | Name		      | <name>	      |
-      | Email		      | <email>	      |
-      | Modules	          | <modules>	  |
-    Then Proper error message <message> is displayed
-
-    Examples:
-      | userType		| csioNetId		| partnerType	| orgName	        | logo		| name		| email		| modules	| message								|
-      | {null}		    | 				|				|					|			|			|			|			| ???									|
-      | 				| {null}		|				|					|			|			|			|			| Please enter CSIONet ID				|
-      | 				| 				| {null}		|					|			|			|			|			| ???									|
-      | 				| 				|				|					| {null}	|			|			|			| ???									|
-      | 				| 				|				|					| 			| {null}	|			|			| Please enter last name				|
-      | 				| 				|				|					| 			|			|			| {null}	| ???									|
-      | 				| 				|				|					| 			|			| kokos 	| 			| Please enter a valid email address	|
-
-#USR-01
+  #USR-01
   Scenario Outline: View user details
     Given <user> is on user listing page
     When User selects listed user <type>
-    Then User details are displayed
+    Then Action pane is displayed
 
     Examples:
       | user		| type			|
@@ -59,6 +13,53 @@ Feature: User management
       | CSIOAdmin	| Organization	|
       | CSIOAdmin	| Regular		|
       | Regular	    | Regular		|
+
+#USR-02
+  Scenario Outline: Successfully create new user
+    Given User is on main page
+    When User creates new user with given data
+      | User Type               | <userType>  |
+      | User Id                 | <userId>    |
+      | Name                    | <name>      |
+      | Email                   | <email>     |
+      | Organization User Id    | <orgUserId> |
+      | Organization Type       | <orgType>   |
+      | CSIO Net ID             | <csioId>    |
+      | Carrier Organization    | <carrier>   |
+      | Brokerage Organization  | <brokerage> |
+      | File                    | <file>      |
+      | Modules                 | <modules>   |
+    Then User is created
+
+
+    Examples:
+      | userType    | userId    | name    | email   | orgUserId   | orgType   | csioId    | carrier   | brokerage   | file    | modules   |
+
+#USR-02
+  Scenario Outline: Error handling during new user creation
+    Given User is on main page
+    When User creates new user with given data
+      | User Type               | <userType>  |
+      | User Id                 | <userId>    |
+      | Name                    | <name>      |
+      | Email                   | <email>     |
+      | Organization User Id    | <orgUserId> |
+      | Organization Type       | <orgType>   |
+      | CSIO Net ID             | <csioId>    |
+      | Carrier Organization    | <carrier>   |
+      | Brokerage Organization  | <brokerage> |
+      | File                    | <file>      |
+      | Modules                 | <modules>   |
+    Then Proper error message <message> is displayed
+
+    Examples:
+      | userType    | userId    | name    | email   | orgUserId   | orgType   | csioId    | carrier   | brokerage   | file    | modules   | message                             |
+      |             | {null}    |         |         |             |           |           |           |             |         |           | Please enter userId.                |
+      |             |           | {null}  |         |             |           |           |           |             |         |           | Please enter User Name.             |
+      |             |           |         | babol.w |             |           |           |           |             |         |           | Please enter a valid email address  |
+      |             |           |         |         |             |           | {null}    |           |             |         |           | Please enter CSIO Net Id.           |
+      |             |           |         |         |             |           |           | {null}    |             |         |           | Please enter Carrier Organization.  |
+      |             |           |         |         |             |           |           |           | {null}      |         |           | Please enter Broker Organization.   |
 
 #USR-04
   Scenario: Activate user

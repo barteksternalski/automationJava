@@ -1,23 +1,24 @@
 package stepDefinitions;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.*;
+import org.junit.Assert;
+import pages.CreateSingleESlip;
 
 
 public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
-    @Before
-    public void setUp() {
+    @Given("^Setup browser$")
+    public void setupBrowser() {
         initDriver();
         initPages();
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
     }
 
-    @After
-    public void tearDown(){
+    @Given("^Close browser$")
+    public void closeBrowser() {
         driver.quit();
     }
 
@@ -29,12 +30,42 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     @When("^User creates new eSlip with given customer and policy information with given data$")
     public void fillCustomerInformation(DataTable table) {
         createSingleESlip.fillCustomerInformation(table);
-        createSingleESlip.saveDraft();
+        createSingleESlip.next();
     }
 
-    @Then("^ESlip draft is created$")
-    public void verifyCreatedDraft() {
-        System.out.println("banan");
+
+    @Given("^User is on main page$")
+    public void userIsOnMainPage() {
+        driver.get("http://cssitcacweb01-dev.azurewebsites.net/");
+        loginPage.login("", "");
     }
 
+    @When("^User creates new user with given data$")
+    public void userCreatesNewUserWithGivenData(DataTable table) throws Exception {
+        landingPage.navigateToCreateUser();
+        createUser.createNewUser(table);
+    }
+
+    @Then("^User '(.+)' is created$")
+    public void userIsCreated(String user) {
+        landingPage.navigateToUserList();
+        Assert.assertTrue(listOfUsers.userVisibleOnUserList(user));
+    }
+
+    @Then("^'(.+)' page is displayed$")
+    public void verifyPageTitle(String title){
+        createSingleESlip.verifyPageTitle(title);
+    }
+
+    @When("^User adds new vehicle with given data$")
+    public void userAddsNewVehicleWithGivenData(DataTable table) {
+        createSingleESlip.fillVehicleInformation(table);
+        createSingleESlip.next();
+    }
+
+    @When("^User adds new back text section with given data$")
+    public void userAddsNewBackTextSectionWithGivenData(DataTable table)  {
+        createSingleESlip.fillBackText(table);
+        createSingleESlip.next();
+    }
 }

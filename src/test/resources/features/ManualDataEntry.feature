@@ -163,6 +163,16 @@ Feature: Manual data entry
     Then Back text sections order is changed
 
   Scenario: User can remove added back text
-    Given User opens drafter eSlip with added back text
-    When User remoces added back text
+    Given User opens drafted eSlip with added back text
+    When User removes added back text
     Then Back text is removed from eSlip
+
+  Scenario Outline: User can preview and fill email form
+    Given User opens drafted eSlip
+    When User fill email form with
+      | Salutation          | <salutation>  |
+      | Customized Message  | <message>     |
+    Then Email form is updated
+
+    Examples:
+      | salutation    | message   |

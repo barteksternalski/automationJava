@@ -17,16 +17,24 @@ public class LandingPage extends BasePage {
     //                                  //
     // ******************************** //
 
-    WebElement dashboardNavigationLink() {
+    private WebElement dashboardNavigationLink() {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@routerlink,'dashboard')]")));
     }
 
-    WebElement eslipDraftsNavigationLink() {
+    private WebElement eslipDraftsNavigationLink() {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@routerlink,'drafts')]")));
     }
 
-    WebElement pageTitle() {
-        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//h1")));
+    private WebElement createUserNavigationLink() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@routerlink,'createuser')]")));
+    }
+
+    private WebElement userListNavigationLink() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@routerlink,'listusers')]")));
+    }
+
+    private WebElement pageTitle() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("////main//h1")));
     }
 
 
@@ -38,6 +46,12 @@ public class LandingPage extends BasePage {
 
     public void navigateToDrafts() {
         this.eslipDraftsNavigationLink().click();
+    }
+    public void navigateToCreateUser() {
+        this.createUserNavigationLink().click();
+    }
+    public void navigateToUserList() {
+        this.userListNavigationLink().click();
     }
 
     // ******************************** //
