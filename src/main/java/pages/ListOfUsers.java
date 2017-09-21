@@ -23,6 +23,35 @@ public class ListOfUsers extends BasePage {
         return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//a[contains(@href,'edituser')]")));
     }
 
+    private List<WebElement> userByNameCheckbox(String name) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::a[contains(text(),'" + name + "')]]//input")));
+    }
+
+    private List<WebElement> userByNameActivationStatus(String name) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::a[contains(text(),'" + name + "')]]//td[2]")));
+    }
+
+    // ************ buttons ************* //
+
+    private WebElement editButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Edit']")));
+    }
+
+    private WebElement deleteButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='Delete']")));
+    }
+
+    private WebElement activateButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Activate']")));
+    }
+
+    private WebElement deactivateButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Deactivate']")));
+    }
+
+    private WebElement resetPasswordButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Rest password']")));
+    }
 
     // ******************************** //
     //                                  //
@@ -30,7 +59,29 @@ public class ListOfUsers extends BasePage {
     //                                  //
     // ******************************** //
 
+    public void selectUserByName(String name) {
+        this.userByNameCheckbox(name).get(0).click();
+    }
 
+    public void editUser() {
+        this.editButton().click();
+    }
+
+    public void deleteUser() {
+        this.deleteButton().click();
+    }
+
+    public void activateUser() {
+        this.activateButton().click();
+    }
+
+    public void deactivateUser() {
+        this.deactivateButton().click();
+    }
+
+    public void restPassword() {
+        this.resetPasswordButton().click();
+    }
 
     // ******************************** //
     //                                  //
@@ -49,6 +100,10 @@ public class ListOfUsers extends BasePage {
             System.out.println("INFO: User list is empty!");
         }
         return false;
+    }
+
+    public boolean verifyUserActivationStatus(String user) {
+        return this.userByNameActivationStatus(user).get(0).getText().equals("true");
     }
 
 }

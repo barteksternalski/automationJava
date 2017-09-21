@@ -23,11 +23,11 @@ Feature: Manual data entry
       | Policy Expiration Date  | <expDate>     |
       | Insurer                 | <insurer>     |
       | Brokerage               | <broker>      |
-    Then ESlip draft is created
+    Then 'Vehicle information' page is displayed
 
     Examples:
-      | name    | policyNo    | email   | phoneNo   | lang    | province    | address1  | address2  | city  | code  | effDate   | expDate   | insurer   | broker    |
-      |         |             |         |           |         |             |           |           |       |       |           |           |           |           |
+      | name    | policyNo    | email       | phoneNo   | lang    | province    | address1  | address2  | city  | code    | effDate     | expDate     | insurer     | broker    |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk   |  30300  | 12/12/2020  | 12/12/2022  | RSA Canada  | Banan     |
 
   Scenario Outline: Error handling on Customer and Policy Information form
     Given User is creating new eEslip
@@ -46,7 +46,7 @@ Feature: Manual data entry
       | Policy Expiration Date  | <expDate>     |
       | Insurer                 | <insurer>     |
       | Brokerage               | <broker>      |
-    Then Error message <message> is displayed
+    Then Proper error message '<message>' is displayed
 
     Examples:
       | name    | policyNo    | email     | phoneNo   | lang    | province    | address1  | address2  | city    | code    | effDate     | expDate     | insurer   | broker    | message                             |
@@ -61,6 +61,7 @@ Feature: Manual data entry
       |         |             |           |           |         |             | {null}    |           |         |         |             |             |           |           | Please enter Address 1 value        |
       |         |             |           |           |         |             |           |           | {null}  |         |             |             |           |           | Please enter City                   |
       |         |             |           |           |         |             |           |           |         | {null}  |             |             |           |           | Please enter postal code            |
+
   Scenario: User can displayed eSlip details
     Given User in on eslips drafts page
     When User opens created eSlip
@@ -89,11 +90,11 @@ Feature: Manual data entry
     Then Error message <message> is displayed
 
     Examples:
-      | year    | make    | model   | vin     | message                   |
-      | {null}  |         |         |         | Please enter Year value   |
-      |         | {null}  |         |         | Please enter Make value   |
-      |         |         | {null}  |         | Please enter Model value  |
-      |         |         |         | {null}  | Please enter VIN value    |
+      | year    | make    | model   | vin     | message                         |
+      | {null}  |         |         |         | Please enter the vehicle year.  |
+      |         | {null}  |         |         | Please enter the vehicle make.  |
+      |         |         | {null}  |         | Please enter the vehicle model. |
+      |         |         |         | {null}  | Please enter the VIN value.     |
 
   Scenario Outline: User can edit vehicle info
     Given User opens drafted eSlip with added vehicle

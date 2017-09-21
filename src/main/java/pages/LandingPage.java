@@ -25,6 +25,11 @@ public class LandingPage extends BasePage {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@routerlink,'drafts')]")));
     }
 
+    private WebElement createSingleNavigationLink() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@routerlink,'single')]")));
+    }
+
+
     private WebElement createUserNavigationLink() {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@routerlink,'createuser')]")));
     }
@@ -34,9 +39,12 @@ public class LandingPage extends BasePage {
     }
 
     private WebElement pageTitle() {
-        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("////main//h1")));
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//main/h1")));
     }
 
+    private WebElement logoutButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Logout']")));
+    }
 
     // ******************************** //
     //                                  //
@@ -44,6 +52,9 @@ public class LandingPage extends BasePage {
     //                                  //
     // ******************************** //
 
+    public void navigateToDashboard() {
+        this.dashboardNavigationLink().click();
+    }
     public void navigateToDrafts() {
         this.eslipDraftsNavigationLink().click();
     }
@@ -52,6 +63,9 @@ public class LandingPage extends BasePage {
     }
     public void navigateToUserList() {
         this.userListNavigationLink().click();
+    }
+    public void navigateToSingleESlip() {
+        this.createSingleNavigationLink().click();
     }
 
     // ******************************** //
@@ -62,6 +76,10 @@ public class LandingPage extends BasePage {
 
     public boolean verifyPageTitle(String title) {
         return this.pageTitle().getText().equals(title);
+    }
+
+    public boolean verifyMainPageIsDisplayed() {
+        return logoutButton().isDisplayed();
     }
 
 }

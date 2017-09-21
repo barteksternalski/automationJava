@@ -206,6 +206,12 @@ public class CreateSingleESlip extends BasePage {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//main//h1")));
     }
 
+    // ********** warnings ************ //
+
+    private List<WebElement> warningMessages() {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//md-error/span")));
+    }
+
     // ******************************** //
     //                                  //
     //              ACTIONS             //
@@ -228,7 +234,7 @@ public class CreateSingleESlip extends BasePage {
                     break;
                 }
             }
-        } else System.out.println("INFO: Value not found");
+        } else System.out.println("INFO: Field \"Preferred Language\" set to NULL value");
         if (!temp.get(5).get(1).equals("{null}")) {
             this.provinceDropdown().click();
             for (WebElement option : this.dropdownOptions()) {
@@ -237,7 +243,7 @@ public class CreateSingleESlip extends BasePage {
                     break;
                 }
             }
-        } else System.out.println("INFO: Value not found");
+        } else System.out.println("INFO: Field \"Province\" set to NULL value");
         Procedures.fillInputFieldBasedOnDataTable(temp, "Address 1", this.contactAddress1InputField());
         Procedures.fillInputFieldBasedOnDataTable(temp, "Address 2", this.contactAddress2InputField());
         Procedures.fillInputFieldBasedOnDataTable(temp, "City", this.contactCityInputField());
@@ -252,7 +258,7 @@ public class CreateSingleESlip extends BasePage {
                     break;
                 }
             }
-        } else System.out.println("INFO: Value not found");
+        } else System.out.println("INFO: Field \"Insurer\" set to NULL value");
         Procedures.fillInputFieldBasedOnDataTable(temp, "Brokerage", this.brokerageInputField());
 
     }
@@ -339,7 +345,6 @@ public class CreateSingleESlip extends BasePage {
         this.nextButton().click();
     }
 
-
     public void addVehicle() {
         this.addVehicleButton().click();
     }
@@ -363,5 +368,16 @@ public class CreateSingleESlip extends BasePage {
         return this.pageTitle().getText().contains(title);
     }
 
+    public boolean verifyWarningMessage(String message) {
+        try {
+            for (WebElement warning : this.warningMessages()) {
+                if (warning.getText().contains(message)) return true;
+            }
+            System.out.println("INFO: Message '" + message + "' not found.");
+        } catch (Exception e) {
+            System.out.println("INFO: No warning messages are displayed!");
+        }
+        return false;
+    }
 
 }
