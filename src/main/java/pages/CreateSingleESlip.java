@@ -122,6 +122,18 @@ public class CreateSingleESlip extends BasePage {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//td/*[@name='vinNumber']")));
     }
 
+    private List<WebElement> vehicleList() {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//vehicle-information//table//tr")));
+    }
+
+    private List<WebElement> vehiclePositionOnTheList(String vin) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//td[1]")));
+    }
+
+    private List<WebElement> vehicleWithVinExistance(String vin) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]")));
+    }
+
     // *********** back text ************ //
 
     private WebElement backTextTitleInputField() {
@@ -138,6 +150,18 @@ public class CreateSingleESlip extends BasePage {
 
     private WebElement editBackTextEntryInputField() {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//td/*[@name='entryText']")));
+    }
+
+    private List<WebElement> backTextsList() {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//eslip-back-text//table//tr")));
+    }
+
+    private List<WebElement> backTextPositionOnTheList(String title) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//td[1]")));
+    }
+
+    private List<WebElement> backTextWithTitleExistance(String title) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]")));
     }
 
     // ************ buttons ************* //
@@ -166,40 +190,40 @@ public class CreateSingleESlip extends BasePage {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Add entry']")));
     }
 
-    private List<WebElement> editVehicleButtonList() {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//button[text()='Edit']")));
+    private List<WebElement> editVehicleByVinButton(String vin) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button[text()='Edit']")));
     }
 
     private WebElement saveButton() {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Save']")));
     }
 
-    private List<WebElement> removeVehicleButtonList() {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//button[text()='Trash']")));
+    private List<WebElement> removeVehicleByVinButton(String vin) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button[text()='Trash']")));
     }
 
-    private List<WebElement> moveUpVehicleButtonList() {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//button[text()='Up']")));
+    private List<WebElement> moveUpVehicleByVinButton(String vin) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button[text()='Up']")));
     }
 
-    private List<WebElement> moveDownVehicleButtonList() {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//button[text()='Down']")));
+    private List<WebElement> moveDownVehicleByVinButton(String vin) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button[text()='Down']")));
     }
 
-    private List<WebElement> editBackTextButtonList() {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//button[text()='Edit']")));
+    private List<WebElement> editBackTextByTitleButton(String title) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button[text()='Edit']")));
     }
 
-    private List<WebElement> removeBackTextButtonList() {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//button[text()='Trash']")));
+    private List<WebElement> removeBackTextByTitleButton(String title) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button[text()='Trash']")));
     }
 
-    private List<WebElement> moveUpBackTextButtonList() {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//button[text()='Up']")));
+    private List<WebElement> moveUpBackTextByTitleButton(String title) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button[text()='Up']")));
     }
 
-    private List<WebElement> moveDownBackTextButtonList() {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//button[text()='Down']")));
+    private List<WebElement> moveDownBackTextByTitleButton(String title) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button[text()='Down']")));
     }
 
     private WebElement pageTitle() {
@@ -275,11 +299,11 @@ public class CreateSingleESlip extends BasePage {
         this.addVehicleButton().click();
     }
 
-    public void editVehicleInformation(int number, DataTable table) {
+    public void editVehicleInformation(String vin, DataTable table) {
 
         List<List<String>> temp = table.raw();
 
-        this.editVehicleButtonList().get(number - 1).click();
+        this.editVehicleByVinButton(vin).get(0).click();
         Procedures.fillInputFieldBasedOnDataTable(temp, "Year", this.editVehicleYearInputField());
         Procedures.fillInputFieldBasedOnDataTable(temp, "Make", this.editVehicleMakeInputField());
         Procedures.fillInputFieldBasedOnDataTable(temp, "Model", this.editVehicleModelInputField());
@@ -288,16 +312,16 @@ public class CreateSingleESlip extends BasePage {
 
     }
 
-    public void removeVehicle(int number) {
-        this.removeVehicleButtonList().get(number - 1).click();
+    public void removeVehicle(String vin) {
+        this.removeVehicleByVinButton(vin).get(0).click();
     }
 
-    public void moveVehicleUp(int number) {
-        this.moveUpVehicleButtonList().get(number - 1).click();
+    public void moveVehicleUp(String vin) {
+        this.moveUpVehicleByVinButton(vin).get(0).click();
     }
 
-    public void moveVehicleDown(int number) {
-        this.moveDownVehicleButtonList().get(number - 1).click();
+    public void moveVehicleDown(String vin) {
+        this.moveDownVehicleByVinButton(vin).get(0).click();
     }
 
     public void fillBackText(DataTable table) {
@@ -310,27 +334,27 @@ public class CreateSingleESlip extends BasePage {
         this.addBackTextButton().click();
     }
 
-    public void editBackTextInformation(int number, DataTable table) {
+    public void editBackTextInformation(String title, DataTable table) {
 
         List<List<String>> temp = table.raw();
 
-        this.editBackTextButtonList().get(number - 1).click();
+        this.editBackTextByTitleButton(title).get(0).click();
         Procedures.fillInputFieldBasedOnDataTable(temp, "Title", this.editBackTextTitleInputField());
         Procedures.fillInputFieldBasedOnDataTable(temp, "Text", this.editBackTextEntryInputField());
         this.saveButton().click();
 
     }
 
-    public void removeBackText(int number) {
-        this.removeBackTextButtonList().get(number - 1).click();
+    public void removeBackText(String title) {
+        this.removeBackTextByTitleButton(title).get(0).click();
     }
 
-    public void moveBackTextUp(int number) {
-        this.moveUpBackTextButtonList().get(number - 1).click();
+    public void moveBackTextUp(String title) {
+        this.moveUpBackTextByTitleButton(title).get(0).click();
     }
 
-    public void moveBackTextDown(int number) {
-        this.moveDownBackTextButtonList().get(number - 1).click();
+    public void moveBackTextDown(String title) {
+        this.moveDownBackTextByTitleButton(title).get(0).click();
     }
 
     public void saveDraft() {
@@ -345,10 +369,6 @@ public class CreateSingleESlip extends BasePage {
         this.nextButton().click();
     }
 
-    public void addVehicle() {
-        this.addVehicleButton().click();
-    }
-
     public void clearBackTextEntry() {
         this.clearBackTextEntryButton().click();
     }
@@ -357,6 +377,33 @@ public class CreateSingleESlip extends BasePage {
         this.addBackTextButton().click();
     }
 
+    public int getNoOfVehiclesOnList() {
+        try {
+            return this.vehicleList().size() - 1;
+        } catch (Exception e) {
+            System.out.println("INFO: Vehicles list is empty!");
+        }
+        return 0;
+    }
+
+    public int getVehicleByVinPosition(String vin) {
+        System.out.println("INFO: Current vehicle '" + vin +"' position: " + this.vehiclePositionOnTheList(vin).get(0).getText());
+        return Integer.parseInt(this.vehiclePositionOnTheList(vin).get(0).getText());
+    }
+
+    public int getNoOfBackTextsOnList() {
+        try {
+            return this.backTextsList().size() - 3;
+        } catch (Exception e) {
+            System.out.println("INFO: Back texts list is empty!");
+        }
+        return 0;
+    }
+
+    public int getBackTextByTitlePosition(String title) {
+        System.out.println("INFO: Current back test '" + title +"' position: " + this.backTextPositionOnTheList(title).get(0).getText());
+        return Integer.parseInt(this.backTextPositionOnTheList(title).get(0).getText());
+    }
 
     // ******************************** //
     //                                  //
@@ -376,6 +423,24 @@ public class CreateSingleESlip extends BasePage {
             System.out.println("INFO: Message '" + message + "' not found.");
         } catch (Exception e) {
             System.out.println("INFO: No warning messages are displayed!");
+        }
+        return false;
+    }
+
+    public boolean verifyIfVehicleWithVinIsListed(String vin) {
+        try {
+            return this.vehicleWithVinExistance(vin).size() > 0;
+        } catch (Exception e) {
+            System.out.println("INFO: Vehicle with vin '" + vin + "not visible on list");
+        }
+        return false;
+    }
+
+    public boolean verifyIfBackTextWithTitleIsListed(String title) {
+        try {
+            return this.backTextWithTitleExistance(title).size() > 0;
+        } catch (Exception e) {
+            System.out.println("INFO: Back text with title'" + title + "not visible on list");
         }
         return false;
     }

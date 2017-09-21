@@ -7,6 +7,10 @@ import org.junit.Assert;
 
 public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
+    private static int noOfVehicles     = 0;
+    private static int noOfBackTexts    = 0;
+    private static int currentPosition  = 0;
+
     @Given("^Setup browser$")
     public void setupBrowser() {
         initDriver();
@@ -84,11 +88,10 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
         Assert.assertFalse(listOfUsers.verifyUserActivationStatus(user));
     }
 
-
-
-
-
-
+    @When("^User clicks next$")
+    public void userClicksNext() {
+        createSingleESlip.next();
+    }
 
     @Given("^User is creating new eEslip$")
     public void openNewEslipPage() {
@@ -99,10 +102,19 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     public void fillCustomerInformation(DataTable table) {
         landingPage.navigateToSingleESlip();
         createSingleESlip.fillCustomerInformation(table);
-        createSingleESlip.next();
     }
 
+    @When("^User saves eSlip draft$")
+    public void userSavesESlipDraft() {
+        createSingleESlip.saveDraft();
+    }
 
+    @Given("^User opens drafted '(.+)' eSlip$")
+    public void userOpensDraftedNameESlip(String name) {
+        landingPage.navigateToDrafts();
+        listOfDrafts.selectESlipByName(name);
+        listOfDrafts.editESlip();
+    }
 
     @Then("^'(.+)' page is displayed$")
     public void verifyPageTitle(String title){
@@ -111,13 +123,95 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     @When("^User adds new vehicle with given data$")
     public void userAddsNewVehicleWithGivenData(DataTable table) {
+        noOfVehicles = createSingleESlip.getNoOfVehiclesOnList();
         createSingleESlip.fillVehicleInformation(table);
-        createSingleESlip.next();
     }
 
     @When("^User adds new back text section with given data$")
     public void userAddsNewBackTextSectionWithGivenData(DataTable table)  {
+        noOfBackTexts = createSingleESlip.getNoOfBackTextsOnList();
         createSingleESlip.fillBackText(table);
-        createSingleESlip.next();
+        createSingleESlip.addBackTextEntry();
+    }
+
+    @Then("^Vehicle with '(.+)' is added to eSlip$")
+    public void verifyNoOfVehiclesOnTheList(String vin) {
+        Assert.assertTrue(createSingleESlip.verifyIfVehicleWithVinIsListed(vin));
+    }
+
+    @Then("^Back text with '(.+)' is added to eSlip$")
+    public void verifyNoOfBackTextsOnTheList(String title) {
+
+    }
+
+    @When("^User edits '(.+)' vehicle with given data$")
+    public void userEditsVehicleNoVehicleWithGivenData(String vehicleNo, DataTable table) {
+        createSingleESlip.editVehicleInformation(vehicleNo, table);
+    }
+
+    @Then("^Vehicle info is updated$")
+    public void vehicleInfoIsUpdated() {
+        System.out.println("TO FILL !!!");
+    }
+
+
+    @Then("^ESlip '(.+)' is displayed on Drafts list$")
+    public void eslipNameIsDisplayedOnDraftsList(String name) {
+        landingPage.navigateToDrafts();
+        Assert.assertTrue(listOfDrafts.verifyIfESlipInDisplayedOnList(name));
+    }
+
+    @When("^User moves up vehicle with '(.+)' vin number$")
+    public void userMovesUpVehicleWithVinVinNumber(String vin) {
+        currentPosition = createSingleESlip.getVehicleByVinPosition(vin);
+        createSingleESlip.moveVehicleUp(vin);
+    }
+
+    @When("^User moves down vehicle with '(.+)' vin number$")
+    public void userMovesDownVehicleWithVinVinNumber(String vin) {
+        currentPosition = createSingleESlip.getVehicleByVinPosition(vin);
+        createSingleESlip.moveVehicleDown(vin);
+    }
+
+    @Then("^Vehicle with '(.+)' is reordered$")
+    public void vehicleOrderIsChanged(String vin) {
+        Assert.assertNotEquals(currentPosition, createSingleESlip.getVehicleByVinPosition(vin));
+    }
+
+    @When("^User removes vehicle with '(.+)' vin number$")
+    public void userRemovesVehicleWithTemp(String vin)  {
+        createSingleESlip.removeVehicle(vin);
+    }
+
+    @Then("^Vehicle with '(.+)' vin number is removed from eSlip$")
+    public void vehicleIsRemovedFromESlip(String vin) {
+        Assert.assertFalse(createSingleESlip.verifyIfVehicleWithVinIsListed(vin));
+    }
+
+    @When("^User moves up back text with '(.+)' title$")
+    public void userMovesUpBackTextWithTempTitle(String title) {
+        currentPosition = createSingleESlip.getBackTextByTitlePosition(title);
+        createSingleESlip.moveBackTextUp(title);
+    }
+
+    @When("^User moves down back text with '(.+)' title$")
+    public void userMovesDownBackTextWithTempTitle(String title) {
+        currentPosition = createSingleESlip.getBackTextByTitlePosition(title);
+        createSingleESlip.moveBackTextDown(title);
+    }
+
+    @Then("^Back text with '(.+)' title is reordered$")
+    public void backTextWithTempTitleIsReordered(String title) {
+        Assert.assertNotEquals(currentPosition, createSingleESlip.getBackTextByTitlePosition(title));
+    }
+
+    @When("^User removes back text with '(.+)' title$")
+    public void userRemovesBackTextWithTempTitle(String title) {
+        createSingleESlip.removeBackText(title);
+    }
+
+    @Then("^Back text with '(.+)' is removed from eSlip$")
+    public void backTextWithTempIsRemovedFromESlip(String title) {
+        Assert.assertFalse(createSingleESlip.verifyIfBackTextWithTitleIsListed(title));
     }
 }

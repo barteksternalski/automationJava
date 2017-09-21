@@ -10,12 +10,14 @@ public class BaseStepsDefs extends EnvironmentSetup {
     protected static CreateUser createUser;
     protected static ListOfUsers listOfUsers;
     protected static LoginPage loginPage;
+    protected static ListOfDrafts listOfDrafts;
 
     protected static void initPages() {
-        landingPage         = new LandingPage(driver, 10);
+        landingPage         = new LandingPage(driver, 15);
         createSingleESlip   = new CreateSingleESlip(driver, 10);
         createUser          = new CreateUser(driver, 10);
         listOfUsers         = new ListOfUsers(driver, 10);
         loginPage           = new LoginPage(driver, 15);
+        listOfDrafts        = new ListOfDrafts(driver, 10);
     }
 }
