@@ -1,3 +1,4 @@
+@Main
 Feature: Manage eSlip list
   As a User I want to have possibility to view list of existing eSlips
 

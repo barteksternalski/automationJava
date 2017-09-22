@@ -1,3 +1,4 @@
+@Main
 Feature: Manual data entry
   As u user I want to have possibility to create eSlip manually
 
@@ -86,10 +87,14 @@ Feature: Manual data entry
       | Model   | <model>   |
       | VIN     | <vin>     |
     Then Vehicle with '<vin>' is added to eSlip
+    When User saves eSlip draft
 
     Examples:
-      | name  | year    | make    | model   | vin   |
-      | kokos |         |         |         |       |
+      | name  | year    | make    | model   | vin         |
+      | banan | 2000    | temp    | temp    | temp123     |
+      | banan | 2000    | temp    | temp    | temp234     |
+      | banan | 2000    | temp    | temp    | temp345     |
+      | banan | 2000    | temp    | temp    | temp456     |
 
   Scenario Outline: User can edit vehicle info
     Given User opens drafted '<name>' eSlip
@@ -100,6 +105,7 @@ Feature: Manual data entry
       | Model   | <model>   |
       | VIN     | <vin>     |
     Then Vehicle info is updated
+    When User saves eSlip draft
 
     Examples:
       | name  | vehicleNo | year    | make    | model   | vin   |
@@ -112,16 +118,18 @@ Feature: Manual data entry
     Then Vehicle with '<vin>' is reordered
     When User moves down vehicle with '<vin>' vin number
     Then Vehicle with '<vin>' is reordered
+    When User saves eSlip draft
 
     Examples:
       | name  | vin     |
-      | kokos | temp345 |
+      | banan | temp345 |
 
   Scenario: User can remove added vehicle
     Given User opens drafted 'kokos' eSlip
     When User clicks next
     When User removes vehicle with 'temp345' vin number
     Then Vehicle with 'temp345' vin number is removed from eSlip
+    When User saves eSlip draft
 
   Scenario Outline: Error handling on new back text
     Given User opens drafted '<name>' eSlip
@@ -145,19 +153,23 @@ Feature: Manual data entry
       | Title   | <title> |
       | Text    | <text>  |
     Then Back text with '<title>' is added to eSlip
+    When User saves eSlip draft
 
     Examples:
-      | title   | text    |
-      |         |         |
+      | name  | title   | text      |
+      | banan | temp1   | some text |
+      | banan | temp2   | some text |
+      | banan | temp3   | some text |
 
   Scenario Outline: User can edit back text
-    Given User opens drafter '<name>' eSlip with added back text
+    Given User opens drafted '<name>' eSlip
     When User clicks next
     When User clicks next
-    When User edits back text with given data
+    When User edits '<title>' back text with given data
       | Title   | <title> |
       | Text    | <text>  |
     Then Back text is updated
+    When User saves eSlip draft
 
     Examples:
       | title   | text    |
@@ -165,33 +177,37 @@ Feature: Manual data entry
       |         |         |
 
   Scenario: User can reorder back text sections
-    Given User opens drafted '<name>' eSlip with added several back text sections
+    Given User opens drafted 'banan' eSlip
     When User clicks next
     When User clicks next
-    When User moves up one of sections
-    Then Back text sections order is changed
-    When User moves down one of sections
-    Then Back text sections order is changed
+    When User moves up back text with 'temp2' title
+    Then Back text with 'temp2' title is reordered
+    When User moves down back text with 'temp2' title
+    Then Back text with 'temp2' title is reordered
+    When User saves eSlip draft
 
   Scenario: User can remove added back text
-    Given User opens drafted '<name>' eSlip with added back text
+    Given User opens drafted 'banan' eSlip
     When User clicks next
     When User clicks next
-    When User removes added back text
-    Then Back text is removed from eSlip
+    When User removes back text with 'temp2' title
+    Then Back text with 'temp2' is removed from eSlip
+    When User saves eSlip draft
 
   Scenario Outline: User can preview and fill email form
     Given User opens drafted '<name>' eSlip
     When User clicks next
     When User clicks next
     When User clicks next
-    When User fill email form with
+    When User fill email form with given data
       | Salutation          | <salutation>  |
       | Customized Message  | <message>     |
-    Then Email form is updated
+    When User sends created eSlip
+    Then Created '<name>' eSlip is sent to user
 
     Examples:
-      | salutation    | message   |
+      | name    | salutation    | message   |
+      | banan   | test          | some test |
 
   Scenario: User can displayed eSlip details
     Given User in on eslips drafts page

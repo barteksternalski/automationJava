@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class Procedures {
@@ -77,6 +78,12 @@ public class Procedures {
         robot.keyRelease(KeyEvent.VK_CONTROL);
         robot.keyPress(KeyEvent.VK_ENTER);
         robot.keyRelease(KeyEvent.VK_ENTER);
+    }
+
+    public static String generateRandomizedStringWithLength(int length) {
+        String s = UUID.randomUUID().toString().replace("-", "_");
+        length = length <= s.length() ? length : s.length();
+        return s.substring(0, length);
     }
 
 

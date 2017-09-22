@@ -9,5 +9,5 @@ Feature: Login handling
     Then Main page is displayed
 
     Examples:
-      | login			          | password		|
-      |	b.sternalski@avanade.com  | baton   		|
+      | login			                          | password	|
+      |	baton@csiodev.onmicrosoft.com             | Si3ple9Ass  |

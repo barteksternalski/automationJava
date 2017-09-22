@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import java.io.File;
 
 @RunWith(Cucumber.class)
-@CucumberOptions( tags = {"@Main, @Smoke"},
+@CucumberOptions( tags = {"@Smoke"},
         format = { "pretty", "html:target/cucumber" },
         glue = "src/test/java/stepDefinitions",
         features = "src/test/resources/features",

@@ -21,8 +21,9 @@ public class CreateSingleESlip extends BasePage {
     //                                  //
     // ******************************** //
 
-
+    // ******************************** //
     // ******** customer info ********* //
+    // ******************************** //
 
     private WebElement nameInputField() {
         return getElement(ExpectedConditions.elementToBeClickable(By.id("customerName")));
@@ -88,7 +89,9 @@ public class CreateSingleESlip extends BasePage {
         return getElement(ExpectedConditions.elementToBeClickable(By.id("postalCode")));
     }
 
-    // ********** vehicle info *********** //
+    // ******************************** //
+    // ********* vehicle info ********* //
+    // ******************************** //
 
     private WebElement vehicleYearInputField() {
         return getElement(ExpectedConditions.elementToBeClickable(By.id("vehicleYear")));
@@ -133,8 +136,9 @@ public class CreateSingleESlip extends BasePage {
     private List<WebElement> vehicleWithVinExistance(String vin) {
         return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]")));
     }
-
-    // *********** back text ************ //
+    // ******************************** //
+    // *********** back text ********** //
+    // ******************************** //
 
     private WebElement backTextTitleInputField() {
         return getElement(ExpectedConditions.elementToBeClickable(By.id("entryTitle")));
@@ -164,7 +168,21 @@ public class CreateSingleESlip extends BasePage {
         return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]")));
     }
 
-    // ************ buttons ************* //
+    // ******************************** //
+    // ********* send preview ********* //
+    // ******************************** //
+
+    private WebElement sendPreviewSalutationInputField() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.id("salutation")));
+    }
+
+    private WebElement sendPreviewMessageInputField() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.id("message")));
+    }
+
+    // ******************************** //
+    // *********** buttons ************ //
+    // ******************************** //
 
     private WebElement addVehicleButton() {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Add Vehicle']")));
@@ -196,6 +214,10 @@ public class CreateSingleESlip extends BasePage {
 
     private WebElement saveButton() {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Save']")));
+    }
+
+    private WebElement sendESlipButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='SEND E-SLIP']")));
     }
 
     private List<WebElement> removeVehicleByVinButton(String vin) {
@@ -242,11 +264,14 @@ public class CreateSingleESlip extends BasePage {
     //                                  //
     // ******************************** //
 
-    public void fillCustomerInformation(DataTable table) {
+    public void fillCustomerInformation(String name, DataTable table) {
 
         List<List<String>> temp = table.raw();
 
-        Procedures.fillInputFieldBasedOnDataTable(temp, "Name", this.nameInputField());
+        if (!temp.get(0).get(1).equals("{null}")) {
+            this.nameInputField().sendKeys(name);
+        } else System.out.println("INFO: Field \"Name\" set to null value");
+
         Procedures.fillInputFieldBasedOnDataTable(temp, "Policy Number", this.policyNumberInputField());
         Procedures.fillInputFieldBasedOnDataTable(temp, "Email", this.emailInputField());
         Procedures.fillInputFieldBasedOnDataTable(temp, "Phone Number", this.phoneNumberInputField());
@@ -366,7 +391,7 @@ public class CreateSingleESlip extends BasePage {
     }
 
     public void back() {
-        this.nextButton().click();
+        this.backButton().click();
     }
 
     public void clearBackTextEntry() {
@@ -375,6 +400,18 @@ public class CreateSingleESlip extends BasePage {
 
     public void addBackTextEntry() {
         this.addBackTextButton().click();
+    }
+
+    public void fillSendPreview(DataTable table) {
+
+        List<List<String>> temp = table.raw();
+        Procedures.fillInputFieldBasedOnDataTable(temp, "Salutation", this.sendPreviewSalutationInputField());
+        Procedures.fillInputFieldBasedOnDataTable(temp, "Customized Message", this.sendPreviewMessageInputField());
+
+    }
+
+    public void sendESlip() {
+        this.sendESlipButton().click();
     }
 
     public int getNoOfVehiclesOnList() {
@@ -431,7 +468,7 @@ public class CreateSingleESlip extends BasePage {
         try {
             return this.vehicleWithVinExistance(vin).size() > 0;
         } catch (Exception e) {
-            System.out.println("INFO: Vehicle with vin '" + vin + "not visible on list");
+            System.out.println("INFO: Vehicle with vin '" + vin + "' not visible on list");
         }
         return false;
     }
@@ -440,7 +477,7 @@ public class CreateSingleESlip extends BasePage {
         try {
             return this.backTextWithTitleExistance(title).size() > 0;
         } catch (Exception e) {
-            System.out.println("INFO: Back text with title'" + title + "not visible on list");
+            System.out.println("INFO: Back text with title'" + title + "' not visible on list");
         }
         return false;
     }

@@ -1,15 +1,14 @@
 package stepDefinitions;
 
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.*;
+import helpers.Procedures;
 import org.junit.Assert;
 
 public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
-    private static int noOfVehicles     = 0;
-    private static int noOfBackTexts    = 0;
     private static int currentPosition  = 0;
+    private static String eSlipName = "";
 
     @Given("^Setup browser$")
     public void setupBrowser() {
@@ -17,6 +16,11 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
         initPages();
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
+    }
+
+    @Given("^Generate unique name$")
+    public void generateName() {
+        eSlipName = Procedures.generateRandomizedStringWithLength(10);
     }
 
     @Given("^Close browser$")
@@ -29,8 +33,13 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
         driver.get("http://cssitcacweb01-dev.azurewebsites.net/");
     }
 
+    @When("^User logs out$")
+    public void userLogsOut() {
+        landingPage.logOut();
+    }
+
     @When("^User enters '(.+)' and '(.+)'$")
-    public void userEntersLoginAndPassword(String user, String pass)  {
+    public void userEntersLoginAndPassword(String user, String pass) throws Exception {
         loginPage.login(user, pass);
     }
 
@@ -41,18 +50,18 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     @Given("^User is on dashboard page$")
     public void userIsOnMainPage() {
-        landingPage.navigateToDashboard();
+        landingPage.navigateTo("Dashboard");
     }
 
     @When("^User creates new user with given data$")
     public void userCreatesNewUserWithGivenData(DataTable table) throws Exception {
-        landingPage.navigateToCreateUser();
+        landingPage.navigateTo("Create User");
         createUser.createNewUser(table);
     }
 
     @Then("^User '(.+)' is created$")
     public void userIsCreated(String user) {
-        landingPage.navigateToUserList();
+        landingPage.navigateTo("User List");
         Assert.assertTrue(listOfUsers.userVisibleOnUserList(user));
     }
 
@@ -63,7 +72,7 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     @Given("^User is on user listing page$")
     public void userIsOnUserListingPage() {
-        landingPage.navigateToUserList();
+        landingPage.navigateTo("User List");
     }
 
     @When("^User activates selected '(.+)'$")
@@ -94,14 +103,14 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     }
 
     @Given("^User is creating new eEslip$")
-    public void openNewEslipPage() {
-        landingPage.navigateToSingleESlip();
+    public void openNewESlipPage() {
+        landingPage.navigateTo("Create Single");
     }
 
     @When("^User creates new eSlip with given customer and policy information with given data$")
     public void fillCustomerInformation(DataTable table) {
-        landingPage.navigateToSingleESlip();
-        createSingleESlip.fillCustomerInformation(table);
+        landingPage.navigateTo("Create Single");
+        createSingleESlip.fillCustomerInformation(eSlipName, table);
     }
 
     @When("^User saves eSlip draft$")
@@ -111,8 +120,8 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     @Given("^User opens drafted '(.+)' eSlip$")
     public void userOpensDraftedNameESlip(String name) {
-        landingPage.navigateToDrafts();
-        listOfDrafts.selectESlipByName(name);
+        landingPage.navigateTo("Drafts");
+        listOfDrafts.selectESlipByName(eSlipName);
         listOfDrafts.editESlip();
     }
 
@@ -123,13 +132,11 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     @When("^User adds new vehicle with given data$")
     public void userAddsNewVehicleWithGivenData(DataTable table) {
-        noOfVehicles = createSingleESlip.getNoOfVehiclesOnList();
         createSingleESlip.fillVehicleInformation(table);
     }
 
     @When("^User adds new back text section with given data$")
     public void userAddsNewBackTextSectionWithGivenData(DataTable table)  {
-        noOfBackTexts = createSingleESlip.getNoOfBackTextsOnList();
         createSingleESlip.fillBackText(table);
         createSingleESlip.addBackTextEntry();
     }
@@ -144,21 +151,10 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     }
 
-    @When("^User edits '(.+)' vehicle with given data$")
-    public void userEditsVehicleNoVehicleWithGivenData(String vehicleNo, DataTable table) {
-        createSingleESlip.editVehicleInformation(vehicleNo, table);
-    }
-
-    @Then("^Vehicle info is updated$")
-    public void vehicleInfoIsUpdated() {
-        System.out.println("TO FILL !!!");
-    }
-
-
     @Then("^ESlip '(.+)' is displayed on Drafts list$")
     public void eslipNameIsDisplayedOnDraftsList(String name) {
-        landingPage.navigateToDrafts();
-        Assert.assertTrue(listOfDrafts.verifyIfESlipInDisplayedOnList(name));
+        landingPage.navigateTo("Drafts");
+        Assert.assertTrue(listOfDrafts.verifyIfESlipInDisplayedOnList(eSlipName));
     }
 
     @When("^User moves up vehicle with '(.+)' vin number$")
@@ -214,4 +210,32 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     public void backTextWithTempIsRemovedFromESlip(String title) {
         Assert.assertFalse(createSingleESlip.verifyIfBackTextWithTitleIsListed(title));
     }
+
+    @When("^User fill email form with given data$")
+    public void userFillEmailFormWith(DataTable table) {
+        createSingleESlip.fillSendPreview(table);
+    }
+
+    @When("^User sends created eSlip$")
+    public void userSendsCreatedESlip() {
+        createSingleESlip.sendESlip();
+    }
+
+    @Then("^Created '(.+)' eSlip is sent to user$")
+    public void createdNameESlipIsSentToUser(String name) {
+        landingPage.navigateTo("Sent");
+        Assert.assertTrue(sentESlips.verifyIfESlipInDisplayedOnList(eSlipName));
+    }
+
+    @Then("^User has access to '(.+)' modules$")
+    public void userHasAccessToModulesAvailableModules(String listOfModules) {
+        Assert.assertTrue(landingPage.verifyAvailableModules(listOfModules));
+    }
+
+    @Then("^User does not have access to '(.+)' modules$")
+    public void userDoesNotHaveAccessToModulesUnavailableModules(String listOfModules) {
+        Assert.assertTrue(landingPage.verifyUnavailableModules(listOfModules));
+    }
+
+
 }

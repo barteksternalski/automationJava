@@ -23,15 +23,19 @@ public class LoginPage extends BasePage {
     }
 
     private WebElement passwordInputField() {
-        return getElement(ExpectedConditions.elementToBeClickable(By.id("passwordInput")));
+        return getElement(ExpectedConditions.elementToBeClickable(By.id("cred_password_inputtext")));
     }
 
     private WebElement avanadeTileLogin() {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Avanade']")));
     }
 
+    private WebElement useAnotherAccountButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//tr[contains(@class,'another_account')]")));
+    }
+
     private WebElement loginButton() {
-        return getElement(ExpectedConditions.elementToBeClickable(By.id("submitButton")));
+        return getElement(ExpectedConditions.elementToBeClickable(By.id("cred_sign_in_button")));
     }
 
     // ******************************** //
@@ -40,9 +44,14 @@ public class LoginPage extends BasePage {
     //                                  //
     // ******************************** //
 
-    public void login(String username, String password) {
+    public void login(String username, String password) throws Exception {
+        try {
+            this.useAnotherAccountButton().click();
+        } catch (Exception e) {
+            System.out.println("INFO: First account to login");
+        }
         this.userNameInputField().sendKeys(username, Keys.TAB);
-        this.avanadeTileLogin().click();
+        Thread.sleep(1000);
         this.passwordInputField().sendKeys(password);
         this.loginButton().click();
     }
