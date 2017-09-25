@@ -53,6 +53,20 @@ public class ListOfUsers extends BasePage {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Rest password']")));
     }
 
+    // ********* navigation *********** //
+
+    private WebElement paginationNextButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='pagination-next']")));
+    }
+
+    private WebElement paginationPreviousButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='pagination-previous']")));
+    }
+
+    private WebElement paginationDropdown() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//div[descendant::pagination-controls]//select")));
+    }
+
     // ******************************** //
     //                                  //
     //              ACTIONS             //
@@ -81,6 +95,18 @@ public class ListOfUsers extends BasePage {
 
     public void restPassword() {
         this.resetPasswordButton().click();
+    }
+
+    public void paginationNext() {
+        this.paginationNextButton().click();
+    }
+
+    public void paginationPrevious() {
+        this.paginationPreviousButton().click();
+    }
+
+    public void paginationSelect(String number) {
+        selectElementFromDropdown(this.paginationDropdown(), number);
     }
 
     // ******************************** //

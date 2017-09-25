@@ -43,6 +43,20 @@ public class ListOfDrafts extends BasePage {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Send']")));
     }
 
+    // ********* navigation *********** //
+
+    private WebElement paginationNextButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='pagination-next']")));
+    }
+
+    private WebElement paginationPreviousButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='pagination-previous']")));
+    }
+
+    private WebElement paginationDropdown() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//div[descendant::pagination-controls]//select")));
+    }
+
     // ******************************** //
     //                                  //
     //              ACTIONS             //
@@ -67,6 +81,18 @@ public class ListOfDrafts extends BasePage {
 
     public String getESlipState(String name) {
         return this.eSlipByNameStatus(name).get(0).getText();
+    }
+
+    public void paginationNext() {
+        this.paginationNextButton().click();
+    }
+
+    public void paginationPrevious() {
+        this.paginationPreviousButton().click();
+    }
+
+    public void paginationSelect(String number) {
+        selectElementFromDropdown(this.paginationDropdown(), number);
     }
 
     // ******************************** //
