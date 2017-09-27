@@ -2,13 +2,16 @@ package stepDefinitions;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.en.*;
+import helpers.MailExtractor;
 import helpers.Procedures;
 import org.junit.Assert;
 
 public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     private static int currentPosition  = 0;
-    private static String eSlipName = "";
+    private static String eSlipName     = "";
+    private static String userId        = "";
+    private static final String appUrl  = "http://cssitcacweb01-dev.azurewebsites.net";
 
     @Given("^Setup browser$")
     public void setupBrowser() {
@@ -19,8 +22,9 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     }
 
     @Given("^Generate unique name$")
-    public void generateName() {
-        eSlipName = Procedures.generateRandomizedStringWithLength(10);
+    public void generateName() throws Exception {
+        eSlipName   = Procedures.generateRandomizedStringWithLength(10);
+        userId      = Procedures.generateRandomizedStringWithLength(8);
     }
 
     @Given("^Close browser$")
@@ -30,7 +34,7 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     @Given("^User is on login page$")
     public void userIsOnLoginPage() {
-        driver.get("http://cssitcacweb01-dev.azurewebsites.net/");
+        driver.get(appUrl);
     }
 
     @When("^User logs out$")
@@ -41,6 +45,12 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     @When("^User enters '(.+)' and '(.+)'$")
     public void userEntersLoginAndPassword(String user, String pass) throws Exception {
         loginPage.login(user, pass);
+    }
+
+    @When("^Created user enters '(.+)' and '(.+)'$")
+    public void createdUserEntersLoginAndPassword(String user, String pass) throws Exception {
+        String password = MailExtractor.getPasswordFromLastEmail();
+        loginPage.login(userId.concat("@csiodev.onmicrosoft.com"), password);
     }
 
     @Then("^Main page is displayed$")
@@ -56,7 +66,7 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     @When("^User creates new user with given data$")
     public void userCreatesNewUserWithGivenData(DataTable table) throws Exception {
         landingPage.navigateTo("Create User");
-        createUser.createNewUser(table);
+        createUser.createNewUser(table, userId);
     }
 
     @Then("^User '(.+)' is created$")
@@ -83,7 +93,7 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     @Then("^'(.+)' user is activated$")
     public void userIsActivated(String user)  {
-        Assert.assertTrue(listOfUsers.verifyUserActivationStatus(user));
+        Assert.assertEquals("true", listOfUsers.getUserActivationStatus(user));
     }
 
     @When("^User deactivates selected '(.+)'$")
@@ -94,7 +104,7 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     @Then("^'(.+)' user is deactivated$")
     public void userIsDeactivated(String user)  {
-        Assert.assertFalse(listOfUsers.verifyUserActivationStatus(user));
+        Assert.assertEquals("false", listOfUsers.getUserActivationStatus(user));
     }
 
     @When("^User clicks next$")
@@ -237,5 +247,14 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
         Assert.assertTrue(landingPage.verifyUnavailableModules(listOfModules));
     }
 
+    @Given("^Clear email account$")
+    public void clearEmailAccount() throws Exception {
+        MailExtractor.deleteMessages();
+        Assert.assertEquals(0, MailExtractor.getNoOfMessages());
+    }
 
+    @Then("^ESlips are sent to given email account$")
+    public void eslipsAreSentToGivenEmailAccount() throws Exception {
+        Assert.assertEquals("eSlip", MailExtractor.getLastEmailTitle());
+    }
 }

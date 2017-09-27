@@ -12,7 +12,7 @@ public class LandingPage extends BasePage {
 
     public LandingPage(WebDriver driver, int timeOut) {
         super(driver, timeOut);
-    };
+    }
 
     // ******************************** //
     //                                  //

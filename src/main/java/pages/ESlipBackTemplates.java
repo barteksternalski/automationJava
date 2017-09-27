@@ -13,7 +13,7 @@ public class ESlipBackTemplates extends BasePage{
 
     public ESlipBackTemplates(WebDriver driver, int timeOut) {
         super(driver, timeOut);
-    };
+    }
 
     // ******************************** //
     //                                  //

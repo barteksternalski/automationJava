@@ -11,7 +11,7 @@ public class ListOfDrafts extends BasePage {
 
     public ListOfDrafts(WebDriver driver, int timeOut) {
         super(driver, timeOut);
-    };
+    }
 
     // ******************************** //
     //                                  //
@@ -23,7 +23,7 @@ public class ListOfDrafts extends BasePage {
         return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[contains(text(),'" + name + "')]]//input")));
     }
 
-    private List<WebElement> eSlipByNameStatus(String name) {
+    private List<WebElement> eSlipByNameState(String name) {
         return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[contains(text(),'" + name + "')]]//td[9]")));
     }
 
@@ -64,7 +64,27 @@ public class ListOfDrafts extends BasePage {
     // ******************************** //
 
     public void selectESlipByName(String name) {
-        this.eSlipByNameCheckbox(name).get(0).click();
+        boolean contFlag = true;
+        while(contFlag) {
+            try {
+                Thread.sleep(1000);
+                if (this.eSlipByNameCheckbox(name).size() > 0) {
+                    this.eSlipByNameCheckbox(name).get(0).click();
+                    break;
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: user not displayed on current page");
+            }
+            try {
+                if (this.paginationNextButton().isEnabled()) {
+                    System.out.println("INFO: Navigate to next page");
+                    paginationNext();
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: Last page");
+                contFlag = false;
+            }
+        }
     }
 
     public void editESlip() {
@@ -80,7 +100,27 @@ public class ListOfDrafts extends BasePage {
     }
 
     public String getESlipState(String name) {
-        return this.eSlipByNameStatus(name).get(0).getText();
+        boolean contFlag = true;
+        while(contFlag) {
+            try {
+                Thread.sleep(1000);
+                if (this.eSlipByNameState(name).size() > 0) {
+                    return this.eSlipByNameState(name).get(0).getText();
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: eSlip not displayed on current page");
+            }
+            try {
+                if (this.paginationNextButton().isEnabled()) {
+                    System.out.println("INFO: Navigate to next page");
+                    paginationNext();
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: Last page");
+                contFlag = false;
+            }
+        }
+        return "INFO: ESlip with '"+ name + "' Name not found on list.";
     }
 
     public void paginationNext() {
@@ -102,7 +142,28 @@ public class ListOfDrafts extends BasePage {
     // ******************************** //
 
     public boolean verifyIfESlipInDisplayedOnList(String name) {
-        return this.eSlipByName(name).size() > 0;
+        boolean contFlag = true;
+        while(contFlag) {
+            try {
+                Thread.sleep(1000);
+                if (this.eSlipByName(name).size() > 0) {
+                    System.out.println("INFO: eSlip found!");
+                    return true;
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: eSlip not displayed on current page");
+            }
+            try {
+                if (this.paginationNextButton().isEnabled()) {
+                    System.out.println("INFO: Navigate to next page");
+                    paginationNext();
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: Last page");
+                contFlag = false;
+            }
+        }
+        return false;
     }
 
 }

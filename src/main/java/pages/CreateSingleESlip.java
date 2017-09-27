@@ -13,7 +13,7 @@ public class CreateSingleESlip extends BasePage {
 
     public CreateSingleESlip(WebDriver driver, int timeOut) {
         super(driver, timeOut);
-    };
+    }
 
     // ******************************** //
     //                                  //
@@ -412,6 +412,7 @@ public class CreateSingleESlip extends BasePage {
 
     public void sendESlip() {
         this.sendESlipButton().click();
+        try {Thread.sleep(5000);} catch (Exception e) {System.out.println("Sleep...");}
     }
 
     public int getNoOfVehiclesOnList() {

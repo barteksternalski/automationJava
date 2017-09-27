@@ -15,7 +15,7 @@ public class CreateUser extends BasePage {
 
     public CreateUser(WebDriver driver, int timeOut) {
         super(driver, timeOut);
-    };
+    }
 
     // ******************************** //
     //                                  //
@@ -68,7 +68,7 @@ public class CreateUser extends BasePage {
     }
 
     private WebElement saveButton() {
-        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='SAVE']")));
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Save']")));
     }
 
     private WebElement cancelButton() {
@@ -134,12 +134,12 @@ public class CreateUser extends BasePage {
         }
     }
 
-    public void createNewUser(DataTable table) throws Exception {
+    public void createNewUser(DataTable table, String userId) throws Exception {
 
         List<List<String>> temp = table.raw();
 
         if (!temp.get(0).get(1).equals("{null}")) this.selectUserType(temp.get(0).get(1));
-        if (!temp.get(1).get(1).equals("{null}")) this.userIdInputField().sendKeys(temp.get(1).get(1));
+        if (!temp.get(1).get(1).equals("{null}")) this.userIdInputField().sendKeys(userId);
         if (!temp.get(2).get(1).equals("{null}")) this.nameInputField().sendKeys(temp.get(2).get(1));
         if (!temp.get(3).get(1).equals("{null}")) this.emailInputField().sendKeys(temp.get(3).get(1));
         if (!temp.get(4).get(1).equals("{null}")) this.organizationUserIdInputField().sendKeys(temp.get(4).get(1));

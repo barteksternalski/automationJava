@@ -11,7 +11,7 @@ public class ListOfUsers extends BasePage {
 
     public ListOfUsers(WebDriver driver, int timeOut) {
         super(driver, timeOut);
-    };
+    }
 
     // ******************************** //
     //                                  //
@@ -74,7 +74,27 @@ public class ListOfUsers extends BasePage {
     // ******************************** //
 
     public void selectUserByName(String name) {
-        this.userByNameCheckbox(name).get(0).click();
+        boolean contFlag = true;
+        while(contFlag) {
+            try {
+                Thread.sleep(1000);
+                if (this.userByNameCheckbox(name).size() > 0) {
+                    this.userByNameCheckbox(name).get(0).click();
+                    break;
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: user not displayed on current page");
+            }
+            try {
+                if (this.paginationNextButton().isEnabled()) {
+                    System.out.println("INFO: Navigate to next page");
+                    paginationNext();
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: Last page");
+                contFlag = false;
+            }
+        }
     }
 
     public void editUser() {
@@ -93,7 +113,7 @@ public class ListOfUsers extends BasePage {
         this.deactivateButton().click();
     }
 
-    public void restPassword() {
+    public void resetPassword() {
         this.resetPasswordButton().click();
     }
 
@@ -109,6 +129,32 @@ public class ListOfUsers extends BasePage {
         selectElementFromDropdown(this.paginationDropdown(), number);
     }
 
+    public String getUserActivationStatus(String user) {
+        boolean contFlag = true;
+        String result = "";
+        while(contFlag) {
+            try {
+                Thread.sleep(1000);
+                if (this.userByNameActivationStatus(user).size() > 0) {
+                    result = this.userByNameActivationStatus(user).get(0).getText();
+                    break;
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: user not displayed on current page");
+            }
+            try {
+                if (this.paginationNextButton().isEnabled()) {
+                    System.out.println("INFO: Navigate to next page");
+                    paginationNext();
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: Last page");
+                contFlag = false;
+            }
+        }
+        return result;
+    }
+
     // ******************************** //
     //                                  //
     //          VERIFICATIONS           //
@@ -116,20 +162,31 @@ public class ListOfUsers extends BasePage {
     // ******************************** //
 
     public boolean userVisibleOnUserList(String user) {
-        if (this.listOfUserNames().size() > 0) {
-            for (WebElement temp : this.listOfUserNames()) {
-                if (temp.getText().equals(user))
-                    return true;
+        boolean contFlag = true;
+        while(contFlag) {
+            try {Thread.sleep(1000);} catch(Exception e) {System.out.println("Sleep...");}
+            if (this.listOfUserNames().size() > 0) {
+                for (WebElement temp : this.listOfUserNames()) {
+                    if (temp.getText().equals(user)) {
+                        System.out.println("INFO: User found!");
+                        return true;
+                    }
+                }
+                System.out.println("INFO: User not found!");
+            } else {
+                System.out.println("INFO: User list is empty!");
             }
-            System.out.println("INFO: User not found!");
-        } else {
-            System.out.println("INFO: User list is empty!");
+            try {
+                if (this.paginationNextButton().isEnabled()) {
+                    System.out.println("INFO: Navigate to next page");
+                    paginationNext();
+                }
+            } catch(Exception e) {
+                System.out.println("INFO: Last page");
+                contFlag = false;
+            }
         }
         return false;
-    }
-
-    public boolean verifyUserActivationStatus(String user) {
-        return this.userByNameActivationStatus(user).get(0).getText().equals("true");
     }
 
 }

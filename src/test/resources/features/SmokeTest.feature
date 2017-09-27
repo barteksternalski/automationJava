@@ -3,8 +3,9 @@ Feature: misc test
   I want to verify things
 
   Scenario: Setup browser
-    Given Setup browser
+    Given Clear email account
     Given Generate unique name
+    Given Setup browser
 
   Scenario Outline: User can login
     Given User is on login page
@@ -33,12 +34,12 @@ Feature: misc test
     When User logs out
 
     Examples:
-      | userType      | userId    | name    | email       | orgUserId   | orgType   | csioId    | carrier   | brokerage         | file    | modules               |
-      | Organization  | baton     | baton   | baton@op.pl | {null}      | Brokerage | baton     | {null}    | Sample Brokerage  | {null}  | Users,Create Single   |
+      | userType      | userId    | name    | email                 | orgUserId   | orgType   | csioId    | carrier   | brokerage         | file    | modules               |
+      | Organization  | baton     | baton   | bartavanade@gmail.com | {null}      | Brokerage | baton     | {null}    | Sample Brokerage  | {null}  | Users,Create Single   |
 
   Scenario Outline: Verify user access
     Given User is on login page
-    When User enters '<login>' and '<password>'
+    When Created user enters '<login>' and '<password>'
     Then Main page is displayed
     Then User has access to '<modulesAvailable>' modules
     Then User does not have access to '<modulesUnavailable>' modules
@@ -78,8 +79,8 @@ Feature: misc test
     Then ESlip '<name>' is displayed on Drafts list
 
     Examples:
-      | name    | policyNo    | email       | phoneNo   | lang    | province    | address1  | address2  | city  | code    | effDate     | expDate     | insurer     | broker      |
-      | banan   | 123123123   | temp1@wp.pl | 123123123 | English | Manitoba    | temp1     | temp1     | krk   |  30300  | 12/12/2020  | 12/12/2022  | RSA Canada  | Some Broker |
+      | name    | policyNo    | email                 | phoneNo   | lang    | province    | address1  | address2  | city  | code    | effDate     | expDate     | insurer     | broker      |
+      | banan   | 123123123   | bartavanade@gmail.com | 123123123 | English | Manitoba    | temp1     | temp1     | krk   |  30300  | 12/12/2020  | 12/12/2022  | RSA Canada  | Some Broker |
 
   Scenario Outline: User can add new vehicle to created draft
     Given User opens drafted '<name>' eSlip
@@ -163,6 +164,7 @@ Feature: misc test
       | Customized Message  | <message>     |
     When User sends created eSlip
     Then Created '<name>' eSlip is sent to user
+    Then ESlips are sent to given email account
 
     Examples:
       | name    | salutation    | message   |

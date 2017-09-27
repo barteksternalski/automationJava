@@ -10,7 +10,7 @@ public class LoginPage extends BasePage {
 
     public LoginPage(WebDriver driver, int timeOut) {
         super(driver, timeOut);
-    };
+    }
 
     // ******************************** //
     //                                  //

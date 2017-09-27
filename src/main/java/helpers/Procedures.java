@@ -44,7 +44,7 @@ public class Procedures {
         if (returnIndexOfStringElement(rawDataTable, dropdownToSelect) != -1) {
             if (!rawDataTable.get(returnIndexOfStringElement(rawDataTable, dropdownToSelect)).get(1).contains("{null}")) {
                 dropdownElement.click();
-                try {Thread.sleep(500);} catch(Exception e) {};
+                try {Thread.sleep(500);} catch(Exception e) {System.out.println("Sleep...");}
                 for (WebElement option : dropdownOptions) {
                     if (option.getText().equals(dropdownToSelect)) {
                         option.click();
