@@ -99,17 +99,17 @@ Feature: Manual data entry
   Scenario Outline: User can edit vehicle info
     Given User opens drafted '<name>' eSlip
     When User clicks next
-    When User edits '<vehicleNo>' vehicle with given data
+    When User edits '<oldVin>' vehicle with given data
       | Year    | <year>    |
       | Make    | <make>    |
       | Model   | <model>   |
       | VIN     | <vin>     |
-    Then Vehicle info is updated
+    Then Vehicle with '<vin>' is updated
     When User saves eSlip draft
 
     Examples:
-      | name  | vehicleNo | year    | make    | model   | vin   |
-      | kokos | 1         |         |         |         |       |
+      | name  | oldVin    | year    | make    | model   | vin     |
+      | kokos | temp234   |         |         |         | newTemp |
 
   Scenario Outline: User can reorder vehicle info
     Given User opens drafted '<name>' eSlip
@@ -166,15 +166,14 @@ Feature: Manual data entry
     When User clicks next
     When User clicks next
     When User edits '<title>' back text with given data
-      | Title   | <title> |
-      | Text    | <text>  |
-    Then Back text is updated
+      | Title   | <newTitle> |
+      | Text    | <text>     |
+    Then Back text with title '<newTitle>' is updated
     When User saves eSlip draft
 
     Examples:
-      | title   | text    |
-      |         |         |
-      |         |         |
+      | name  | title   | newTitle   | text           |
+      | banan | temp2   | newTemp    | different text |
 
   Scenario: User can reorder back text sections
     Given User opens drafted 'banan' eSlip
@@ -208,10 +207,3 @@ Feature: Manual data entry
     Examples:
       | name    | salutation    | message   |
       | banan   | test          | some test |
-
-  Scenario: User can displayed eSlip details
-    Given User in on eslips drafts page
-    When User opens created eSlip
-    Then Eslip details are displayed
-
-

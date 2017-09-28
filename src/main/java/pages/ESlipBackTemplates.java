@@ -77,6 +77,18 @@ public class ESlipBackTemplates extends BasePage{
         return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button[text()='Down']")));
     }
 
+    private List<WebElement> backTextsList() {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//eslip-back-text//table//tr")));
+    }
+
+    private List<WebElement> backTextPositionOnTheList(String title) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//td[1]")));
+    }
+
+    private List<WebElement> backTextWithTitleExistance(String title) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]")));
+    }
+
     // ******************************** //
     //                                  //
     //              ACTIONS             //
@@ -109,27 +121,40 @@ public class ESlipBackTemplates extends BasePage{
 
     }
 
-    public void removeBackText(String title) {
+    public void removeBackTemplateSection(String title) {
         this.removeBackTextByTitleButton(title).get(0).click();
     }
 
-    public void moveBackTextUp(String title) {
+    public void moveBackTemplateSectionUp(String title) {
         this.moveUpBackTextByTitleButton(title).get(0).click();
     }
 
-    public void moveBackTextDown(String title) {
+    public void moveBackTemplateSectionDown(String title) {
         this.moveDownBackTextByTitleButton(title).get(0).click();
     }
 
-    public void saveTemplate() {
+    public void saveBackTemplate() {
         this.saveTemplateButton().click();
     }
 
+    public int getBackTemplateSectionByTitlePosition(String title) {
+        System.out.println("INFO: Current back test '" + title +"' position: " + this.backTextPositionOnTheList(title).get(0).getText());
+        return Integer.parseInt(this.backTextPositionOnTheList(title).get(0).getText());
+    }
 
     // ******************************** //
     //                                  //
     //          VERIFICATIONS           //
     //                                  //
     // ******************************** //
+
+    public boolean verifyIfBackTemplateSectionWithTitleIsListed(String title) {
+        try {
+            return this.backTextWithTitleExistance(title).size() > 0;
+        } catch (Exception e) {
+            System.out.println("INFO: Back text with title'" + title + "' not visible on list");
+        }
+        return false;
+    }
 
 }

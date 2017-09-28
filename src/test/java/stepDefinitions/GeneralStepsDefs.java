@@ -50,6 +50,7 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     @When("^Created user enters '(.+)' and '(.+)'$")
     public void createdUserEntersLoginAndPassword(String user, String pass) throws Exception {
         String password = MailExtractor.getPasswordFromLastEmail();
+        MailExtractor.deleteMessages();
         loginPage.login(userId.concat("@csiodev.onmicrosoft.com"), password);
     }
 
@@ -158,7 +159,7 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     @Then("^Back text with '(.+)' is added to eSlip$")
     public void verifyNoOfBackTextsOnTheList(String title) {
-
+        Assert.assertTrue(createSingleESlip.verifyIfBackTextWithTitleIsListed(title));
     }
 
     @Then("^ESlip '(.+)' is displayed on Drafts list$")
@@ -256,5 +257,109 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     @Then("^ESlips are sent to given email account$")
     public void eslipsAreSentToGivenEmailAccount() throws Exception {
         Assert.assertEquals("eSlip", MailExtractor.getLastEmailTitle());
+        MailExtractor.deleteMessages();
+    }
+
+    @When("^User resets password for selected '(.+)'$")
+    public void userResetsPasswordForSelectedUser(String user) {
+        landingPage.navigateTo("User List");
+        listOfUsers.selectUserByName(user);
+        listOfUsers.resetPassword();
+    }
+
+    @Then("^New password is sent to given email$")
+    public void newPasswordIsSentToGivenEmail() throws Exception {
+        Assert.assertEquals("[CSIO] User password reset hint", MailExtractor.getLastEmailTitle());
+        MailExtractor.deleteMessages();
+    }
+
+    @When("^User deletes selected '(.+)'$")
+    public void userDeletesSelectedUser(String user) {
+        landingPage.navigateTo("User List");
+        listOfUsers.selectUserByName(user);
+        listOfUsers.deleteUser();
+    }
+
+    @Then("^User '(.+)' is no longer listed$")
+    public void userIsNoLongerListed(String user) {
+        landingPage.navigateTo("User List");
+        Assert.assertFalse(listOfUsers.userVisibleOnUserList(user));
+    }
+
+    @When("^User edits '(.+)' vehicle with given data$")
+    public void userEditsVehicleNoVehicleWithGivenData(String vin, DataTable table) {
+        createSingleESlip.editVehicleInformation(vin, table);
+    }
+
+    @Then("^Vehicle with '(.+)' is updated$")
+    public void vehicleInfoIsUpdated(String vin) {
+        Assert.assertTrue(createSingleESlip.verifyIfVehicleWithVinIsListed(vin));
+    }
+
+    @When("^User edits '(.+)' back text with given data$")
+    public void userEditsTitleBackTextWithGivenData(String title, DataTable table) {
+        createSingleESlip.editBackTextInformation(title, table);
+    }
+
+    @Then("^Back text with title '(.+)' is updated$")
+    public void backTextIsUpdated(String title) {
+        Assert.assertTrue(createSingleESlip.verifyIfBackTextWithTitleIsListed(title));
+    }
+
+    @When("^User adds new back template section with given data$")
+    public void userAddsNewBackTemplateSectionWithGivenData(DataTable table) {
+        eSlipBackTemplates.addBackTextTemplateSection(table);
+    }
+
+    @Then("^Back template section with '(.+)' title is added to eSlip$")
+    public void backTemplateSectionWithTitleIsAddedToESlip(String title) {
+        Assert.assertTrue(eSlipBackTemplates.verifyIfBackTemplateSectionWithTitleIsListed(title));
+    }
+
+    @When("^User saves eSlip back template$")
+    public void userSavesESlipBackTemplate() {
+        eSlipBackTemplates.saveBackTemplate();
+    }
+
+    @When("^User edits '(.+)' back template section with given data$")
+    public void userEditsTitleBackTemplateSectionWithGivenData(String title, DataTable table) {
+        eSlipBackTemplates.editBackTextTemplateSection(title, table);
+    }
+
+    @Then("^Back template section with title '(.+)' is updated$")
+    public void backTemplateSectionWithTitleNewTitleIsUpdated(String title) {
+        Assert.assertTrue(eSlipBackTemplates.verifyIfBackTemplateSectionWithTitleIsListed(title));
+    }
+
+    @When("^User moves up back template section with '(.+)' title$")
+    public void userMovesUpBackTemplateSectionWithTempTitle(String title) {
+        currentPosition = eSlipBackTemplates.getBackTemplateSectionByTitlePosition(title);
+        eSlipBackTemplates.moveBackTemplateSectionUp(title);
+    }
+
+    @Then("^Back template section with '(.+)' title is reordered$")
+    public void backTemplateSectionWithTempTitleIsReordered(String title){
+        Assert.assertNotEquals(currentPosition, eSlipBackTemplates.getBackTemplateSectionByTitlePosition(title));
+    }
+
+    @When("^User moves down back template section with '(.+)' title$")
+    public void userMovesDownBackTemplateSectionWithTempTitle(String title) {
+        currentPosition = createSingleESlip.getBackTextByTitlePosition(title);
+        eSlipBackTemplates.moveBackTemplateSectionDown(title);
+    }
+
+    @When("^User removes back template section with '(.+)' title$")
+    public void userRemovesBackTemplateSectionWithTempTitle(String title)  {
+        eSlipBackTemplates.removeBackTemplateSection(title);
+    }
+
+    @Then("^Back template section with '(.+)' is removed from eSlip$")
+    public void backTemplateSectionWithTempIsRemovedFromESlip(String title) {
+        Assert.assertFalse(eSlipBackTemplates.verifyIfBackTemplateSectionWithTitleIsListed(title));
+    }
+
+    @When("^User opens back template page$")
+    public void userOpensBackTemplatePage() {
+        landingPage.navigateTo("E-Slip Back");
     }
 }

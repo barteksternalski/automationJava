@@ -1,5 +1,6 @@
 package helpers;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -30,7 +31,7 @@ public class Procedures {
 
         if (returnIndexOfStringElement(rawDataTable, fieldToFill) != -1) {
             if (!rawDataTable.get(returnIndexOfStringElement(rawDataTable, fieldToFill)).get(1).contains("{null}")) {
-                inputElement.sendKeys(rawDataTable.get(returnIndexOfStringElement(rawDataTable, fieldToFill)).get(1));
+                inputElement.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE, rawDataTable.get(returnIndexOfStringElement(rawDataTable, fieldToFill)).get(1));
             } else {
                 System.out.println("INFO: Field \"" + fieldToFill + "\" set to NULL value");
             }
