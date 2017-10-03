@@ -1,10 +1,16 @@
 package stepDefinitions;
 
 import cucumber.api.DataTable;
+import cucumber.api.Scenario;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.*;
 import helpers.MailExtractor;
 import helpers.Procedures;
 import org.junit.Assert;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriverException;
 
 public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
@@ -12,10 +18,29 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     private static String eSlipName     = "";
     private static String userId        = "";
     private static final String appUrl  = "http://cssitcacweb01-dev.azurewebsites.net";
+    private Scenario myScenario;
 
-    @Given("^Setup browser$")
-    public void setupBrowser() {
-        initDriver();
+    @Before
+    public void beforeScenario(Scenario scenario) {
+        myScenario = scenario;
+    }
+
+    @After
+    public void afterScenario() throws Throwable {
+        try {
+            myScenario.write("Current Page URL is " + driver.getCurrentUrl());
+            byte[] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+            myScenario.embed(screenshot, "image/png");
+        } catch (WebDriverException somePlatformsDontSupportScreenshots) {
+            System.out.println(somePlatformsDontSupportScreenshots.getMessage());
+        } catch (ClassCastException cce) {
+            cce.printStackTrace();
+        }
+    }
+
+    @Given("^Setup '(.+)' browser$")
+    public void setupBrowser(String browser) {
+        initDriver(browser);
         initPages();
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
@@ -121,7 +146,7 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     @When("^User creates new eSlip with given customer and policy information with given data$")
     public void fillCustomerInformation(DataTable table) {
         landingPage.navigateTo("Create Single");
-        createSingleESlip.fillCustomerInformation(eSlipName, table);
+        createSingleESlip.fillCustomerInformation(driver, eSlipName, table);
     }
 
     @When("^User saves eSlip draft$")

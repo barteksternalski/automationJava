@@ -3,8 +3,10 @@ package pages;
 import cucumber.api.DataTable;
 import helpers.Procedures;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
@@ -55,6 +57,10 @@ public class CreateSingleESlip extends BasePage {
 
     private WebElement insurerDropdown() {
         return getElement(ExpectedConditions.elementToBeClickable(By.id("insurer")));
+    }
+
+    private WebElement carrierInputField() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='carrier-field']//input")));
     }
 
     private WebElement brokerageInputField() {
@@ -264,7 +270,7 @@ public class CreateSingleESlip extends BasePage {
     //                                  //
     // ******************************** //
 
-    public void fillCustomerInformation(String name, DataTable table) {
+    public void fillCustomerInformation(WebDriver driver, String name, DataTable table) {
 
         List<List<String>> temp = table.raw();
 
@@ -300,13 +306,14 @@ public class CreateSingleESlip extends BasePage {
         Procedures.fillInputFieldBasedOnDataTable(temp, "Policy Effective Date", this.effectiveDateInputField());
         Procedures.fillInputFieldBasedOnDataTable(temp, "Policy Expiration Date", this.expirationDateInputField());
         if (!temp.get(12).get(1).equals("{null}")) {
-            this.insurerDropdown().click();
-            for (WebElement option : this.dropdownOptions()) {
-                if (option.getText().equals(temp.get(12).get(1))) {
-                    option.click();
-                    break;
-                }
-            }
+            Actions builder = new Actions(driver);
+            builder
+                    .moveToElement(this.carrierInputField())
+                    .sendKeys(temp.get(12).get(1))
+                    .pause(500)
+                    .sendKeys(Keys.ENTER)
+                    .build()
+                    .perform();
         } else System.out.println("INFO: Field \"Insurer\" set to NULL value");
         Procedures.fillInputFieldBasedOnDataTable(temp, "Brokerage", this.brokerageInputField());
 

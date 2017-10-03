@@ -5,7 +5,7 @@ Feature: misc test
   Scenario: Setup browser
     Given Clear email account
     Given Generate unique name
-    Given Setup browser
+    Given Setup 'Chrome' browser
 
   Scenario Outline: User can login
     Given User is on login page
@@ -56,7 +56,7 @@ Feature: misc test
 
     Examples:
       | login			                          | password		|
-      |	carrier.user@csiodev.onmicrosoft.com      | Si3ple9Ass      |
+      |	admin.five@csiodev.onmicrosoft.com        | Si3ple9Ass      |
 
   Scenario Outline: User is able to fill Customer and Policy Information
     Given User is creating new eEslip

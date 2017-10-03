@@ -59,10 +59,10 @@ Feature: User management
 
   Scenario: User can reset password
     Given User is on user listing page
-    When User resets password for selected 'user'
+    When User resets password for selected 'baton'
     Then New password is sent to given email
 
   Scenario: User can be deleted
     Given User is on user listing page
-    When User deletes selected 'user'
-    Then User 'user' is no longer listed
+    When User deletes selected 'baton'
+    Then User 'baton' is no longer listed
