@@ -3,8 +3,10 @@ package pages;
 import cucumber.api.DataTable;
 import helpers.Procedures;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.io.File;
@@ -24,7 +26,7 @@ public class CreateUser extends BasePage {
     // ******************************** //
 
     private List<WebElement> userTypeRadioButton() {
-        return getElements(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//input[@name='userType']")));
+        return getElements(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='box'][descendant::h2[text()='New User']]//div[@class='mat-radio-outer-circle']")));
     }
 
     private WebElement userIdInputField() {
@@ -44,7 +46,7 @@ public class CreateUser extends BasePage {
     }
 
     private List<WebElement> organizationTypeRadioButton() {
-        return getElements(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//input[@name='organizationType']")));
+        return getElements(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='box'][descendant::h2[text()='Organization']]//div[@class='mat-radio-outer-circle']")));
     }
 
     private WebElement csioNetIdInputField() {
@@ -56,7 +58,7 @@ public class CreateUser extends BasePage {
     }
 
     private WebElement accessToModulesCheckbox(String module) {
-        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//tr[descendant::td[.='" + module + "']]//input")));
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//tr[descendant::td[.='" + module + "']]//div[contains(@class,'container')]")));
     }
 
     private WebElement carrierOrganizationDropdown() {
@@ -65,6 +67,10 @@ public class CreateUser extends BasePage {
 
     private WebElement brokerageOrganizationDropdown() {
         return getElement(ExpectedConditions.elementToBeClickable(By.id("brokerId")));
+    }
+
+    private List<WebElement> dropdownOptions() {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//mat-option")));
     }
 
     private WebElement saveButton() {
@@ -85,10 +91,10 @@ public class CreateUser extends BasePage {
 
         switch (type) {
             case "Organization":
-                this.userTypeRadioButton().get(0).click();
+                this.userTypeRadioButton().get(1).click();
                 break;
             case "User":
-                this.userTypeRadioButton().get(1).click();
+                this.userTypeRadioButton().get(0).click();
                 break;
             case "CSIO Admin":
                 this.userTypeRadioButton().get(2).click();
@@ -102,12 +108,13 @@ public class CreateUser extends BasePage {
 
     private void selectOrganizationType(String type) {
 
+        try {Thread.sleep(1000);} catch (Exception e) {System.out.println();}
         switch(type) {
             case "Carrier":
-                this.organizationTypeRadioButton().get(0).click();
+                this.organizationTypeRadioButton().get(1).click();
                 break;
             case "Brokerage":
-                this.organizationTypeRadioButton().get(1).click();
+                this.organizationTypeRadioButton().get(0).click();
                 break;
             default:
                 System.out.println("INFO: There is no '" + type + "' organization");
@@ -134,7 +141,7 @@ public class CreateUser extends BasePage {
         }
     }
 
-    public void createNewUser(DataTable table, String userId) throws Exception {
+    public void createNewUser(WebDriver driver, DataTable table, String userId) throws Exception {
 
         List<List<String>> temp = table.raw();
 
@@ -145,8 +152,24 @@ public class CreateUser extends BasePage {
         if (!temp.get(4).get(1).equals("{null}")) this.organizationUserIdInputField().sendKeys(temp.get(4).get(1));
         if (!temp.get(5).get(1).equals("{null}")) this.selectOrganizationType(temp.get(5).get(1));
         if (!temp.get(6).get(1).equals("{null}")) this.csioNetIdInputField().sendKeys(temp.get(6).get(1));
-        if (!temp.get(7).get(1).equals("{null}")) selectElementFromDropdown(carrierOrganizationDropdown(), temp.get(7).get(1));
-        if (!temp.get(8).get(1).equals("{null}")) selectElementFromDropdown(brokerageOrganizationDropdown(), temp.get(8).get(1));
+        if (!temp.get(7).get(1).equals("{null}")) {
+            this.carrierOrganizationDropdown().click();
+            for (WebElement option : this.dropdownOptions()) {
+                if (option.getText().equals(temp.get(7).get(1))) {
+                    option.click();
+                    break;
+                }
+            }
+        } else System.out.println("INFO: Field \"Carrier Organization\" set to NULL value");
+        if (!temp.get(8).get(1).equals("{null}")) {
+            this.brokerageOrganizationDropdown().click();
+            for (WebElement option : this.dropdownOptions()) {
+                if (option.getText().equals(temp.get(8).get(1))) {
+                    option.click();
+                    break;
+                }
+            }
+        } else System.out.println("INFO: Field \"Brokerage Organization\" set to NULL value");
         if (!temp.get(9).get(1).equals("{null}")) this.chooseFile(temp.get(9).get(1));
         if (!temp.get(10).get(1).equals("{null}")) this.selectModules(temp.get(10).get(1));
 

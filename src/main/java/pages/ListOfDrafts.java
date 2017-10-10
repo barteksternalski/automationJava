@@ -20,7 +20,7 @@ public class ListOfDrafts extends BasePage {
     // ******************************** //
 
     private List<WebElement> eSlipByNameCheckbox(String name) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[contains(text(),'" + name + "')]]//input")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[contains(text(),'" + name + "')]]//div[contains(@class,'container')]")));
     }
 
     private List<WebElement> eSlipByNameState(String name) {

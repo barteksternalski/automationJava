@@ -48,7 +48,7 @@ public class CreateSingleESlip extends BasePage {
     }
 
     private List<WebElement> dropdownOptions() {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//md-option")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//mat-option")));
     }
 
     private WebElement policyNumberInputField() {
@@ -64,7 +64,7 @@ public class CreateSingleESlip extends BasePage {
     }
 
     private WebElement brokerageInputField() {
-        return getElement(ExpectedConditions.elementToBeClickable(By.id("brokerageName")));
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='brokerage-field']//input")));
     }
 
     private WebElement effectiveDateInputField() {
@@ -306,9 +306,11 @@ public class CreateSingleESlip extends BasePage {
         Procedures.fillInputFieldBasedOnDataTable(temp, "Policy Effective Date", this.effectiveDateInputField());
         Procedures.fillInputFieldBasedOnDataTable(temp, "Policy Expiration Date", this.expirationDateInputField());
         if (!temp.get(12).get(1).equals("{null}")) {
+            try {Thread.sleep(1000);} catch(Exception e) {System.out.println();}
             Actions builder = new Actions(driver);
             builder
                     .moveToElement(this.carrierInputField())
+                    .click()
                     .sendKeys(temp.get(12).get(1))
                     .pause(500)
                     .sendKeys(Keys.ENTER)

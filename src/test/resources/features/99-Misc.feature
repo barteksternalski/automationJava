@@ -29,3 +29,32 @@ Feature: Verify miscellaneous functionalities
     Given Broker with 'broker' organization assigned is logged to system
     When User carrier creates new eSlip
     Then Broker field is prefilled with current carrier organization
+
+  Scenario Outline: User can see and dismiss notifications
+    Given User is on login page
+    When User enters '<login>' and '<password>'
+    When User perform '<action>'
+    Then Notification is displayed
+
+    Examples:
+      | login			                          | password		| action                              |
+      |	admin.five@csiodev.onmicrosoft.com        | Si3ple9Ass      | sent eslip                          |
+      |                                           |                 | delete eslip                        |
+      |                                           |                 | delete different organization eslip |
+      |                                           |                 | clone different organization eslip  |
+      |                                           |                 | edit different organization eslip   |
+      |                                           |                 | create carrier without organization |
+      |                                           |                 | create broker without organization  |
+
+    Scenario Outline: Two users from same organization can see notifications
+      Given '<type>' organization admin is logged to system
+      Given '<type>' organization user is logged to system
+      Given '<type>' organization user created eSlip draft
+      When '<type>' organization admin deletes created draft
+      Then Notification is displayed for '<type>' admin
+      Then Notification is displayed for '<type>' user
+
+      Examples:
+        | type      |
+        | carrier   |
+        | brokerage |

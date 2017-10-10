@@ -86,13 +86,13 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
     @Given("^User is on dashboard page$")
     public void userIsOnMainPage() {
-        landingPage.navigateTo("Dashboard");
+        landingPage.navigateTo("Drafts");
     }
 
     @When("^User creates new user with given data$")
     public void userCreatesNewUserWithGivenData(DataTable table) throws Exception {
         landingPage.navigateTo("Create User");
-        createUser.createNewUser(table, userId);
+        createUser.createNewUser(driver, table, userId);
     }
 
     @Then("^User '(.+)' is created$")

@@ -18,8 +18,8 @@ public class EnvironmentSetup {
     public static WebDriver driver;
 
     public static void initDriver(String browser) {
-        WebDriverFactory driverFactory = new WebDriverFactory();
-        driver = driverFactory.getDriver();
+//        WebDriverFactory driverFactory = new WebDriverFactory();
+//        driver = driverFactory.getDriver();
         Platform platform;
 
         switch (browser) {

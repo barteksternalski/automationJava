@@ -8,15 +8,18 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class BasePage extends BaseWebMobileElement {
 
     public BasePage(WebDriver driver) {
         super(driver);
+        wait.pollingEvery(1, TimeUnit.SECONDS);
     }
 
     public BasePage(WebDriver driver, int timeOut) {
         super(driver, timeOut);
+        wait.pollingEvery(1, TimeUnit.SECONDS);
     }
 
     public WebElement getElement(By by) {

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class SentESlips extends BasePage{
 
@@ -20,7 +21,7 @@ public class SentESlips extends BasePage{
     // ******************************** //
 
     private List<WebElement> eSlipByNameCheckbox(String name) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[contains(text(),'" + name + "')]]//input")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[contains(text(),'" + name + "')]]//div[contains(@class,'container')]")));
     }
 
     private List<WebElement> eSlipByNameState(String name) {

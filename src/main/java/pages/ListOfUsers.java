@@ -24,7 +24,7 @@ public class ListOfUsers extends BasePage {
     }
 
     private List<WebElement> userByNameCheckbox(String name) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::a[contains(text(),'" + name + "')]]//input")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::a[contains(text(),'" + name + "')]]//div[contains(@class,'container')]")));
     }
 
     private List<WebElement> userByNameActivationStatus(String name) {

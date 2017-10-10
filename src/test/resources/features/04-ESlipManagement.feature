@@ -23,3 +23,67 @@ Feature: Manage eSlip list
     Examples:
       | carrier   |
       |           |
+
+  Scenario Outline: User can clone sent eSlip
+    Given User is on login page
+    When User enters '<login>' and '<password>'
+    When User navigates to Sent tab
+    When User clones selected '<name>' eSlip
+    Then ESlip '<name>' is displayed on Drafts list
+    Then Customer Information is copied
+    Then Policy Information is copied
+    Then Vehicles are copied
+    Then Back text sections are copied
+
+    Examples:
+      | login			                          | password		| name      |
+      #csio admin
+      #boker admin
+      #broker user
+      #carrier admin
+      #carrier user
+
+  Scenario Outline: User can clone multiple sent eSlips
+    Given User is on login page
+    When User enters '<login>' and '<password>'
+    When User navigates to Sent tab
+    When User clones selected eSlips
+      | ESlip list  | <list>  |
+    Then ESlips are displayed on Drafts list
+      | ESlip list  | <list>  |
+
+    Examples:
+      | list        |
+      | 1, 2, ,3 ,4 |
+
+  Scenario Outline: User can delete drafted eSlip
+    Given User is on login page
+    When User enters '<login>' and '<password>'
+    When User navigates to Draft tab
+    When User deletes selected '<name>' eSlip
+    Then ESlip '<name>' is not displayed on Drafts list
+
+    Examples:
+      | login			                          | password		| name      |
+      #csio admin
+      #boker admin
+      #broker user
+      #carrier admin
+      #carrier user
+
+  Scenario Outline: User can delete undelivered eSlip
+    Given Undelivered eSlips exists in system
+    Given User is on login page
+    When User enters '<login>' and '<password>'
+    When User navigates to Draft tab
+    When User deletes selected '<name>' eSlip
+    Then ESlip '<name>' is not displayed on Drafts list
+    Then Generated PKPasses are removed from BlobStorage
+
+    Examples:
+      | login			                          | password		| name      |
+      #csio admin
+      #boker admin
+      #broker user
+      #carrier admin
+      #carrier user
