@@ -46,15 +46,48 @@ Feature: Verify miscellaneous functionalities
       |                                           |                 | create carrier without organization |
       |                                           |                 | create broker without organization  |
 
-    Scenario Outline: Two users from same organization can see notifications
-      Given '<type>' organization admin is logged to system
-      Given '<type>' organization user is logged to system
-      Given '<type>' organization user created eSlip draft
-      When '<type>' organization admin deletes created draft
-      Then Notification is displayed for '<type>' admin
-      Then Notification is displayed for '<type>' user
+  Scenario Outline: Two users from same organization can see notifications
+    Given '<type>' organization admin is logged to system
+    Given '<type>' organization user is logged to system
+    Given '<type>' organization user created eSlip draft
+    When '<type>' organization admin deletes created draft
+    Then Notification is displayed for '<type>' admin
+    Then Notification is displayed for '<type>' user
 
-      Examples:
-        | type      |
-        | carrier   |
-        | brokerage |
+    Examples:
+      | type      |
+      | carrier   |
+      | brokerage |
+
+  Scenario Outline: Verify email preview logo
+    Given User is on login page
+    When User enters '<login>' and '<password>'
+    When User creates new eSlip with given customer and policy information with given data
+      | Name                    | <name>        |
+      | Policy Number           | <policyNo>    |
+      | Email                   | <email>       |
+      | Phone Number            | <phoneNo>     |
+      | Preferred Language      | <lang>        |
+      | Province                | <province>    |
+      | Address 1               | <address1>    |
+      | Address 2               | <address2>    |
+      | City                    | <city>        |
+      | Postal Code             | <code>        |
+      | Policy Effective Date   | <effDate>     |
+      | Policy Expiration Date  | <expDate>     |
+      | Insurer                 | <insurer>     |
+      | Brokerage               | <broker>      |
+    When User clicks next
+    When User clicks next
+    When User clicks next
+    Then Proper carrier logo is displayed
+    Then Proper broker logo is displayed
+
+    Examples:
+      | login     | password		| name    | policyNo    | email                 | phoneNo   | lang    | province    | address1  | address2  | city  | code    | effDate     | expDate     | insurer     | broker      |
+      |	carrier1  | Si3ple9Ass      | banan   | 123123123   | bartavanade@gmail.com | 123123123 | English | Manitoba    | temp1     | temp1     | krk   |  30300  | 12/12/2020  | 12/12/2022  | RSA Canada  | Some Broker |
+      | carrier1  |                 |         |             |                       |           |         |             |           |           |       |         |             |             | RSA Canada  | Other Broker|
+      | carrier2  |                 |         |             |                       |           |         |             |           |           |       |         |             |             | Carrier2    |             |
+      | broker1   |                 |         |             |                       |           |         |             |           |           |       |         |             |             | RSA Canada  | Broker      |
+      | broker1   |                 |         |             |                       |           |         |             |           |           |       |         |             |             | Carrier2    | Broker      |
+      | broker2   |                 |         |             |                       |           |         |             |           |           |       |         |             |             | RSA Canada  | Broker2     |

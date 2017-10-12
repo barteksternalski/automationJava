@@ -211,11 +211,11 @@ public class CreateSingleESlip extends BasePage {
     }
 
     private WebElement addBackTextButton() {
-        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Add entry']")));
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Add Entry']")));
     }
 
     private List<WebElement> editVehicleByVinButton(String vin) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button[text()='Edit']")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button//*[contains(@class,'edit')]")));
     }
 
     private WebElement saveButton() {
@@ -223,35 +223,35 @@ public class CreateSingleESlip extends BasePage {
     }
 
     private WebElement sendESlipButton() {
-        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='SEND E-SLIP']")));
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Send E-Slip']")));
     }
 
     private List<WebElement> removeVehicleByVinButton(String vin) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button[text()='Trash']")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button//*[contains(@class,'delete')]")));
     }
 
     private List<WebElement> moveUpVehicleByVinButton(String vin) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button[text()='Up']")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button//*[contains(@class,'up')]")));
     }
 
     private List<WebElement> moveDownVehicleByVinButton(String vin) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button[text()='Down']")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + vin + "']]//button//*[contains(@class,'down')]")));
     }
 
     private List<WebElement> editBackTextByTitleButton(String title) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button[text()='Edit']")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button//*[contains(@class,'edit')]")));
     }
 
     private List<WebElement> removeBackTextByTitleButton(String title) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button[text()='Trash']")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button//*[contains(@class,'delete')]")));
     }
 
     private List<WebElement> moveUpBackTextByTitleButton(String title) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button[text()='Up']")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button//*[contains(@class,'up')]")));
     }
 
     private List<WebElement> moveDownBackTextByTitleButton(String title) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button[text()='Down']")));
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[2][text()='" + title + "']]//button//*[contains(@class,'down')]")));
     }
 
     private WebElement pageTitle() {
@@ -312,7 +312,7 @@ public class CreateSingleESlip extends BasePage {
                     .moveToElement(this.carrierInputField())
                     .click()
                     .sendKeys(temp.get(12).get(1))
-                    .pause(500)
+                    .pause(1000)
                     .sendKeys(Keys.ENTER)
                     .build()
                     .perform();
@@ -393,6 +393,7 @@ public class CreateSingleESlip extends BasePage {
 
     public void saveDraft() {
         this.saveDraftButton().click();
+        try {Thread.sleep(1500);} catch(Exception e) {System.out.println();}
     }
 
     public void next() {

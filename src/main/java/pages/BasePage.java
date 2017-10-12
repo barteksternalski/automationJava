@@ -14,12 +14,12 @@ public class BasePage extends BaseWebMobileElement {
 
     public BasePage(WebDriver driver) {
         super(driver);
-        wait.pollingEvery(1, TimeUnit.SECONDS);
+        wait.pollingEvery(2, TimeUnit.SECONDS);
     }
 
     public BasePage(WebDriver driver, int timeOut) {
         super(driver, timeOut);
-        wait.pollingEvery(1, TimeUnit.SECONDS);
+        wait.pollingEvery(2, TimeUnit.SECONDS);
     }
 
     public WebElement getElement(By by) {

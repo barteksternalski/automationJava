@@ -6,48 +6,48 @@ Feature: misc test
     Given Clear email account
     Given Generate unique name
     Given Setup 'Chrome' browser
-#
-#  Scenario Outline: User can login
-#    Given User is on login page
-#    When User enters '<login>' and '<password>'
-#    Then Main page is displayed
-#
-#    Examples:
-#      | login			                          | password		|
-#      |	admin.five@csiodev.onmicrosoft.com        | Si3ple9Ass      |
-#
-#  Scenario Outline: Successfully create new user
-#    Given User is on dashboard page
-#    When User creates new user with given data
-#      | User Type               | <userType>  |
-#      | User Id                 | <userId>    |
-#      | Name                    | <name>      |
-#      | Email                   | <email>     |
-#      | Organization User Id    | <orgUserId> |
-#      | Organization Type       | <orgType>   |
-#      | CSIO Net ID             | <csioId>    |
-#      | Carrier Organization    | <carrier>   |
-#      | Brokerage Organization  | <brokerage> |
-#      | File                    | <file>      |
-#      | Modules                 | <modules>   |
-#    Then User '<name>' is created
-#    When User logs out
-#
-#    Examples:
-#      | userType      | userId    | name    | email                 | orgUserId   | orgType   | csioId    | carrier     | brokerage         | file    | modules               |
-#      | Organization  | baton     | baton   | bartavanade@gmail.com | {null}      | Carrier   | baton     | TestCarrier | {null}            | {null}  | Users,Create Single   |
-#
-#  Scenario Outline: Verify user access
-#    Given User is on login page
-#    When Created user enters '<login>' and '<password>'
-#    Then Main page is displayed
-#    Then User has access to '<modulesAvailable>' modules
-#    Then User does not have access to '<modulesUnavailable>' modules
-#    When User logs out
-#
-#    Examples:
-#      | login	                          | password		| modulesAvailable                                | modulesUnavailable                                  |
-#      |	baton@csiodev.onmicrosoft.com     | Si3ple9Ass      | Create Single,Drafts,Sent,Create User,User List | Dashboard,Reporting,Create Bulk,E-mail,E-Slip Back  |
+
+  Scenario Outline: User can login
+    Given User is on login page
+    When User enters '<login>' and '<password>'
+    Then Main page is displayed
+
+    Examples:
+      | login			                          | password		|
+      |	admin.five@csiodev.onmicrosoft.com        | Si3ple9Ass      |
+
+  Scenario Outline: Successfully create new user
+    Given User is on dashboard page
+    When User creates new user with given data
+      | User Type               | <userType>  |
+      | User Id                 | <userId>    |
+      | Name                    | <name>      |
+      | Email                   | <email>     |
+      | Organization User Id    | <orgUserId> |
+      | Organization Type       | <orgType>   |
+      | CSIO Net ID             | <csioId>    |
+      | Carrier Organization    | <carrier>   |
+      | Brokerage Organization  | <brokerage> |
+      | File                    | <file>      |
+      | Modules                 | <modules>   |
+    Then User '<name>' is created
+    When User logs out
+
+    Examples:
+      | userType      | userId    | name    | email                 | orgUserId   | orgType   | csioId    | carrier     | brokerage         | file    | modules               |
+      | Organization  | baton     | baton   | bartavanade@gmail.com | {null}      | Carrier   | baton     | TestCarrier | {null}            | {null}  | Users,Create Single   |
+
+  Scenario Outline: Verify user access
+    Given User is on login page
+    When Created user enters '<login>' and '<password>'
+    Then Main page is displayed
+    Then User has access to '<modulesAvailable>' modules
+    Then User does not have access to '<modulesUnavailable>' modules
+    When User logs out
+
+    Examples:
+      | login	                          | password		| modulesAvailable                                | modulesUnavailable                                  |
+      |	baton@csiodev.onmicrosoft.com     | Si3ple9Ass      | Create Single,Drafts,Sent,Create User,User List | Dashboard,Reporting,Create Bulk,E-mail,E-Slip Back  |
 
   Scenario Outline: User can login
     Given User is on login page
