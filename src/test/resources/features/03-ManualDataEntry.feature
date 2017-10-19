@@ -61,6 +61,30 @@ Feature: Manual data entry
       | name    | policyNo    | email       | phoneNo   | lang    | province    | address1  | address2  | city  | code    | effDate     | expDate     | insurer     | broker    |
       | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk   |  30300  | 12/12/2020  | 12/12/2022  | RSA Canada  | Banan     |
 
+  Scenario Outline: User is able to update Customer and Policy Information
+    Given User opens drafted '<name>' eSlip
+    When User updates eSlip with given customer and policy information with given data
+      | Name                    | <name>        |
+      | Policy Number           | <policyNo>    |
+      | Email                   | <email>       |
+      | Phone Number            | <phoneNo>     |
+      | Preferred Language      | <lang>        |
+      | Province                | <province>    |
+      | Address 1               | <address1>    |
+      | Address 2               | <address2>    |
+      | City                    | <city>        |
+      | Postal Code             | <code>        |
+      | Policy Effective Date   | <effDate>     |
+      | Policy Expiration Date  | <expDate>     |
+      | Insurer                 | <insurer>     |
+      | Brokerage               | <broker>      |
+    When User saves eSlip draft
+    Then ESlip '<name>' is updated on Drafts list
+
+    Examples:
+      | name    | policyNo    | email       | phoneNo   | lang    | province    | address1  | address2  | city  | code    | effDate     | expDate     | insurer     | broker    |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk   |  30300  | 12/12/2020  | 12/12/2022  | RSA Canada  | Banan     |
+
   Scenario Outline: Error handling on new vehicle form
     Given User opens drafted '<name>' eSlip
     When User clicks next

@@ -92,7 +92,7 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     @When("^User creates new user with given data$")
     public void userCreatesNewUserWithGivenData(DataTable table) throws Exception {
         landingPage.navigateTo("Create User");
-        createUser.createNewUser(driver, table, userId);
+        createUser.createNewUser(table, userId);
     }
 
     @Then("^User '(.+)' is created$")

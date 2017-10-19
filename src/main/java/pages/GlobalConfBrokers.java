@@ -1,15 +1,17 @@
 package pages;
 
+import cucumber.api.DataTable;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class ListOfDrafts extends BasePage {
+public class GlobalConfBrokers extends BasePage {
 
-    public ListOfDrafts(WebDriver driver, int timeOut) {
+    public GlobalConfBrokers(WebDriver driver, int timeOut) {
         super(driver, timeOut);
     }
 
@@ -19,16 +21,16 @@ public class ListOfDrafts extends BasePage {
     //                                  //
     // ******************************** //
 
-    private List<WebElement> eSlipByNameCheckbox(String name) {
+    private List<WebElement> brokerByNameCheckbox(String name) {
         return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[contains(text(),'" + name + "')]]//div[contains(@class,'container')]")));
     }
 
-    private List<WebElement> eSlipByNameState(String name) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[contains(text(),'" + name + "')]]//td[9]")));
+    private List<WebElement> brokerByName(String name) {
+        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[contains(text(),'" + name + "')]]")));
     }
 
-    private List<WebElement> eSlipByName(String name) {
-        return getElements(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[descendant::td[contains(text(),'" + name + "')]]")));
+    private WebElement newButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='New']")));
     }
 
     private WebElement editButton() {
@@ -39,9 +41,32 @@ public class ListOfDrafts extends BasePage {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Delete']")));
     }
 
-    private WebElement sendButton() {
-        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Send']")));
+    // ****** new broker form ******** //
+
+    private WebElement nameInputField() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.id("name")));
     }
+
+    private WebElement addressInputField() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.id("address")));
+    }
+
+    private WebElement codeInputField() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.id("code")));
+    }
+
+    private WebElement detailsInputField() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.id("details")));
+    }
+
+    private WebElement cancelButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Cancel']")));
+    }
+
+    private WebElement saveButton() {
+        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Save']")));
+    }
+
 
     // ********* navigation *********** //
 
@@ -63,52 +88,39 @@ public class ListOfDrafts extends BasePage {
     //                                  //
     // ******************************** //
 
-    public void selectESlipByName(String name) {
-        boolean contFlag = true;
-        while(contFlag) {
-            try {
-                Thread.sleep(1000);
-                if (this.eSlipByNameCheckbox(name).size() > 0) {
-                    this.eSlipByNameCheckbox(name).get(0).click();
-                    break;
-                }
-            } catch(Exception e) {
-                System.out.println("INFO: eSlip not displayed on current page");
-            }
-            try {
-                if (this.paginationNextButton().isEnabled()) {
-                    System.out.println("INFO: Navigate to next page");
-                    paginationNext();
-                }
-            } catch(Exception e) {
-                System.out.println("INFO: Last page");
-                contFlag = false;
-            }
-        }
+    public void addNewBroker(DataTable table) {
+
+        List<List<String>> temp = table.raw();
+
+        this.newButton().click();
+
+        if (!temp.get(0).get(1).equals("{null}")) this.nameInputField().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE, temp.get(0).get(1));
+        if (!temp.get(1).get(1).equals("{null}")) this.addressInputField().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE, temp.get(1).get(1));
+        if (!temp.get(2).get(1).equals("{null}")) this.codeInputField().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE, temp.get(2).get(1));
+        if (!temp.get(3).get(1).equals("{null}")) this.detailsInputField().sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE, temp.get(3).get(1));
+
+        this.saveButton().click();
     }
 
-    public void editESlip() {
+    public void edit() {
         this.editButton().click();
     }
 
-    public void deleteESlip() {
+    public void delete() {
         this.deleteButton().click();
     }
 
-    public void sendESlip() {
-        this.sendButton().click();
-    }
-
-    public String getESlipState(String name) {
+    public void selectCarrierByName(String name) {
         boolean contFlag = true;
         while(contFlag) {
             try {
                 Thread.sleep(1000);
-                if (this.eSlipByNameState(name).size() > 0) {
-                    return this.eSlipByNameState(name).get(0).getText();
+                if (this.brokerByNameCheckbox(name).size() > 0) {
+                    this.brokerByNameCheckbox(name).get(0).click();
+                    break;
                 }
             } catch(Exception e) {
-                System.out.println("INFO: eSlip not displayed on current page");
+                System.out.println("INFO: Carrier not displayed on current page");
             }
             try {
                 if (this.paginationNextButton().isEnabled()) {
@@ -120,7 +132,6 @@ public class ListOfDrafts extends BasePage {
                 contFlag = false;
             }
         }
-        return "INFO: ESlip with '"+ name + "' Name not found on list.";
     }
 
     public void paginationNext() {
@@ -141,17 +152,17 @@ public class ListOfDrafts extends BasePage {
     //                                  //
     // ******************************** //
 
-    public boolean verifyIfESlipInDisplayedOnList(String name) {
+    public boolean verifyIfCarrierInDisplayedOnList(String name) {
         boolean contFlag = true;
         while(contFlag) {
             try {
                 Thread.sleep(1000);
-                if (this.eSlipByName(name).size() > 0) {
-                    System.out.println("INFO: eSlip found!");
+                if (this.brokerByName(name).size() > 0) {
+                    System.out.println("INFO: Broker found!");
                     return true;
                 }
             } catch(Exception e) {
-                System.out.println("INFO: eSlip not displayed on current page");
+                System.out.println("INFO: Broker not displayed on current page");
             }
             try {
                 if (this.paginationNextButton().isEnabled()) {

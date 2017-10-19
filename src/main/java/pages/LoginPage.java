@@ -26,10 +26,6 @@ public class LoginPage extends BasePage {
         return getElement(ExpectedConditions.elementToBeClickable(By.id("cred_password_inputtext")));
     }
 
-    private WebElement avanadeTileLogin() {
-        return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Avanade']")));
-    }
-
     private WebElement useAnotherAccountButton() {
         return getElement(ExpectedConditions.elementToBeClickable(By.xpath("//tr[contains(@class,'another_account')]")));
     }

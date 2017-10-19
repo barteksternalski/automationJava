@@ -141,7 +141,7 @@ public class CreateUser extends BasePage {
         }
     }
 
-    public void createNewUser(WebDriver driver, DataTable table, String userId) throws Exception {
+    public void createNewUser(DataTable table, String userId) throws Exception {
 
         List<List<String>> temp = table.raw();
 
