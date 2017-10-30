@@ -85,6 +85,49 @@ Feature: Manual data entry
       | name    | policyNo    | email       | phoneNo   | lang    | province    | address1  | address2  | city  | code    | effDate     | expDate     | insurer     | broker    |
       | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk   |  30300  | 12/12/2020  | 12/12/2022  | RSA Canada  | Banan     |
 
+  Scenario Outline: User can upload multiple files to single policy
+    Given User opens drafted '<name>' eSlip
+    When User uploads '<file>' file
+    When User saves eSlip draft
+    Then '<file>' file is displayed on list
+
+    Examples:
+      | name      | file            |
+      | kokos     | temp.pdf        |
+      | kokos     | temp.jpg        |
+
+  Scenario: User can upload up to 5 files to single policy
+    Given User opens drafted '<name>' eSlip
+    Given 4 files are already added to policy
+    When User uploads '<file>' file
+    When User saves eSlip draft
+    Then '<file>' file is displayed on list
+    Then User cannot add more files to policy
+    
+  Scenario: User can upload files smaller than 5mb
+    Given User opens drafted '<name>' eSlip
+    When User uploads '<file>' file
+    Then File is not uploaded
+    Then Proper error message 'too big' is displayed
+
+  Scenario Outline: User can remove added file from policy
+    Given User opens drafted '<name>' eSlip
+    Given At lease one file is added to policy
+    When User removes '<file>' file
+    When User saves eSlip draft
+    Then '<file>' file is no longer displayed on list
+
+    Examples:
+      | name      | file            |
+      | kokos     | temp.pdf        |
+      | kokos     | temp.jpg        |
+
+  Scenario: User can download file while editing eSlip
+    Given User opens drafted '<name>' eSlip
+    Given At lease one file is added to policy
+    When User download '<file>' file
+    Then File is downloaded on local drive
+
   Scenario Outline: Error handling on new vehicle form
     Given User opens drafted '<name>' eSlip
     When User clicks next

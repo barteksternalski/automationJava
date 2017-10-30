@@ -91,3 +91,4 @@ Feature: Verify miscellaneous functionalities
       | broker1   |                 |         |             |                       |           |         |             |           |           |       |         |             |             | RSA Canada  | Broker      |
       | broker1   |                 |         |             |                       |           |         |             |           |           |       |         |             |             | Carrier2    | Broker      |
       | broker2   |                 |         |             |                       |           |         |             |           |           |       |         |             |             | RSA Canada  | Broker2     |
+

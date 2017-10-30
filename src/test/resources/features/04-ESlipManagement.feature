@@ -7,6 +7,12 @@ Feature: Manage eSlip list
     When User navigates to list of drafts
     Then List of created drafts is displayed
 
+  Scenario: User can preview sent eSlip
+    Given User is on dashboard screen
+    When User navigates to list of sent eSlips
+    When User previews one of sent eSlip
+    Then ESlip preview is displayed
+
   Scenario: User can send eSlip from create single form
     Given User is creating single eSlip
     When User sends created eSlip
