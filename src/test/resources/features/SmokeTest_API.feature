@@ -10,8 +10,8 @@ Feature: API integration
     Then Access token is sent back by the system
 
     Examples:
-      | comm    | login                               | pass        |
-      | SignIn  | admin.five@csiodev.onmicrosoft.com  | Si3ple9Ass  |
+      | comm    | login                                   | pass        |
+      | SignIn  | default.carrier@csiodev.onmicrosoft.com | Si3ple9Ass  |
 
   Scenario Outline: Verify unsuccessful sign in request
     Given System API is up and running
@@ -29,5 +29,15 @@ Feature: API integration
       | SignIn  |                                     | Kokos       | UserId field is required                                        |
       | SignIn  |                                     |             | UserId field is required                                        |
       | SignIn  |                                     |             | Password field is required                                      |
-      |         | admin.five@csiodev.onmicrosoft.com  | Si3ple9Ass  | CommandType field is required                                   |
       | SignIn  | dsadsa                              | dsadsa      | Unknown User Type                                               |
+
+  Scenario Outline: Verify successful eSlip request
+    Given System API is up and running
+    When User sends eSlip creation request with following data
+      | OtherId         | <otherId>     |
+      | CommercialName  | <carrierName> |
+    Then ESlip is properly created in the system
+
+    Examples:
+      | otherId       | carrierName       |
+      | id 32432      | RSA Canada        |
