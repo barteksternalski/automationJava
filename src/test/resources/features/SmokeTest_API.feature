@@ -1,3 +1,4 @@
+@SmokeAPI
 Feature: API integration
   As a User I want to verify API integration with the system
 
@@ -36,8 +37,9 @@ Feature: API integration
     When User sends eSlip creation request with following data
       | OtherId         | <otherId>     |
       | CommercialName  | <carrierName> |
+      | UserEmail       | <email>       |
     Then ESlip is properly created in the system
 
     Examples:
-      | otherId       | carrierName       |
-      | id 32432      | RSA Canada        |
+      | otherId       | carrierName       | email                       |
+      | id 32432      | RSA Canada        | b.sternalski@avanade.com    |

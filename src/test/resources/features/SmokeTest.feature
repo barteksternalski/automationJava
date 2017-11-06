@@ -1,4 +1,4 @@
-@Smoke
+@SmokeUI
 Feature: misc test
   I want to verify things
 

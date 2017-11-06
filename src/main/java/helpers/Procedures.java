@@ -1,13 +1,19 @@
 package helpers;
 
+import org.apache.commons.io.IOUtils;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.Base64;
 
 public class Procedures {
 
@@ -82,6 +88,20 @@ public class Procedures {
         return s.substring(0, length);
     }
 
+    public static String convertFileToBase64() {
+        String base64Image = "";
+        File file = new File("src/test/resources/testFiles/andromeda.jpg");
+        try (FileInputStream imageInFile = new FileInputStream(file)) {
+            byte imageData[] = new byte[(int) file.length()];
+            imageInFile.read(imageData);
+            base64Image = Base64.getEncoder().encodeToString(imageData);
+        } catch (FileNotFoundException e) {
+            System.out.println("Image not found" + e);
+        } catch (IOException ioe) {
+            System.out.println("Exception while reading the Image " + ioe);
+        }
+        return base64Image;
+    }
 
 
 }

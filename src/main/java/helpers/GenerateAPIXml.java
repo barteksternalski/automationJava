@@ -1,9 +1,10 @@
 package helpers;
 
 import cucumber.api.DataTable;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static helpers.Procedures.*;
 
 public class GenerateAPIXml {
 
@@ -79,7 +80,7 @@ public class GenerateAPIXml {
                 "<PhoneNumber>+1-555-5551212</PhoneNumber>\n" +
                 "</PhoneInfo>\n" +
                 "<EmailInfo>\n" +
-                "<EmailAddr>Sibylle@test.com</EmailAddr>\n" +
+                "<EmailAddr>" + rawTable.get(2).get(1) + "</EmailAddr>\n" +
                 "</EmailInfo>\n" +
                 "<LanguageCd>EN</LanguageCd>\n" +
                 "</Communications>\n" +
@@ -126,11 +127,7 @@ public class GenerateAPIXml {
                 "<AttachmentDesc>Policy Document</AttachmentDesc>\n" +
                 "<AttachmentTypeCd>csio:DEC</AttachmentTypeCd>\n" +
                 "<AttachmentFilename>DEC_POL123461.pdf</AttachmentFilename>\n" +
-                "</FileAttachmentInfo>\n" +
-                "<FileAttachmentInfo>\n" +
-                "<AttachmentDesc>Billing Document</AttachmentDesc>\n" +
-                "<AttachmentTypeCd>csio:BLN</AttachmentTypeCd>\n" +
-                "<AttachmentFilename>BLN_POL123461.pdf</AttachmentFilename>\n" +
+                "<AttachmentContent>" + Procedures.convertFileToBase64() + "</AttachmentContent>\n" +
                 "</FileAttachmentInfo>\n" +
                 "<csio:RemarksInfo id=\"Salutation\">\n" +
                 "<RemarkText>Dear Sibylle &amp; Rob Lingwood,</RemarkText>\n" +

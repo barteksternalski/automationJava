@@ -21,12 +21,12 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     private static final String appUrl  = "http://cssitcacweb01-dev.azurewebsites.net";
     private Scenario myScenario;
 
-    @Before
+    @Before("@SmokeUI")
     public void beforeScenario(Scenario scenario) {
         myScenario = scenario;
     }
 
-    @After
+    @After("@SmokeUI")
     public void afterScenario() throws Throwable {
         try {
             myScenario.write("Current Page URL is " + driver.getCurrentUrl());
