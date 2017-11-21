@@ -62,6 +62,20 @@ Feature: Manage eSlip list
       | list        |
       | 1, 2, ,3 ,4 |
 
+  Scenario Outline: User can delete cloned eSlip
+    Given User is on login page
+    When User enters '<login>' and '<password>'
+    When User navigates to Sent tab
+    When User clones selected eSlips
+      | ESlip list  | <list>  |
+    When User navigates to Draft tab
+    When User deleted cloned eSlip
+    Then Cloned eSlip is removed from system
+
+    Examples:
+      | list        |
+      | 1           |
+
   Scenario Outline: User can delete drafted eSlip
     Given User is on login page
     When User enters '<login>' and '<password>'

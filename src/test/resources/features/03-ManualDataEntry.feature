@@ -36,6 +36,39 @@ Feature: Manual data entry
       | a       | a           | a         | 1         | English | Manitoba    | a         |           | {null}  | 1       | 5/5/2010    | 5/5/2010    | RSA Canada  | a         | Please enter the city.              |
       | a       | a           | a         | 1         | English | Manitoba    | a         |           | a       | {null}  | 5/5/2010    | 5/5/2010    | RSA Canada  | a         | Please enter the postal code.       |
 
+  Scenario Outline: Verify proper date format
+    Given User is creating new eEslip
+    When User creates new eSlip with given customer and policy information with given data
+      | Name                    | <name>        |
+      | Policy Number           | <policyNo>    |
+      | Email                   | <email>       |
+      | Phone Number            | <phoneNo>     |
+      | Preferred Language      | <lang>        |
+      | Province                | <province>    |
+      | Address 1               | <address1>    |
+      | Address 2               | <address2>    |
+      | City                    | <city>        |
+      | Postal Code             | <code>        |
+      | Policy Effective Date   | <effDate>     |
+      | Policy Expiration Date  | <expDate>     |
+      | Insurer                 | <insurer>     |
+      | Brokerage               | <broker>      |
+    When User clicks next
+    Then Proper error message '<message>' is displayed
+
+    Examples:
+      | name    | policyNo    | email       | phoneNo   | lang    | province    | address1  | address2  | city    | code    | effDate     | expDate     | insurer     | broker    | message           |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 2010-10-10  | 2020-10-10  | RSA Canada  | Banan     | {null}            |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 2010/10/10  | 2020-10-10  | RSA Canada  | Banan     | Wrong format date |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 06/10/2010  | 2020-10-10  | RSA Canada  | Banan     | Wrong format date |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 06-20-2010  | 2020-10-10  | RSA Canada  | Banan     | Wrong format date |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 20-06-2010  | 2020-10-10  | RSA Canada  | Banan     | Wrong format date |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 20/06/2010  | 2020-10-10  | RSA Canada  | Banan     | Wrong format date |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 2020-10-10  | 2010/10/10  | RSA Canada  | Banan     | Wrong format date |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 2020-10-10  | 06/10/2010  | RSA Canada  | Banan     | Wrong format date |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 2020-10-10  | 06-20-2010  | RSA Canada  | Banan     | Wrong format date |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 2020-10-10  | 20-06-2010  | RSA Canada  | Banan     | Wrong format date |
+      | kokos   | 123123123   | banan@wp.pl | 123123123 | English | Manitoba    | kokos     | baton     | krk     |  30300  | 2020-10-10  | 20/06/2010  | RSA Canada  | Banan     | Wrong format date |
 
   Scenario Outline: User is able to fill Customer and Policy Information
     Given User is creating new eEslip

@@ -92,3 +92,12 @@ Feature: Verify miscellaneous functionalities
       | broker1   |                 |         |             |                       |           |         |             |           |           |       |         |             |             | Carrier2    | Broker      |
       | broker2   |                 |         |             |                       |           |         |             |           |           |       |         |             |             | RSA Canada  | Broker2     |
 
+  Scenario Outline: Email should be sent in preferred language
+    Given User is on dashboard page
+    When User sends new eSlip with preferred '<lang>' language
+    Then Email in '<lang>' language is sent to end User
+
+    Examples:
+      | lang      |
+      | English   |
+      | French    |

@@ -17,6 +17,45 @@ public class GenerateAPIXml {
                 "</LoginRequest>";
     }
 
+    public static String getCsioNETLoginRequestBody(DataTable table) {
+        List<List<String>> rawTable = table.raw();
+        return  "<Request>\n" +
+                "  <CommandType>" + rawTable.get(0).get(1) + "</CommandType>\n" +
+                "  <CSIOnetID>" + rawTable.get(1).get(1) + "</CSIOnetID>\n" +
+                "  <CSIOnetPassword>" + rawTable.get(2).get(1) + "</CSIOnetPassword>\n" +
+                "</Request>\n";
+    }
+
+    public static String getCsioNETListOfMessagesBody(String sessionGUID, String userGUID, DataTable table) {
+        List<List<String>> rawTable = table.raw();
+        return  "<Request>\n" +
+                "\t<CommandType>List</CommandType>\n" +
+                "\t<SessionGUID>" + sessionGUID + "</SessionGUID>\n" +
+                "\t<UserGUID>" + userGUID + "</UserGUID>\n" +
+                "\t<FromDateTime>" + rawTable.get(0).get(1) + "</FromDateTime>\n" +
+                "\t<ToDateTime>" + rawTable.get(1).get(1) + "</ToDateTime>\n" +
+                "\t<Page>" + rawTable.get(2).get(1) + "</Page>\n" +
+                "\t<PageSize>" + rawTable.get(3).get(1) + "</PageSize>\n" +
+                "</Request>";
+    }
+
+    public static String getCsioNETSingleMessagesBody(String sessionGUID, String userGUID, String messageGUID) {
+        return  "<Request>\n" +
+                "    <CommandType>Retrieve</CommandType>\n" +
+                "    <SessionGUID>" + sessionGUID + "</SessionGUID>\n" +
+                "    <UserGUID>" + userGUID + "</UserGUID>\n" +
+                "    <MessageGUID>" + messageGUID + "</MessageGUID>\n" +
+                "    <Delete>0</Delete>\n" +
+                "</Request>";
+    }
+
+    public static String getCsioNETLogoutRequestBody(String sessionID) {
+        return  "<Request>\n" +
+                "  <CommandType>SignOut</CommandType>\n" +
+                "  <SessionGUID>" + sessionID + "</SessionGUID>\n" +
+                "</Request>";
+    }
+
     private static String getVehicleSection(String manufacturer, String model, String year, String vin) {
         return "<csio:PCVEH>\n" +
                 "<Manufacturer>" + manufacturer + "</Manufacturer>\n" +
@@ -129,39 +168,153 @@ public class GenerateAPIXml {
                 "<AttachmentFilename>DEC_POL123461.pdf</AttachmentFilename>\n" +
                 "<AttachmentContent>" + Procedures.convertFileToBase64() + "</AttachmentContent>\n" +
                 "</FileAttachmentInfo>\n" +
-                "<csio:RemarksInfo id=\"Salutation\">\n" +
-                "<RemarkText>Dear Sibylle &amp; Rob Lingwood,</RemarkText>\n" +
+                "<csio:RemarksInfo>\n" +
+                "<ItemIdInfo>\n" +
+                "<csio:FixedId>Salutation</csio:FixedId>\n" +
+                "</ItemIdInfo>\n" +
+                "<RemarkText>Dear Test User,</RemarkText>\n" +
                 "</csio:RemarksInfo>\n" +
-                "<csio:RemarksInfo id=\"Customer_Message\">\n" +
+                "\n" +
+                "<csio:RemarksInfo>\n" +
+                "<ItemIdInfo>\n" +
+                "<csio:FixedId>Customer_Message</csio:FixedId>\n" +
+                "</ItemIdInfo>\n" +
                 "<RemarkText>Did you know...</RemarkText>\n" +
                 "</csio:RemarksInfo>\n" +
-                "<csio:RemarksInfo id=\"Carrier_Details\">\n" +
+                "\n" +
+                "<csio:RemarksInfo>\n" +
+                "<ItemIdInfo>\n" +
+                "<csio:FixedId>Carrier_Details</csio:FixedId>\n" +
+                "</ItemIdInfo>\n" +
                 "<RemarkText>\n" +
                 "XYZ Insurance Company\n" +
                 "Head Office:  Toronto, Ontario\n" +
                 "Claims Service:  1-800-265-8600\t\n" +
                 "</RemarkText>\n" +
                 "</csio:RemarksInfo>\n" +
-                "<csio:RemarksInfo id=\"Broker_Details\">\n" +
+                "\n" +
+                "<csio:RemarksInfo>\n" +
+                "<ItemIdInfo>\n" +
+                "<csio:FixedId>Broker_Details</csio:FixedId>\n" +
+                "</ItemIdInfo>\n" +
                 "<RemarkText>\n" +
-                "ABC Brokerage\n" +
+                "Test Broker\n" +
                 "Contact:  Bob Smith\n" +
                 "Telephone:  +1-514-123-1234\n" +
                 "Email:  bob@abcbrokerage.com\n" +
                 "Address:  321 Main Str., Cambridge, Ontario\n" +
                 "</RemarkText>\n" +
-                "</csio:RemarksInfo>\t\t\n" +
-                "<csio:RemarksInfo id=\"Insured_Details\">\n" +
+                "</csio:RemarksInfo>    \n" +
+                "\n" +
+                "<csio:RemarksInfo>\n" +
+                "<ItemIdInfo>\n" +
+                "<csio:FixedId>Insured_Details</csio:FixedId>\n" +
+                "</ItemIdInfo>\n" +
                 "<RemarkText>\n" +
-                "Sibylle Lingwood \n" +
-                "Rob Lingwood\n" +
+                "Test User \n" +
+                "\n" +
                 "3782 Easy Woods \n" +
                 "Unit 4  \n" +
                 "Prospect, ON\n" +
                 "L8Q 4O8\n" +
                 "</RemarkText>\n" +
-                "</csio:RemarksInfo>\t\n" +
+                "</csio:RemarksInfo>  " +
                 "</eSlipRq>";
+    }
+
+    public static String getCsioNetSendMessageBody(String sessionGUID, String userGUID, DataTable table) {
+        List<List<String>> rawTable = table.raw();
+
+        String xmlAttachment = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n" +
+                "<CommonSvcRs xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:csio=\"http://www.CSIO.org/standards/PC_Surety/CSIO1/xml/\" xmlns:acme=\"http://www.ACME.org/standards/PC_Surety/ACME1/xml/\" xsi:schemaLocation=\"http://www.ACORD.org/standards/PC_Surety/ACORD1/xml/ACORD-ca-v1-23-0-yescode.xsd\" xmlns=\"http://www.ACORD.org/standards/PC_Surety/ACORD1/xml/\">\n" +
+                "  <RqUID>45b243c3-e84f-4b88-acf6-e2a500da2e2c</RqUID>\n" +
+                "  <SPName>myproofofinsurance.ca</SPName>\n" +
+                "  <ActivityNoteRs>\n" +
+                "    <RqUID>8aab0a12-8379-4c62-add5-5a30c75fb693</RqUID>\n" +
+                "    <TransactionResponseDt>2017-11-15T00:00:00Z</TransactionResponseDt>\n" +
+                "    <MsgStatus>\n" +
+                "      <MsgStatusCd>ResultPendingOutOfBand</MsgStatusCd>\n" +
+                "    </MsgStatus>\n" +
+                "    <InsuredOrPrincipal>\n" +
+                "      <GeneralPartyInfo>\n" +
+                "        <NameInfo>\n" +
+                "          <CommlName>\n" +
+                "            <CommercialName>Sibylle &amp; Rob Lingwood</CommercialName>\n" +
+                "          </CommlName>\n" +
+                "        </NameInfo>\n" +
+                "      </GeneralPartyInfo>\n" +
+                "    </InsuredOrPrincipal>\n" +
+                "    <PartialPolicy>\n" +
+                "      <PolicyNumber>" + rawTable.get(0).get(1) + "</PolicyNumber>\n" +
+                "      <LOBCd>csio:AUTO</LOBCd>\n" +
+                "      <ContractTerm>\n" +
+                "        <EffectiveDt>" + rawTable.get(1).get(1) + "</EffectiveDt>\n" +
+                "        <ExpirationDt>" + rawTable.get(2).get(1) + "</ExpirationDt>a\n" +
+                "      </ContractTerm>\n" +
+                "      <csio:CompanyCd>XYZ</csio:CompanyCd>\n" +
+                "    </PartialPolicy>\n" +
+                "    <FileAttachmentInfo>\n" +
+                "      <AttachmentDesc>OK - eSlip - Sibylle_&amp;_Rob_Lingwood - " + rawTable.get(0).get(1) + "</AttachmentDesc>\n" +
+                "      <AttachmentTypeCd>csio:OTH</AttachmentTypeCd>\n" +
+                "      <MIMEContentTypeCd>application/octet-stream</MIMEContentTypeCd>\n" +
+                "      <MIMEEncodingTypeCd>BASE64</MIMEEncodingTypeCd>\n" +
+                "      <AttachmentFilename>Sibylle_&amp;_Rob_Lingwood_" + rawTable.get(0).get(1) + "_MEM.txt</AttachmentFilename>\n" +
+                "      <AttachmentStatusCd>csio:5</AttachmentStatusCd>\n" +
+                "    </FileAttachmentInfo>\n" +
+                "  </ActivityNoteRs>\n" +
+                "</CommonSvcRs>";
+
+        String txtAttachment = "OK - eSlip - Sibylle_&_Rob_Lingwood - " + rawTable.get(0).get(1) + "\n" +
+                "\n" +
+                "\n" +
+                "Client information:\n" +
+                "Name: Sibylle & Rob Lingwood\n" +
+                "Email: " + rawTable.get(3).get(1) + "\n" +
+                "\n" +
+                "Policy information:\n" +
+                "Policy Number: " + rawTable.get(0).get(1) + "\n" +
+                "Line of business: csio:AUTO\n" +
+                "Effective date: " + rawTable.get(1).get(1) + "\n" +
+                "Expiry date: " + rawTable.get(2).get(1) + "\n" +
+                "\n" +
+                "Vehicle Information:\n" +
+                "Make: Ford\n" +
+                "Model: Escape\n" +
+                "Year: 2017\n" +
+                "VIN: 1FMCU9G92HUC02638\n" +
+                "Vehicle Information:\n" +
+                "Make: Audi\n" +
+                "Model: A8\n" +
+                "Year: 2017\n" +
+                "VIN: 1FMCU9G92HUC02639\n" +
+                "\n" +
+                "Document Information:\n" +
+                "Type: DEC\n" +
+                "Description: Policy Document\n" +
+                "File name: ppinio.xf";
+
+        return "<Request>\n" +
+                "  <CommandType>Send</CommandType>\n" +
+                "  <SessionGUID>" + sessionGUID + "</SessionGUID>\n" +
+                "  <UserGUID>" + userGUID + "</UserGUID>\n" +
+                "  <ToEmailAddress>avanade@vendor.edi.csio.com</ToEmailAddress>\n" +
+                "  <FromEmailAddress>avanade@vendor.edi.csio.com</FromEmailAddress>\n" +
+                "  <MessageType>eDoc</MessageType>\n" +
+                "  <MessageSubject>XML Xmit Msg-Id#:" + Procedures.generateDateWithCurrentMiliseconds() + "avanade@vendor.edi.csio.com</MessageSubject>\n" +
+                "  <Attachments count=\"2\">\n" +
+                "     <Attachment filename=\"Test_User_" + rawTable.get(0).get(1) + "_MEM.xml\" mimetype=\"application/xml\">\n" +
+                "\n" +
+                Procedures.convertStringToBase64(xmlAttachment) +
+                "\n" +
+                "\n" +
+                "</Attachment>\n" +
+                "        <Attachment filename=\"Test_User_" + rawTable.get(0).get(1) + "_MEM.txt\" mimetype=\"application/octet-stream\">\n" +
+                "\n" +
+                Procedures.convertStringToBase64(txtAttachment) +
+                "\n" +
+                "</Attachment>\n" +
+                "  </Attachments>\n" +
+                "</Request>\n";
     }
 
 }

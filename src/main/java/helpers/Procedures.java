@@ -1,6 +1,6 @@
 package helpers;
 
-import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import java.awt.*;
@@ -103,5 +103,13 @@ public class Procedures {
         return base64Image;
     }
 
+    public static String convertStringToBase64(String input) {
+        return Base64.getEncoder().encodeToString(input.getBytes());
+    }
+
+    public static String generateDateWithCurrentMiliseconds() {
+        DateTime time = new DateTime();
+        return Integer.toString(time.getYear()) + Integer.toString(time.getMonthOfYear()) + Integer.toString(time.getDayOfMonth()) + Long.toString(time.getMillis()).substring(4);
+    }
 
 }

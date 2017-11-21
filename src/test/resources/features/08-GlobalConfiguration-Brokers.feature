@@ -27,6 +27,9 @@ Feature: Global Configuration - Brokers handling
       | name    | address | code    | details | message                                |
       |         |         |         |         | Broker with such name already exists   |
       |         |         |         |         | Broker with such code already exists   |
+      |         |         |         |         | Please enter the name                  |
+      |         |         |         |         | Please enter the code                  |
+      |         |         |         |         | Please enter the address               |
 
   Scenario Outline: User can modify existing broker
     Given User is on dashboard page
