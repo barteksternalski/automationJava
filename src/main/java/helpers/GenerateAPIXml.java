@@ -227,48 +227,50 @@ public class GenerateAPIXml {
 
         String xmlAttachment = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n" +
                 "<CommonSvcRs xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:csio=\"http://www.CSIO.org/standards/PC_Surety/CSIO1/xml/\" xmlns:acme=\"http://www.ACME.org/standards/PC_Surety/ACME1/xml/\" xsi:schemaLocation=\"http://www.ACORD.org/standards/PC_Surety/ACORD1/xml/ACORD-ca-v1-23-0-yescode.xsd\" xmlns=\"http://www.ACORD.org/standards/PC_Surety/ACORD1/xml/\">\n" +
-                "  <RqUID>45b243c3-e84f-4b88-acf6-e2a500da2e2c</RqUID>\n" +
+                "  <RqUID>99c520f0-f10a-49f4-8392-019960ded650</RqUID>\n" +
                 "  <SPName>myproofofinsurance.ca</SPName>\n" +
                 "  <ActivityNoteRs>\n" +
-                "    <RqUID>8aab0a12-8379-4c62-add5-5a30c75fb693</RqUID>\n" +
-                "    <TransactionResponseDt>2017-11-15T00:00:00Z</TransactionResponseDt>\n" +
+                "    <RqUID>90354320-444a-41da-83d3-fe8ba1ec5b62</RqUID>\n" +
+                "    <TransactionResponseDt>" + Procedures.generateDateWithDashes() + "T00:00:00Z</TransactionResponseDt>\n" +
                 "    <MsgStatus>\n" +
                 "      <MsgStatusCd>ResultPendingOutOfBand</MsgStatusCd>\n" +
                 "    </MsgStatus>\n" +
+                "    <TransactionSeqNumber>1</TransactionSeqNumber>\n" +
                 "    <InsuredOrPrincipal>\n" +
                 "      <GeneralPartyInfo>\n" +
                 "        <NameInfo>\n" +
                 "          <CommlName>\n" +
-                "            <CommercialName>Sibylle &amp; Rob Lingwood</CommercialName>\n" +
+                "            <CommercialName>Bartlomiej Sternalski</CommercialName>\n" +
                 "          </CommlName>\n" +
                 "        </NameInfo>\n" +
                 "      </GeneralPartyInfo>\n" +
                 "    </InsuredOrPrincipal>\n" +
                 "    <PartialPolicy>\n" +
-                "      <PolicyNumber>" + rawTable.get(0).get(1) + "</PolicyNumber>\n" +
+                "      <PolicyNumber>pol1233456</PolicyNumber>\n" +
                 "      <LOBCd>csio:AUTO</LOBCd>\n" +
                 "      <ContractTerm>\n" +
                 "        <EffectiveDt>" + rawTable.get(1).get(1) + "</EffectiveDt>\n" +
-                "        <ExpirationDt>" + rawTable.get(2).get(1) + "</ExpirationDt>a\n" +
+                "        <ExpirationDt>" + rawTable.get(2).get(1) + "</ExpirationDt>\n" +
                 "      </ContractTerm>\n" +
-                "      <csio:CompanyCd>XYZ</csio:CompanyCd>\n" +
+                "      <csio:CompanyCd>ROY</csio:CompanyCd>\n" +
                 "    </PartialPolicy>\n" +
+                "    <BusinessPurposeTypeCd>csio:MEM</BusinessPurposeTypeCd>\n" +
                 "    <FileAttachmentInfo>\n" +
-                "      <AttachmentDesc>OK - eSlip - Sibylle_&amp;_Rob_Lingwood - " + rawTable.get(0).get(1) + "</AttachmentDesc>\n" +
+                "      <AttachmentDesc>OK - eDelivery - Bartlomiej Sternalski - " + rawTable.get(0).get(1) + "</AttachmentDesc>\n" +
                 "      <AttachmentTypeCd>csio:OTH</AttachmentTypeCd>\n" +
                 "      <MIMEContentTypeCd>application/octet-stream</MIMEContentTypeCd>\n" +
                 "      <MIMEEncodingTypeCd>BASE64</MIMEEncodingTypeCd>\n" +
-                "      <AttachmentFilename>Sibylle_&amp;_Rob_Lingwood_" + rawTable.get(0).get(1) + "_MEM.txt</AttachmentFilename>\n" +
+                "      <AttachmentFilename>Bartlomiej_Sternalski_" + rawTable.get(0).get(1) + "_MEM.txt</AttachmentFilename>\n" +
                 "      <AttachmentStatusCd>csio:5</AttachmentStatusCd>\n" +
                 "    </FileAttachmentInfo>\n" +
                 "  </ActivityNoteRs>\n" +
                 "</CommonSvcRs>";
 
-        String txtAttachment = "OK - eSlip - Sibylle_&_Rob_Lingwood - " + rawTable.get(0).get(1) + "\n" +
+        String txtAttachment = "OK - eDelivery - Bartlomiej Sternalski - " + rawTable.get(0).get(1) + "\n" +
                 "\n" +
                 "\n" +
                 "Client information:\n" +
-                "Name: Sibylle & Rob Lingwood\n" +
+                "Name: Bartlomiej Sternalski\n" +
                 "Email: " + rawTable.get(3).get(1) + "\n" +
                 "\n" +
                 "Policy information:\n" +
@@ -278,20 +280,15 @@ public class GenerateAPIXml {
                 "Expiry date: " + rawTable.get(2).get(1) + "\n" +
                 "\n" +
                 "Vehicle Information:\n" +
-                "Make: Ford\n" +
-                "Model: Escape\n" +
+                "Make: AlfaRomeo\n" +
+                "Model: Mito\n" +
                 "Year: 2017\n" +
-                "VIN: 1FMCU9G92HUC02638\n" +
-                "Vehicle Information:\n" +
-                "Make: Audi\n" +
-                "Model: A8\n" +
-                "Year: 2017\n" +
-                "VIN: 1FMCU9G92HUC02639\n" +
+                "VIN: ALFA939383838\n" +
                 "\n" +
                 "Document Information:\n" +
-                "Type: DEC\n" +
-                "Description: Policy Document\n" +
-                "File name: ppinio.xf";
+                "Type: csio:OTH\n" +
+                "Description: OK - eDelivery - Bartlomiej Sternalski - " + rawTable.get(0).get(1) + "\n" +
+                "File name: Bartlomiej_Sternalski_" + rawTable.get(0).get(1) + "_MEM.txt\n";
 
         return "<Request>\n" +
                 "  <CommandType>Send</CommandType>\n" +
@@ -302,13 +299,13 @@ public class GenerateAPIXml {
                 "  <MessageType>eDoc</MessageType>\n" +
                 "  <MessageSubject>XML Xmit Msg-Id#:" + Procedures.generateDateWithCurrentMiliseconds() + "avanade@vendor.edi.csio.com</MessageSubject>\n" +
                 "  <Attachments count=\"2\">\n" +
-                "     <Attachment filename=\"Test_User_" + rawTable.get(0).get(1) + "_MEM.xml\" mimetype=\"application/xml\">\n" +
+                "     <Attachment filename=\"Bartlomiej_Sternalski_" + rawTable.get(0).get(1) + "_MEM.xml\" mimetype=\"application/xml\">\n" +
                 "\n" +
                 Procedures.convertStringToBase64(xmlAttachment) +
                 "\n" +
                 "\n" +
                 "</Attachment>\n" +
-                "        <Attachment filename=\"Test_User_" + rawTable.get(0).get(1) + "_MEM.txt\" mimetype=\"application/octet-stream\">\n" +
+                "        <Attachment filename=\"Bartlomiej_Sternalski_" + rawTable.get(0).get(1) + "_MEM.txt\" mimetype=\"application/octet-stream\">\n" +
                 "\n" +
                 Procedures.convertStringToBase64(txtAttachment) +
                 "\n" +

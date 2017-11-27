@@ -38,7 +38,7 @@ Feature: CsioNET integration
 
     Examples:
       | from                    | to                      | page    | items   |
-      | 2017-11-01 00:00:00 AM  | 2017-11-30 11:59:59 PM  | 257     | 10      |
+      | 2017-11-01 00:00:00 AM  | 2017-11-30 11:59:59 PM  | 53      | 10      |
 
   Scenario Outline: Get single message from CsioNET
     Given CsioNET API is up and running
@@ -48,7 +48,7 @@ Feature: CsioNET integration
     Examples:
       | no    |
       | 1     |
-      | 5     |
+      | 3     |
 
   Scenario Outline: Sent notification message to CsioNET
     Given CsioNET API is up and running

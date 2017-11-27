@@ -112,4 +112,9 @@ public class Procedures {
         return Integer.toString(time.getYear()) + Integer.toString(time.getMonthOfYear()) + Integer.toString(time.getDayOfMonth()) + Long.toString(time.getMillis()).substring(4);
     }
 
+    public static String generateDateWithDashes() {
+        DateTime time = new DateTime();
+        return Integer.toString(time.getYear()) + "-" + Integer.toString(time.getMonthOfYear()) + "-" + Integer.toString(time.getDayOfMonth());
+    }
+
 }
