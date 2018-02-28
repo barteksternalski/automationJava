@@ -79,6 +79,7 @@ public class GenerateAPIXml {
                 "<eSlipRq xmlns=\"http://www.ACORD.org/standards/PC_Surety/ACORD1/xml/\" xmlns:csio=\"http://www.CSIO.org/standards/PC_Surety/CSIO1/xml/\" xmlns:acme=\"http://www.ACME.org/standards/PC_Surety/ACME1/xml/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.CSIO.org/standards/PC_Surety/CSIO1/xml/ CSIO-v1-0-0-eSlip.xsd\">\n" +
                 "<RqUID>c15e1a3f-dc80-495a-9507-c96178e1327e</RqUID>\n" +
                 "<TransactionRequestDt>2013-09-30</TransactionRequestDt>\n" +
+                "<TransactionSeqNumber>1</TransactionSeqNumber>\n" +
                 "<Producer>\n" +
                 "<ItemIdInfo>\n" +
                 "<OtherIdentifier>\n" +

@@ -66,3 +66,15 @@ Feature: User management
     Given User is on user listing page
     When User deletes selected 'baton'
     Then User 'baton' is no longer listed
+
+  Scenario Outline: Verify users data filtering
+    Given User is on user listing page
+    When User filters users with '<filter>' filters
+    Then Proper data is displayed
+
+    Examples:
+      | filter                                        |
+      | {'Name':'bart'}                               |
+      | {'Name':'bart'; 'E-mail':'b.sternalski'}      |
+      | {'Status':'Undelivered, Failed'}              |
+      | {'Organization':'sit'; 'User ID':'brokerUAT'  |

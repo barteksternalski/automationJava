@@ -12,7 +12,12 @@ Feature: Global Configuration - Carriers handling
 
     Examples:
       | name    | address    | code     | details     |
-      |         |            |          |             |
+      |         |            | 12       |             |
+      |         |            | aa       |             |
+      |         |            | 12       |             |
+      |         |            | 12345    |             |
+      |         |            | ABCDE    |             |
+      |         |            | a2C9x    |             |
 
   Scenario Outline: Error handling on new carrier form
     Given User is on dashboard page
@@ -24,9 +29,14 @@ Feature: Global Configuration - Carriers handling
     Then Proper error message '<message>' is displayed
 
     Examples:
-      | name    | address | code    | details | message                                |
-      |         |         |         |         | Carrier with such name already exists  |
-      |         |         |         |         | Carrier with such code already exists  |
+      | name    | address | code    | details | message                                           |
+      |         |         |         | {null}  | Carrier with such code already exists             |
+      | Test    | Test    | a       | {null}  | Carrier code must be at least 2 characters long.  |
+      | Test    | Test    | {null}  | {null}  | Please enter the code.                            |
+      | Test    | Test    | -302    | {null}  | Carrier Code must be alphanumeric.                |
+      | Test    | Test    | 2 3     | {null}  | Carrier Code must be alphanumeric.                |
+      | Test    | Test    | 0-[2]   | {null}  | Carrier Code must be alphanumeric.                |
+
 
   Scenario Outline: User can modify existing carrier
     Given User is on dashboard page

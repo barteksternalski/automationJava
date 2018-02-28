@@ -12,7 +12,7 @@ Feature: API integration
 
     Examples:
       | comm    | login                                   | pass        |
-      | SignIn  | default.carrier@csiodev.onmicrosoft.com | Si3ple9Ass  |
+      | SignIn  | default.carrier@csiodev.onmicrosoft.com | Infusi0n!   |
 
   Scenario Outline: Verify unsuccessful sign in request
     Given System API is up and running

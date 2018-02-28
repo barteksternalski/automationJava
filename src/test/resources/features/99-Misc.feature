@@ -101,3 +101,32 @@ Feature: Verify miscellaneous functionalities
       | lang      |
       | English   |
       | French    |
+
+  Scenario: Attachment file names should be removed after copying eSlip
+    Given ESlip with at least one attachment is sent
+    When User copies eSlip
+    Then Attachment names should be removed from copy
+
+  Scenario: Attachment file names should be removed after copying eDelivery
+    Given EDelivery with at least one attachment is sent
+    When User copies eDelivery
+    Then Attachment names should be removed from copy
+
+  Scenario Outline: Verify Download Button global customization
+    Given User is logged to azure portal
+    When User changes variable connected with Download button
+      | variables:[en]:ButtonText       | <enText>          |
+      | variables:[fr]:ButtonText       | <frText>          |
+      | variables:ButtonTextColor       | <textColor>       |
+      | variables:ButtonBackgroundColor | <backgroundColor> |
+    Then Download button is updated in email template
+
+    Examples:
+      | enText      | frText              | textColor   | backgroundColor    |
+      | Download me | Something in french | #BADA55     | #FAFA00            |
+
+  Scenario: Password expiry notification verification
+    Given User password is about to expired
+    When User logs to system
+    Then Password expiry notification is displayed
+

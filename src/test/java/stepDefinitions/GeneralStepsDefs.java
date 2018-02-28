@@ -45,6 +45,12 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
         initPages();
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
+
+        driver.get("http://demo.litecart.net/admin/login.php");
+        loginPage.navigation();
+
+
+
     }
 
     @Given("^Generate unique name$")
