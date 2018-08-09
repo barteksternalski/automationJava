@@ -1,11 +1,10 @@
 package runner;
 
-import com.cucumber.listener.ExtentCucumberFormatter;
-import com.relevantcodes.extentreports.DisplayOrder;
-import com.relevantcodes.extentreports.NetworkMode;
+import com.vimalselvam.cucumber.listener.ExtentProperties;
+import com.vimalselvam.cucumber.listener.Reporter;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
-import org.junit.BeforeClass;
+import org.junit.*;
 import org.junit.runner.RunWith;
 
 import java.io.File;
@@ -18,11 +17,18 @@ import java.io.File;
         plugin = {"com.cucumber.listener.ExtentCucumberFormatter"} )
 
 public class TestRunner {
+
     @BeforeClass
     public static void setup() {
-        // Initiates the extent report and generates the output in the output/Run_<unique timestamp>/report.html file by default.
-        ExtentCucumberFormatter.initiateExtentCucumberFormatter(new File("target/extent/report.html"), false, DisplayOrder.NEWEST_FIRST, NetworkMode.ONLINE);
-        // Loads the extent config xml to customize on the report.
-        ExtentCucumberFormatter.loadConfig(new File("src/test/resources/extent-config.xml"));
+        ExtentProperties extentProperties = ExtentProperties.INSTANCE;
+        extentProperties.setReportPath("target/reports/myreport.html");
+    }
+
+    @AfterClass
+    public static void teardown() {
+        Reporter.loadXMLConfig(new File("src/test/resources/extent-config.xml"));
+        //Reporter.setSystemInfo("user", System.getProperty("user.name"));
+        //Reporter.setSystemInfo("os", "Windows");
+        //Reporter.setTestRunnerOutput("Sample test runner output message");
     }
 }
