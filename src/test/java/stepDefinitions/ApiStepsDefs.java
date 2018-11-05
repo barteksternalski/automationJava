@@ -41,7 +41,6 @@ public class ApiStepsDefs extends BaseStepsDefs {
         Assert.assertTrue(xml.getList("Message").toString().contains(message));
     }
 
-
     @When("^User sends eSlip creation request with following data$")
     public void userSendsESlipCreationRequestWithFollowingData(DataTable table)  {
         response = given().log().all().contentType("text/xml").header("Accept", "text/xml").header("Authorization", "Bearer ".concat(authToken)).body(GenerateAPIXml.getCreateESlipRequestBody(table)).when().post("/api/integration/eslip").asString();

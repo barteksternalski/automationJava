@@ -1,10 +1,8 @@
 package stepDefinitions;
 
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
+import cucumber.api.java.*;
 import cucumber.api.java.en.*;
 import helpers.MailExtractor;
 import helpers.Procedures;
@@ -48,13 +46,10 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
 
         driver.get("http://demo.litecart.net/admin/login.php");
         loginPage.navigation();
-
-
-
     }
 
     @Given("^Generate unique name$")
-    public void generateName() throws Exception {
+    public void generateName() {
         eSlipName   = Procedures.generateRandomizedStringWithLength(10);
         userId      = Procedures.generateRandomizedStringWithLength(8);
     }
@@ -310,6 +305,7 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
         landingPage.navigateTo("User List");
         listOfUsers.selectUserByName(user);
         listOfUsers.deleteUser();
+
     }
 
     @Then("^User '(.+)' is no longer listed$")
