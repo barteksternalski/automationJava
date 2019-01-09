@@ -47,14 +47,14 @@ public class test {
     public void test_02_search() {
         List<String> myList = Arrays.asList("qa", "devops", "avanade", "qwertyuiop");
 
-        for (String field : myList) {
+        myList.forEach( field -> {
             driver.get("http://avanade.com");
             System.out.println(MessageFormat.format("Searching for: {0}", field));
 
             _homePage.searchForGivenTopic(field);
             System.out.println(MessageFormat.format("Avanade: {0}", _searchResultsPage.getNumberOfResults("Avanade")));
             System.out.println(MessageFormat.format("Blog: {0}", _searchResultsPage.getNumberOfResults("Blog")));
-        }
+        });
     }
 
     @Test
@@ -68,7 +68,6 @@ public class test {
 
         _contactUsPage.sendKeysToInputField("Email", "sadamczyk@avanade.com");
         Assert.assertTrue(_contactUsPage.isButtonActive("submit"));
-
 
         Map<String, String> formData = Map.ofEntries
         (

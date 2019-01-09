@@ -16,7 +16,7 @@ public class driverFactory {
         CHROME,
         FIREFOX,
         SAFARI,
-        IE;
+        IE
     }
 
     //chrome driver supplier
