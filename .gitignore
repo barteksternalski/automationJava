@@ -1,8 +1,7 @@
 .idea/
-output/
 target/
-*.iml
 test-output/
+*.iml
 .settings/
 .classpath
 .project

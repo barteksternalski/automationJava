@@ -21,13 +21,13 @@ public class driverFactory {
 
     //chrome driver supplier
     private static final Supplier<WebDriver> chromeDriverSupplier = () -> {
-        System.setProperty("webdriver.chrome.driver", "C:\\AUTOMATION\\browserDrivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver.exe");
         return new ChromeDriver();
     };
 
     //firefox driver supplier
     private static final Supplier<WebDriver> firefoxDriverSupplier = () -> {
-        System.setProperty("webdriver.gecko.driver", "C:\\AUTOMATION\\browserDrivers\\geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", "src/main/resources/drivers/geckodriver.exe");
         return new FirefoxDriver();
     };
 
