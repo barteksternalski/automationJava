@@ -5,6 +5,3 @@ test-output/
 .settings/
 .classpath
 .project
-
-!src/main/resources/drivers/chromedriver.exe
-!src/main/resources/drivers/geckodriver.exe
