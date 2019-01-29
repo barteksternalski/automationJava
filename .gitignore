@@ -5,3 +5,4 @@ test-output/
 .settings/
 .classpath
 .project
+/src/test/java/AutoGenRunner/

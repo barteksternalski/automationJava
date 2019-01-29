@@ -7,24 +7,15 @@
     <groupId>java</groupId>
     <artifactId>tutorials</artifactId>
     <version>1.0.0</version>
+
     <properties>
-        <seleniumVersion>3.141.59</seleniumVersion>
-        <extentReportsVersion>4.0.0</extentReportsVersion>
-        <extentCucumberVersion>1.0.0</extentCucumberVersion>
-        <cucumberVersion>4.2.0</cucumberVersion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <selenium.version>3.141.59</selenium.version>
+        <extent.reports.version>4.0.0</extent.reports.version>
+        <extent.cucumber.version>1.0.0</extent.cucumber.version>
+        <cucumber.version>4.2.0</cucumber.version>
+        <cucumber.jvm.parallel.plugin.version>5.0.0</cucumber.jvm.parallel.plugin.version>
     </properties>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>9</source>
-                    <target>9</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -34,53 +25,137 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>${seleniumVersion}</version>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-chrome-driver</artifactId>
-            <version>${seleniumVersion}</version>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
-            <version>${seleniumVersion}</version>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-firefox-driver</artifactId>
-            <version>${seleniumVersion}</version>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
-            <version>${extentReportsVersion}</version>
+            <version>${extent.reports.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports-cucumber4-adapter</artifactId>
-            <version>${extentCucumberVersion}</version>
+            <version>${extent.cucumber.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-core</artifactId>
-            <version>${cucumberVersion}</version>
+            <version>${cucumber.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>${cucumberVersion}</version>
+            <version>${cucumber.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>${cucumberVersion}</version>
+            <version>${cucumber.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
-            <version>${cucumberVersion}</version>
+            <version>${cucumber.version}</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <fork>true</fork>
+                    <source>1.9</source>
+                    <target>1.9</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <executions>
+                    <execution>
+                        <id>runTests</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- forks -->
+                    <!--<forkCount>5</forkCount>-->
+                    <!--<reuseForks>true</reuseForks>-->
+                    <!-- threads -->
+                    <threadCount>5</threadCount>
+                    <parallel>classes</parallel>
+                    <includes>
+                        <include>**/Parallel*IT.class</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.temyers</groupId>
+                <artifactId>cucumber-jvm-parallel-plugin</artifactId>
+                <version>${cucumber.jvm.parallel.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generateRunners</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>generateRunners</goal>
+                        </goals>
+                        <configuration>
+                            <glue>
+                                <package>Steps</package>
+                            </glue>
+                            <outputDirectory>src/test/java</outputDirectory> <!-- runner will generate here -->
+                            <featuresDirectory>src/test/resources/features</featuresDirectory> <!--Cucumber feature file location-->
+                            <cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir> <!-- forks -->
+                            <cucumberOutputDir>target</cucumberOutputDir><!-- threads -->
+                            <plugins>
+                                <plugin>
+                                    <name>json</name>
+                                    <extension>json</extension>
+                                    <outputDirectory>${project.build.directory}/cucumber-parallel/json/</outputDirectory>
+                                </plugin>
+                            </plugins>
+                            <strict>true</strict>
+                            <monochrome>true</monochrome>
+                            <!--<tags>-->
+                                <!--<tag>@one</tag>-->
+                                <!--<tag>@two</tag>-->
+                            <!--</tags>-->
+                            <useTestNG>false</useTestNG>
+                            <!-- The naming scheme to use for the generated test classes.  One of ['simple', 'feature-title', 'pattern'] -->
+                            <namingScheme>simple</namingScheme>
+                            <!-- The class naming pattern to use.  Only required/used if naming scheme is 'pattern'.-->
+                            <namingPattern>Parallel{c}IT</namingPattern>
+                            <!-- One of [SCENARIO, FEATURE]. SCENARIO generates one runner per scenario.  FEATURE generates a runner per feature. -->
+                            <parallelScheme>SCENARIO</parallelScheme>
+                            <!-- Specify a custom package name for generated sources. Default is no package.-->
+                            <packageName>AutoGenRunner</packageName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
+        </plugins>
+    </build>
 </project>
