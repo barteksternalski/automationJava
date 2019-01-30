@@ -11,16 +11,19 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <selenium.version>3.141.59</selenium.version>
+        <junit.version>4.12</junit.version>
         <extent.reports.version>4.0.0</extent.reports.version>
         <extent.cucumber.version>1.0.0</extent.cucumber.version>
         <cucumber.version>4.2.0</cucumber.version>
         <cucumber.jvm.parallel.plugin.version>5.0.0</cucumber.jvm.parallel.plugin.version>
+        <maven.failsafe.plugin.version>3.0.0-M3</maven.failsafe.plugin.version>
+        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -78,7 +81,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <fork>true</fork>
                     <source>1.9</source>
@@ -88,7 +91,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>${maven.failsafe.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>runTests</id>
@@ -106,7 +109,7 @@
                     <threadCount>5</threadCount>
                     <parallel>classes</parallel>
                     <includes>
-                        <include>**/Parallel*IT.class</include>
+                        <include>**/AutoGen*TestRunner.class</include>
                     </includes>
                 </configuration>
             </plugin>
@@ -135,6 +138,9 @@
                                     <extension>json</extension>
                                     <outputDirectory>${project.build.directory}/cucumber-parallel/json/</outputDirectory>
                                 </plugin>
+                                <plugin>
+                                    <name>com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter</name>
+                                </plugin>
                             </plugins>
                             <strict>true</strict>
                             <monochrome>true</monochrome>
@@ -144,11 +150,11 @@
                             <!--</tags>-->
                             <useTestNG>false</useTestNG>
                             <!-- The naming scheme to use for the generated test classes.  One of ['simple', 'feature-title', 'pattern'] -->
-                            <namingScheme>simple</namingScheme>
+                            <namingScheme>pattern</namingScheme>
                             <!-- The class naming pattern to use.  Only required/used if naming scheme is 'pattern'.-->
-                            <namingPattern>Parallel{c}IT</namingPattern>
+                            <namingPattern>AutoGen{c}TestRunner</namingPattern>
                             <!-- One of [SCENARIO, FEATURE]. SCENARIO generates one runner per scenario.  FEATURE generates a runner per feature. -->
-                            <parallelScheme>SCENARIO</parallelScheme>
+                            <parallelScheme>FEATURE</parallelScheme>
                             <!-- Specify a custom package name for generated sources. Default is no package.-->
                             <packageName>AutoGenRunner</packageName>
                         </configuration>

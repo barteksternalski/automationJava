@@ -1,5 +1,5 @@
 #Feature: Avanade recruitment tasks
-
+#
 #  Scenario Outline: 001. Main navigation verification
 #    Given User opens Avanade page
 #    When User navigates to '<tab>'
@@ -13,18 +13,18 @@
 #      | Thinking                      | Thinking - Business Issues and Insights \| Avanade      |
 #      | Careers                       | Careers in Business Technology & IT \| Avanade          |
 #      | About Avanade                 | About Avanade \| Avanade                                |
-
-#  Scenario Outline: 02. Position search
-#    Given User opens Avanade page
-#    When User searches for '<position>' position
-#    Then Proper records are displayed
 #
-#    Examples:
-#      | position    |
-#      | qa          |
-#      | devops      |
-#      | avanade     |
-#      | qwertyuiop  |
-
-
-
+##  Scenario Outline: 02. Position search
+##    Given User opens Avanade page
+##    When User searches for '<position>' position
+##    Then Proper records are displayed
+##
+##    Examples:
+##      | position    |
+##      | qa          |
+##      | devops      |
+##      | avanade     |
+##      | qwertyuiop  |
+#
+#
+#
