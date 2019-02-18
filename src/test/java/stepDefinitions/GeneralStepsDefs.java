@@ -390,4 +390,10 @@ public class GeneralStepsDefs extends stepDefinitions.BaseStepsDefs {
     public void userOpensBackTemplatePage() {
         landingPage.navigateTo("E-Slip Back");
     }
+
+    @Given("^Mail verification$")
+    public void mailVerification() throws Exception {
+        MailExtractor.getLastEmailTitle();
+    }
+
 }

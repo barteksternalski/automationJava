@@ -2,4 +2,4 @@
 Feature: Setup environment
 
   Scenario: Setup browser
-    Given Setup browser
+    Given Mail verification

@@ -2,10 +2,8 @@ package helpers;
 
 import net.itarray.automotion.tools.helpers.MailService;
 
-import javax.mail.BodyPart;
-import javax.mail.Flags;
-import javax.mail.Message;
-import javax.mail.Multipart;
+import javax.mail.*;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,8 +39,9 @@ public class MailExtractor {
 
     public static String getPasswordFromLastEmail() throws Exception {
         boolean successFlag = false;
+
         MailService mailService = new MailService();
-        mailService.login("imap.gmail.com", 993, "bartavanade@gmail.com", "Infusi0n!");
+        mailService.login("imap.gmail.com", 993, "fjsklfjdoirewo@gmail.com", "haslowe123!");
         mailService.setFolder(MailService.MailFolder.INBOX);
         String body = "";
         for (int i = 0; i<6; i++) {
@@ -81,6 +80,8 @@ public class MailExtractor {
     }
 
     public static String getLastEmailTitle() throws Exception {
+
+        System.setProperty("https.protocols", "TLSv1");
         boolean successFlag = false;
         MailService mailService = new MailService();
         mailService.login("imap.gmail.com", 993, "bartavanade@gmail.com", "Infusi0n!");
@@ -120,4 +121,21 @@ public class MailExtractor {
         mailService.logout();
         return messages.length;
     }
+
+    //        Properties props = System.getProperties();
+//        props.put("mail.store.protocol", "imaps");
+//        props.put("mail.imaps.host", "imap.gmail.com");
+//        props.put("mail.imaps.port", "993");
+//
+//        Session session = Session.getDefaultInstance(props, null);
+//
+//        Store store = session.getStore("imaps");
+//
+//        store.connect("imap.gmail.com", "bartavanade@gmail.com", "Infusi0n!");
+//
+//        Folder inbox = store.getFolder("inbox");
+//
+//        inbox.open(Folder.READ_ONLY);
+//        inbox.getMessageCount();
+
 }
