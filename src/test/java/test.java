@@ -12,17 +12,16 @@ import java.util.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class test {
 
-    private WebDriver driver;
     private homePage _homePage;
     private searchResultsPage _searchResultsPage;
     private contactUsPage _contactUsPage;
 
     @Before
     public void setupBrowser() {
-        driver =  driverFactory.getDriver(driverFactory.DriverType.CHROME);
-        _homePage = new homePage(driver, 10);
-        _searchResultsPage = new searchResultsPage(driver, 10);
-        _contactUsPage = new contactUsPage(driver, 10);
+        driverFactory.setDriver("chrome");
+        _homePage = new homePage(driverFactory.getDriver(), 10);
+        _searchResultsPage = new searchResultsPage(driverFactory.getDriver(), 10);
+        _contactUsPage = new contactUsPage(driverFactory.getDriver(), 10);
     }
 
     @Test
@@ -36,7 +35,7 @@ public class test {
                         Map.entry( "Careers", "Careers in Business Technology & IT | Avanade"),
                         Map.entry( "About Avanade", "About Avanade | Avanade" )
                 );
-        driver.get("http://avanade.com");
+        driverFactory.getDriver().get("http://avanade.com");
         mainNavigation.forEach((key, value) -> {
             _homePage.gotoMainTab(key);
             Assert.assertEquals(value, _homePage.getPageTitle());
@@ -48,7 +47,7 @@ public class test {
         List<String> myList = Arrays.asList("qa", "devops", "avanade", "qwertyuiop");
 
         myList.forEach( field -> {
-            driver.get("http://avanade.com");
+            driverFactory.getDriver().get("http://avanade.com");
             System.out.println(MessageFormat.format("Searching for: {0}", field));
 
             _homePage.searchForGivenTopic(field);
@@ -59,7 +58,7 @@ public class test {
 
     @Test
     public void test_03_contactUs() {
-        driver.get("http://avanade.com");
+        driverFactory.getDriver().get("http://avanade.com");
         _homePage.goToContactUs();
         Assert.assertTrue(_contactUsPage.isButtonActive("submit"));
 
@@ -82,7 +81,7 @@ public class test {
             Map.entry( "Avanade_Website_ContactUs_Request", "selnium test" )
         );
 
-        driver.get("http://avanade.com");
+        driverFactory.getDriver().get("http://avanade.com");
         _homePage.goToContactUs();
         _homePage.acceptCookies();
         formData.forEach((key, value) -> {
@@ -96,7 +95,7 @@ public class test {
 
     @After
     public void tearDown() {
-        driver.close();
+        driverFactory.getDriver().close();
     }
 
 }

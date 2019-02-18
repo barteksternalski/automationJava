@@ -5,25 +5,26 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.*;
 import environment.driverFactory;
 import org.junit.Assert;
-import org.openqa.selenium.WebDriver;
 import pages.homePage;
-
-import java.lang.management.ManagementFactory;
 
 public class SmokeTestSteps {
 
-    private WebDriver driver;
     private homePage _homePage;
 
-    //@Before
+    @Before
     public void setupBrowser() {
-        driver =  driverFactory.getDriver(driverFactory.DriverType.CHROME);
-        _homePage = new homePage(driver, 10);
+        driverFactory.setDriver("chrome");
+        _homePage = new homePage(driverFactory.getDriver(), 10);
+    }
+
+    @After
+    public void tearDown() {
+        driverFactory.getDriver().close();
     }
 
     @Given("User opens Avanade page")
     public void openAvanadeMainPage() {
-        driver.get("http://avanade.com");
+        driverFactory.getDriver().get("http://avanade.com");
     }
 
     @When("User navigates to '(.+)'")
@@ -36,22 +37,6 @@ public class SmokeTestSteps {
         Assert.assertEquals("Wrong title: " + _homePage.getPageTitle(), title, _homePage.getPageTitle());
     }
 
-    //@After
-    public void tearDown() {
-        driver.close();
-    }
 
-  @Given("Print {string} test from first scenario")
-  public void printNameTestFromFirstScenario(String name) {
-    long threadId = Thread.currentThread().getId();
-    String processName = ManagementFactory.getRuntimeMXBean().getName();
-    System.out.println("Started in thread: " + threadId + ", in JVM: " + processName + ", name: " + name);
-  }
 
-  @Given("Print {string} test from second scenario")
-  public void printNameTestFromSecondScenario(String name) {
-    long threadId = Thread.currentThread().getId();
-    String processName = ManagementFactory.getRuntimeMXBean().getName();
-    System.out.println("Started in thread: " + threadId + ", in JVM: " + processName + ", name: " + name);
-  }
 }
