@@ -6,12 +6,39 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class driverFactory {
 
 
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+    public synchronized static void setRemoteDriver(String browser) {
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        String nodeURL = "http://localhost:4444/wd/hub";
+        if (browser.equals("firefox")) {
+            capabilities = DesiredCapabilities.firefox();
+        } else if (browser.equals("chrome")) {
+            capabilities = DesiredCapabilities.chrome();
+        }
+
+        DesiredCapabilities finalCapabilities = capabilities;
+        driver = ThreadLocal.withInitial(() -> {
+            try {
+                return new RemoteWebDriver(new URL(nodeURL), finalCapabilities);
+            } catch(MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        });
+
+
+    }
 
     public synchronized static void setDriver (String browser) {
         if (browser.equals("firefox")) {

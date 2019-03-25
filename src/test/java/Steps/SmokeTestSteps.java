@@ -13,7 +13,7 @@ public class SmokeTestSteps {
 
     @Before
     public void setupBrowser() {
-        driverFactory.setDriver("chrome");
+        driverFactory.setRemoteDriver("chrome");
         _homePage = new homePage(driverFactory.getDriver(), 10);
     }
 

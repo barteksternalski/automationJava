@@ -18,7 +18,7 @@ public class test {
 
     @Before
     public void setupBrowser() {
-        driverFactory.setDriver("chrome");
+        driverFactory.setRemoteDriver("chrome");
         _homePage = new homePage(driverFactory.getDriver(), 10);
         _searchResultsPage = new searchResultsPage(driverFactory.getDriver(), 10);
         _contactUsPage = new contactUsPage(driverFactory.getDriver(), 10);
@@ -42,56 +42,56 @@ public class test {
         });
     }
 
-    @Test
-    public void test_02_search() {
-        List<String> myList = Arrays.asList("qa", "devops", "avanade", "qwertyuiop");
-
-        myList.forEach( field -> {
-            driverFactory.getDriver().get("http://avanade.com");
-            System.out.println(MessageFormat.format("Searching for: {0}", field));
-
-            _homePage.searchForGivenTopic(field);
-            System.out.println(MessageFormat.format("Avanade: {0}", _searchResultsPage.getNumberOfResults("Avanade")));
-            System.out.println(MessageFormat.format("Blog: {0}", _searchResultsPage.getNumberOfResults("Blog")));
-        });
-    }
-
-    @Test
-    public void test_03_contactUs() {
-        driverFactory.getDriver().get("http://avanade.com");
-        _homePage.goToContactUs();
-        Assert.assertTrue(_contactUsPage.isButtonActive("submit"));
-
-        _contactUsPage.sendKeysToInputField("Email", "qwertyuiiop");
-        Assert.assertFalse(_contactUsPage.isButtonActive("submit"));
-
-        _contactUsPage.sendKeysToInputField("Email", "sadamczyk@avanade.com");
-        Assert.assertTrue(_contactUsPage.isButtonActive("submit"));
-
-        Map<String, String> formData = Map.ofEntries
-        (
-            Map.entry( "FirstName", "Sebastian"),
-            Map.entry( "LastName", "Adamczyk" ),
-            Map.entry( "Email", "sebastian.adamczyk@avanade.com" ),
-            Map.entry( "Country", "Poland" ),
-            Map.entry( "Company", "Avanade"),
-            Map.entry( "Avanade_Functional_Role", "Information Technology" ),
-            Map.entry( "Avanade_Job_Role", "Middle Management" ),
-            Map.entry( "Avanade_Relationship", "Employee - Current or Former" ),
-            Map.entry( "Avanade_Website_ContactUs_Request", "selnium test" )
-        );
-
-        driverFactory.getDriver().get("http://avanade.com");
-        _homePage.goToContactUs();
-        _homePage.acceptCookies();
-        formData.forEach((key, value) -> {
-            _contactUsPage.clickButton("submit");
-            Assert.assertNotNull(_contactUsPage.getErrorMessageForGivenField(key));
-            System.out.println(MessageFormat.format("Error message for: ''{0}'': ''{1}''", key, _contactUsPage.getErrorMessageForGivenField(key)));
-            _contactUsPage.fillFormField(key, value);
-        });
-
-    }
+//    @Test
+//    public void test_02_search() {
+//        List<String> myList = Arrays.asList("qa", "devops", "avanade", "qwertyuiop");
+//
+//        myList.forEach( field -> {
+//            driverFactory.getDriver().get("http://avanade.com");
+//            System.out.println(MessageFormat.format("Searching for: {0}", field));
+//
+//            _homePage.searchForGivenTopic(field);
+//            System.out.println(MessageFormat.format("Avanade: {0}", _searchResultsPage.getNumberOfResults("Avanade")));
+//            System.out.println(MessageFormat.format("Blog: {0}", _searchResultsPage.getNumberOfResults("Blog")));
+//        });
+//    }
+//
+//    @Test
+//    public void test_03_contactUs() {
+//        driverFactory.getDriver().get("http://avanade.com");
+//        _homePage.goToContactUs();
+//        Assert.assertTrue(_contactUsPage.isButtonActive("submit"));
+//
+//        _contactUsPage.sendKeysToInputField("Email", "qwertyuiiop");
+//        Assert.assertFalse(_contactUsPage.isButtonActive("submit"));
+//
+//        _contactUsPage.sendKeysToInputField("Email", "sadamczyk@avanade.com");
+//        Assert.assertTrue(_contactUsPage.isButtonActive("submit"));
+//
+//        Map<String, String> formData = Map.ofEntries
+//        (
+//            Map.entry( "FirstName", "Sebastian"),
+//            Map.entry( "LastName", "Adamczyk" ),
+//            Map.entry( "Email", "sebastian.adamczyk@avanade.com" ),
+//            Map.entry( "Country", "Poland" ),
+//            Map.entry( "Company", "Avanade"),
+//            Map.entry( "Avanade_Functional_Role", "Information Technology" ),
+//            Map.entry( "Avanade_Job_Role", "Middle Management" ),
+//            Map.entry( "Avanade_Relationship", "Employee - Current or Former" ),
+//            Map.entry( "Avanade_Website_ContactUs_Request", "selnium test" )
+//        );
+//
+//        driverFactory.getDriver().get("http://avanade.com");
+//        _homePage.goToContactUs();
+//        _homePage.acceptCookies();
+//        formData.forEach((key, value) -> {
+//            _contactUsPage.clickButton("submit");
+//            Assert.assertNotNull(_contactUsPage.getErrorMessageForGivenField(key));
+//            System.out.println(MessageFormat.format("Error message for: ''{0}'': ''{1}''", key, _contactUsPage.getErrorMessageForGivenField(key)));
+//            _contactUsPage.fillFormField(key, value);
+//        });
+//
+//    }
 
     @After
     public void tearDown() {
