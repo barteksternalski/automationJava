@@ -12,9 +12,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <selenium.version>3.141.59</selenium.version>
         <junit.version>4.12</junit.version>
+        <restAssured.version>3.3.0</restAssured.version>
         <extent.reports.version>4.0.0</extent.reports.version>
         <extent.cucumber.version>1.0.0</extent.cucumber.version>
         <cucumber.version>4.2.0</cucumber.version>
+        <awaitility.version>3.1.6</awaitility.version>
         <cucumber.jvm.parallel.plugin.version>5.0.0</cucumber.jvm.parallel.plugin.version>
         <maven.failsafe.plugin.version>3.0.0-M3</maven.failsafe.plugin.version>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
@@ -74,6 +76,33 @@
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
             <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restAssured.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${restAssured.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>xml-path</artifactId>
+            <version>${restAssured.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>${restAssured.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>${awaitility.version}</version>
         </dependency>
     </dependencies>
     <build>

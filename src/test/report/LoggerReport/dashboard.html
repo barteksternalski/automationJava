@@ -72,7 +72,7 @@
     <div id="content" class="app-content box-shadow-2 box-radius-2" role="main">
         <div class="content-header white  box-shadow-2" id="content-header">
             <div class="navbar navbar-expand-lg">
-                <a class="d-lg-none mx-2" data-toggle="modal" data-target="#aside">
+                <a class="d-lg-none mx-2" dataFinished-toggle="modal" dataFinished-target="#aside">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
                         <path d="M80 304h352v16H80zM80 248h352v16H80zM80 192h352v16H80z"/>
                     </svg>
@@ -275,10 +275,10 @@
 		(function drawParentChart() {
 			var config = {
 		        type: 'doughnut',
-		            data: {
+		            dataFinished: {
 		                datasets: [{
 		                    borderColor: 'transparent',
-		                    data: [
+		                    dataFinished: [
 		                    	3, 0, 0, 0, 0, 0
 		                    ],
 		                    backgroundColor: [
@@ -308,10 +308,10 @@
 			if (document.getElementById("cc")!=null) {
 				var config = {
 			        type: 'doughnut',
-			            data: {
+			            dataFinished: {
 			                datasets: [{
 			                    borderColor: 'transparent',
-			                    data: [
+			                    dataFinished: [
 			                    	8, 0, 0, 0, 0, 0
 			                    ],
 			                    backgroundColor: [
@@ -342,10 +342,10 @@
 			if (document.getElementById("gcc")!=null) {
 				var config = {
 			        type: 'doughnut',
-			            data: {
+			            dataFinished: {
 			                datasets: [{
 			                    borderColor: 'transparent',
-			                    data: [
+			                    dataFinished: [
 			                    	36, 0, 0, 0, 0, 0
 			                    ],
 			                    backgroundColor: [
@@ -386,12 +386,12 @@
     (function drawTimelineChart() {
         var datasets = [];
         for (var key in timeline) {
-            datasets.push({ label:key, data: [ timeline[key] ], backgroundColor: getRandomColor(), borderWidth: 1 });
+            datasets.push({ label:key, dataFinished: [ timeline[key] ], backgroundColor: getRandomColor(), borderWidth: 1 });
         }
         var ctx = document.getElementById('timeline').getContext('2d');
         new Chart(ctx, {
             type: 'horizontalBar',
-            data: {
+            dataFinished: {
                 datasets: datasets
             },
             options: {
