@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-public class propertyReader {
+public class propertyLoader {
 
     private String propertyFileName;
 
-    public propertyReader(String propertyPath) {
+    public propertyLoader(String propertyPath) {
         this.propertyFileName = propertyPath;
     }
 

@@ -1,3 +1,4 @@
+import environment.propertyLoader;
 import io.restassured.RestAssured;
 import io.restassured.mapper.ObjectMapperType;
 import io.restassured.path.json.JsonPath;
@@ -15,23 +16,26 @@ import static org.awaitility.Awaitility.await;
 
 public class SpinTest {
 
+    private static propertyLoader propertyLoader;
+
     @Before
     public void setup() {
+        propertyLoader = new propertyLoader("application.properties");
         Awaitility.reset();
         Awaitility.setDefaultPollDelay(100, MILLISECONDS);
         Awaitility.setDefaultPollInterval(1, SECONDS);
         Awaitility.setDefaultTimeout(30, SECONDS);
-        RestAssured.baseURI = "https://pff.yggdrasilgaming.com/game.web";
+        RestAssured.baseURI = propertyLoader.loadProperty("baseURL");
     }
 
     @Test
     public void userBetsAndSpin() {
         final Response[] response = {
                 given()
-                    //.log().all()
+//                    .log().all()
                     .param("fn", "authenticate")
-                    .param("org", "Demo")
-                    .param("gameid", 7316)
+                    .param("org", propertyLoader.loadProperty("organization"))
+                    .param("gameid", propertyLoader.loadProperty("gameID"))
                 .when().get("/service")
         };
         JsonPath json = response[0].jsonPath();
@@ -40,10 +44,10 @@ public class SpinTest {
 
         await().untilAsserted(() -> {
                     response[0] = given()
-                            //.log().all()
+//                            .log().all()
                                 .param("fn", "play")
-                                .param("org", "Demo")
-                                .param("gameid", 7316)
+                                .param("org", propertyLoader.loadProperty("organization"))
+                                .param("gameid", propertyLoader.loadProperty("gameID"))
                                 .param("sessid", sessid)
                                 .param("currency", "EUR")
                                 .param("coin", 0.05)
@@ -57,8 +61,8 @@ public class SpinTest {
 
         response[0] = given()
                 .param("fn", "play")
-                .param("org", "Demo")
-                .param("gameid", 7316)
+                .param("org", propertyLoader.loadProperty("organization"))
+                .param("gameid", propertyLoader.loadProperty("gameID"))
                 .param("sessid", sessid)
                 .param("currency", "EUR")
                 .param("coin", 0.05)
