@@ -1,32 +1,16 @@
-##pull new images:
-docker pull \<imageName\>
-###selenium hub images to pull:	
-	selenium/hub
-	selenium/node-firefox         
-	selenium/node-chrome 
-	selenium/node-firefox-debug   
-	selenium/node-chrome-debug
-###zalenium images to pull    
-    docker pull elgalu/selenium
-	docker pull dosel/zalenium
-##check installed images:
-	docker images
-##start selenium grid
-###selenium hub
-	docker run -d -p 4444:4444 --name selenium-hub selenium/hub
-###zalenium
-	docker run --rm -ti --name zalenium -p 4444:4444 -p 5555:5555 -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/videos:/home/seluser/videos dosel/zalenium start
-##start browser on selenium hub grid:
-	docker run -d --link selenium-hub:hub selenium/node-chrome
-	docker run -d --link selenium-hub:hub selenium/node-firefox
-##check containers:
-	docker ps -a
-##terminate:
-	docker kill $(docker ps -q)
-	docker rm $(docker ps -a -q)
-	docker rmi $(docker images -q)
-###batch
-	FOR /f "tokens=*" %i IN ('docker ps -q') DO docker stop %i
+https://yggdrasilgaming.com/games/vikings-go-wild/
 
-	
-	
+This is one of our games made available in Play-For-Free system. Our games are using a couple request to server to
+authenticate and get translations in many languages etc. The task consists investigating communication between
+frontend client and backend server and recreating it in any JVM based test framework.
+Create automated test that:
+
+• Logs in into system as anonymous player (using fn=authenticate request)
+• When sessid parameter is received, use it to send spin command (fn=play) until you win any
+• money (end condition: in json respone - field data.wager.bets[0].wonamount > 0)
+Nice to haves:
+
+• Use build tool (either Maven, sbt or Gradle)
+• Create configuration file which will store common variable parameters ex. host name, organization
+
+Good luck and have fun! 

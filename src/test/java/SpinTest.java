@@ -1,8 +1,8 @@
-import api.gameRequests;
 import environment.propertyLoader;
 import io.restassured.mapper.ObjectMapperType;
 import io.restassured.response.Response;
 import models.*;
+import api.*;
 import org.awaitility.Awaitility;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,15 +18,26 @@ public class SpinTest {
 
     @Before
     public void setup() {
+        /*
+                Preloaded data:
+                - application properties file
+                - async request parameters
+         */
         propertyLoader = new propertyLoader("application.properties");
         Awaitility.reset();
         Awaitility.setDefaultPollDelay(100, MILLISECONDS);
         Awaitility.setDefaultPollInterval(1, SECONDS);
-        Awaitility.setDefaultTimeout(30, SECONDS);
+        Awaitility.setDefaultTimeout(60, SECONDS);
     }
 
     @Test
     public void userBetsAndSpin() {
+
+        /*
+               GET request to get sessionID
+               Inputs: baseURL to game, organization, gameID
+               Output: request response -> parse to get needed data (sessionID)
+         */
         final Response[] response = {gameRequests.getAuthenticate(
                 propertyLoader.loadProperty("baseURL"),
                 propertyLoader.loadProperty("organization"),
@@ -35,6 +46,11 @@ public class SpinTest {
         Assert.assertEquals(0, (int) gameRequests.getDataFromResponse(response[0], "code"));
         String sessid = (String) gameRequests.getDataFromResponse(response[0], "data.sessid");
 
+        /*
+                Async GET request - waiting for user to win something
+                Inputs: baseURL to game, organization, gameID, sessionID, currecy, coin amount
+                Output: request response -> parse to get needed data (wagerID, betID, step, command)
+         */
         await().untilAsserted(() -> {
                     response[0] = gameRequests.getPlayPending(
                             propertyLoader.loadProperty("baseURL"),
@@ -50,6 +66,11 @@ public class SpinTest {
 
         SpinResponsePending respPending = response[0].as(SpinResponsePending.class, ObjectMapperType.GSON);
 
+        /*
+                GET request to calculate win amount
+                Inputs: baseURL to game, organization, gameID, sessionID, currecy, coin amount, wagerID, betID, step, command
+                Output: request response -> parse to get needed data (wonAmount)
+         */
         response[0] = gameRequests.getPlayFinished(
                 propertyLoader.loadProperty("baseURL"),
                 propertyLoader.loadProperty("organization"),
