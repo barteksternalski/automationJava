@@ -1,11 +1,8 @@
 .idea/
-output/
 target/
-*.iml
 test-output/
+*.iml
 .settings/
 .classpath
 .project
-
-!src/main/resources/drivers/chromedriver.exe
-!src/main/resources/drivers/geckodriver.exe
+/src/test/java/AutoGenRunner/
