@@ -1,42 +1,44 @@
 package Steps;
 
-import cucumber.api.java.After;
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.junit.ScreenShooter;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.*;
-import environment.driverFactory;
-import org.junit.Assert;
-import pages.homePage;
+import org.junit.Rule;
+import pages.*;
+import java.util.ResourceBundle;
+
+import static com.codeborne.selenide.Selenide.*;
 
 public class SmokeTestSteps {
 
-    private homePage _homePage;
+    private static ResourceBundle rb = ResourceBundle.getBundle("config");
+
+    @Rule
+    public ScreenShooter screenShooter = ScreenShooter.failedTests();
 
     @Before
-    public void setupBrowser() {
-        driverFactory.setRemoteDriver("chrome");
-        _homePage = new homePage(driverFactory.getDriver(), 10);
+    public void setUpEnvironment() {
+        Configuration.remote = rb.getString("selenide.remoteURL");
+        Configuration.browser = rb.getString("selenide.browser");
+        Configuration.startMaximized = rb.getObject("selenide.isMaximized").equals("true");
+        Configuration.reportsFolder = rb.getString("selenide.screenshotsFolder");
     }
 
-    @After
-    public void tearDown() {
-        driverFactory.getDriver().close();
+    @Given("User opens Google page")
+    public void userOpensGooglePage() {
+        open("http://google.com");
     }
 
-    @Given("User opens Avanade page")
-    public void openAvanadeMainPage() {
-        driverFactory.getDriver().get("http://avanade.com");
+    @When("User searches for '(.+)'")
+    public void userSearchesForSelenide(String searchFor) {
+        new GoogleSearchPage().searchFor(searchFor);
     }
 
-    @When("User navigates to '(.+)'")
-    public void navigatesTo(String tab) {
-        _homePage.gotoMainTab(tab);
+    @Then("Proper result '(.+)' is displayed")
+    public void properResultsAreDisplayed(String result) {
+        GoogleResultsPage results = new GoogleResultsPage();
+        results.checkResultsSizeIsAtLeast(1);
+        results.checkResultHasTest(0, result);
     }
-
-    @Then("Proper page title '(.+)' is displayed")
-    public void verifyPageTitle(String title) {
-        Assert.assertEquals("Wrong title: " + _homePage.getPageTitle(), title, _homePage.getPageTitle());
-    }
-
-
-
 }
