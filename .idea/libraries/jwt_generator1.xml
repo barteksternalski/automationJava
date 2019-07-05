@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jwt-generator1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Samples/production/zapi-cloud/generator/java/compiled/jwt-generator.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
