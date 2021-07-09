@@ -5,6 +5,8 @@
 	docker images
 ##start selenium grid
 	docker run --rm -ti --name zalenium -p 4444:4444 -p 5555:5555 -v /var/run/docker.sock:/var/run/docker.sock -v /tmp/videos:/home/seluser/videos dosel/zalenium start
+######if you want to run more/less containers add parameter 
+    --desiredContainers <count>
 #####live view
     http://localhost:4444/grid/admin/live
 ##check containers:
