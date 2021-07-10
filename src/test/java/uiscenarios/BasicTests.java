@@ -1,7 +1,7 @@
 package uiscenarios;
 
 import static com.codeborne.selenide.Selenide.open;
-import static tags.SuiteNames.UI_TESTS;
+import static tags.SuiteNames.UI_TEST;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import pages.GoogleSearchPage;
 public class BasicTests extends BaseUiTest {
 
     @Test
-    @Tag(UI_TESTS)
+    @Tag(UI_TEST)
     public void test() {
         open("http://google.com");
         new GoogleSearchPage().searchFor("banan");
@@ -26,7 +26,7 @@ public class BasicTests extends BaseUiTest {
     }
 
     @Test
-    @Tag(UI_TESTS)
+    @Tag(UI_TEST)
     public void test2() {
         open("http://onet.com");
         new GoogleSearchPage().searchFor("banan");

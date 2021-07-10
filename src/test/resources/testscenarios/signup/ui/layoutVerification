@@ -1,0 +1,9 @@
+Preconditions:
+    - User has access to the application
+1. Open application
+2. Go to registration page
+    - verify that application logo is displayed in the top left corner
+    - verify that navigation buttons are displayed in the top right corner (Home, Sign in, Sign up)
+    - verify that sign up form contains proper fields (username, email, password)
+    - verify that 'Have an account' link is displayed at the top of the sign up form
+    - verify that Sign up button is displayed under form and it is disabled

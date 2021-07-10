@@ -1,0 +1,30 @@
+Preconditions:
+    - User has access to the application
+    - At least one user is already registered
+1. Open application
+2. Go to registration page
+3. Fill username field with existing user name
+4. Fill other fields
+5. Click Sign up button
+    - verify that user remains on the registration page
+    - verify that proper error message is displayed
+6. Fill email field with existing user email
+7. Fill other fields
+8. Click Sign up button
+    - verify that user remains on the registration page
+    - verify that proper error message is displayed
+9. Fill email field with incorrect email
+10. Fill other fields
+11. Click Sign up button
+    - verify that user remains on the registration page
+    - verify that proper error message is displayed
+12. Clear email field
+    - verify that sign up button is disabled
+13. Leave password empty
+14. Fill other fields
+    - verify that sign up button is disabled
+15. Leave username empty
+16. Fill other fields
+17. Click Sign up button
+    - verify that user remains on the registration page
+    - verify that proper error message is displayed

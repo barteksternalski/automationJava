@@ -1,0 +1,17 @@
+Preconditions:
+    - User has access to the app
+    - User can login to the app
+1. Open application
+2. Log in with an existing user
+3. Open Settings
+4. Specify picture url with proper url image
+5. Modify user name
+6. Enter some data in bio text area
+7. Modify email
+8. Click Update settings button
+    - verify that user profile page is displayed
+    - verify that proper image is displayed as profile image
+    - verify modified user name is displayed under the picture
+    - verify bio is displayed under the username
+9. Go back to Settings page
+    - verify all fields are prefilled with data specified in previous steps

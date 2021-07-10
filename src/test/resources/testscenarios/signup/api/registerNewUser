@@ -1,0 +1,5 @@
+Preconditions:
+    - Make sure you have access to the application api
+1. Send proper request to create new user
+    - verify User data is sent in response
+    - verify proper http code is sent in response

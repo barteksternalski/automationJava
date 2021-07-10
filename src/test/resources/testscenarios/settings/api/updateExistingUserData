@@ -1,0 +1,6 @@
+Preconditions:
+    - Make sure you have access to the application api
+    - User has proper access token for authorization
+1. Send request to update user details
+    - verify User data is sent in response
+    - verify proper http code is sent in response

@@ -1,0 +1,18 @@
+Preconditions:
+    - Make sure you have access to the application api
+    - At least one user is already registered
+1. Send request to create new user with already existing user name
+    - verify error info is sent in response
+    - verify proper http code is sent in response
+2. Send request to create new user with already existing user email
+    - verify error info is sent in response
+    - verify proper http code is sent in response
+3. Send request to create new user with empty fields
+    - verify error info is sent in response
+    - verify proper http code is sent in response
+4. Send request to create new user with additional field
+    - verify error info is sent in response
+    - verify proper http code is sent in response
+5. Send request to create new user without one of the fields
+    - verify error info is sent in response
+    - verify proper http code is sent in response

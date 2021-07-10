@@ -1,0 +1,11 @@
+Preconditions:
+    - User has access to the app
+    - User can login to the app
+1. Open application
+2. Log in with an existing user
+3. Open Settings
+    - verify that main app logo is displayed in the top left corner
+    - verify that Navigation buttons are displayed at the top of the page (Home, New Article, Setting, Profile name)
+    - verify that setting form contains proper fields (picture url input, profile name input, short bio text area, mail input and new password input)
+    - verify that fields are aligned correctly
+    - verify that Update settings and Logout buttons are displayed at the bottom of the page

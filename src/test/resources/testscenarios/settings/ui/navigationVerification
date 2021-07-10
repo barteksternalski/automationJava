@@ -1,0 +1,17 @@
+Preconditions:
+    - User has access to the app
+    - User can login to the app
+1. Open application
+2. Log in with an existing user
+3. Open Settings
+4. Click Home
+    - verify Home page is displayed
+5. Go back to Settings
+6. Click New Article
+    - verify new article page is displayed
+7. Go back to Settings
+8. Click profile name
+    - verify profile page is displayed
+9. Go back to Settings
+10. Click Logout button
+    - verify user is logged out

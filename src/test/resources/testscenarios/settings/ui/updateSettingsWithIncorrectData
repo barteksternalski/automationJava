@@ -1,0 +1,14 @@
+Preconditions:
+    - User has access to the app
+    - User can login to the app
+1. Open application
+2. Log in with an existing user
+3. Open Settings
+4. Enter incorrect url of the image
+5. Modify user name with name over 1024 characters long
+6. Modify email with incorrect email format
+7. Click Update settings button
+    - verify proper error messages are displayed at the top of the settings form
+7. Leave username and email empty
+8. Click Update settings button
+    - verify proper error messages are displayed at the top of the settings form

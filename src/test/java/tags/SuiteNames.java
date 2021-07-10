@@ -2,6 +2,7 @@ package tags;
 
 public interface SuiteNames {
 
-    String UI_TESTS = "uiTests";
+    String UI_TEST = "uiTest";
+    String API_TEST = "apiTest";
 
 }
