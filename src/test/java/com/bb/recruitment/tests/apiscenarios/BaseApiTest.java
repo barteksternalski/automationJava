@@ -1,4 +1,4 @@
-package apiscenarios;
+package com.bb.recruitment.tests.apiscenarios;
 
 import static io.restassured.RestAssured.given;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
@@ -14,29 +14,33 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 
-import datamodel.Errors;
-import datamodel.User;
-import datamodel.UserDetails;
-import datamodel.UserDetailsView;
+import com.bb.recruitment.datamodel.Errors;
+import com.bb.recruitment.datamodel.User;
+import com.bb.recruitment.datamodel.UserDetails;
+import com.bb.recruitment.datamodel.UserDetailsView;
+
+
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import properties.PropertyLoader;
+import com.bb.recruitment.utils.PropertyLoader;
 
 public class BaseApiTest {
 
-    static String basicAuthUsername = new PropertyLoader("application.properties").loadProperty("username");
-    static String basicAuthPassword = new PropertyLoader("application.properties").loadProperty("password");
+    static PropertyLoader propertyLoader = new PropertyLoader("application.properties");
+    static String basicAuthUsername = propertyLoader.loadProperty("username");
+    static String basicAuthPassword = propertyLoader.loadProperty("password");
     final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     public void setup() {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        RestAssured.baseURI = new PropertyLoader("application.properties").loadProperty("baseUri");
+        RestAssured.baseURI = propertyLoader.loadProperty("baseUri");
     }
 
     User generateDataForRegisteringNewUser() {
-        String newUsername = "bbUser" + randomAlphabetic(5);
+        String newUsername = "bbUser" + randomAlphabetic(5).toLowerCase();
         return new User(new UserDetails(
                 newUsername,
                 newUsername.concat("@gmail.com"),
@@ -46,9 +50,10 @@ public class BaseApiTest {
 
     Response registerNewUser(User newUser) throws IOException {
 
-        String endpoint = new PropertyLoader("application.properties").loadProperty("registerNewUser");
+        String endpoint = propertyLoader.loadProperty("registerNewUser");
 
         return given()
+                .filter(new AllureRestAssured())
                 .auth().basic(basicAuthUsername, basicAuthPassword)
                 .header("Content-Type", "application/json")
                 .body(objectMapper.writerWithView(UserDetailsView.RegisterNewUser.class).writeValueAsString(newUser))
@@ -72,5 +77,11 @@ public class BaseApiTest {
         } catch (UnrecognizedPropertyException e) {
             throw new RuntimeException("there was something wrong with parsing response data");
         }
+    }
+
+    //TODO: as the endpoint is not working as expected currently method is useless
+    public User getRandomUser() throws IOException {
+        RestAssured.baseURI = propertyLoader.loadProperty("baseUri");
+        return parseResponseUserData(registerNewUser(generateDataForRegisteringNewUser()).asString());
     }
 }

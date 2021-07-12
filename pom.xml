@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>backbase</groupId>
-    <artifactId>interview</artifactId>
+    <groupId>com.bb.recruitment</groupId>
+    <artifactId>bbTask</artifactId>
     <version>1.0.0</version>
 
     <properties>
@@ -23,7 +23,7 @@
         <assertj.version>3.20.2</assertj.version>
         <rest.assured.version>4.4.0</rest.assured.version>
         <jackson.version>2.12.4</jackson.version>
-        <suite.name>uiTests</suite.name>
+        <suite.name>allTests</suite.name>
     </properties>
 
     <dependencies>
@@ -95,6 +95,11 @@
             <artifactId>allure-junit5</artifactId>
             <version>${allure.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
 
         <!-- External dependencies -->
         <dependency>
@@ -111,6 +116,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M4</version>
                 <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
                     <groups>${suite.name}</groups>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"

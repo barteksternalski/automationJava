@@ -1,4 +1,4 @@
-package datamodel;
+package com.bb.recruitment.datamodel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

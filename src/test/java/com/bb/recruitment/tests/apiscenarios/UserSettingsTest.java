@@ -1,8 +1,8 @@
-package apiscenarios;
+package com.bb.recruitment.tests.apiscenarios;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static tags.SuiteNames.API_TEST;
+import static com.bb.recruitment.tags.SuiteNames.API_TESTS;
 
 import java.io.IOException;
 
@@ -13,18 +13,18 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 
-import datamodel.User;
-import datamodel.UserDetailsView;
+import com.bb.recruitment.datamodel.User;
+import com.bb.recruitment.datamodel.UserDetailsView;
 import io.qameta.allure.Feature;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.response.Response;
-import properties.PropertyLoader;
 
 @Feature("Verification of endpoint for user settings")
 @Execution(ExecutionMode.CONCURRENT)
 public class UserSettingsTest extends BaseApiTest {
 
     @Test
-    @Tag(API_TEST)
+    @Tag(API_TESTS)
     @DisplayName("Verify user can modify settings via api")
     void verifyUserCanModifySettings() throws IOException {
 
@@ -37,8 +37,9 @@ public class UserSettingsTest extends BaseApiTest {
         user.getUser().setImage(imageUrl);
 
         //send request to update user settings
-        String endpoint = new PropertyLoader("application.properties").loadProperty("currentUser");
-        Response response = given().log().all()
+        String endpoint = propertyLoader.loadProperty("currentUser");
+        Response response = given()
+                .filter(new AllureRestAssured())
                 .auth().basic(basicAuthUsername, basicAuthPassword)
                 .header("jwtauthorization", jwtToken)
                 .header("Content-Type", "application/json")
@@ -53,6 +54,7 @@ public class UserSettingsTest extends BaseApiTest {
 
         //verify user settings were updated correctly
         response = given()
+                .filter(new AllureRestAssured())
                 .auth().basic(basicAuthUsername, basicAuthPassword)
                 .header("jwtauthorization", jwtToken)
                 .when()

@@ -1,11 +1,11 @@
-package properties;
+package com.bb.recruitment.utils;
 
 import java.io.IOException;
 import java.util.Properties;
 
 public class PropertyLoader {
 
-    private String propertyFileName;
+    private final String propertyFileName;
 
     public PropertyLoader(String propertyPath) {
         this.propertyFileName = propertyPath;

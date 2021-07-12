@@ -1,8 +1,7 @@
-package apiscenarios;
+package com.bb.recruitment.tests.apiscenarios;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static tags.SuiteNames.API_TEST;
 
 import java.io.IOException;
 import java.util.stream.Stream;
@@ -18,11 +17,14 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 
-import datamodel.Errors;
-import datamodel.User;
+import com.bb.recruitment.datamodel.Errors;
+import com.bb.recruitment.datamodel.User;
+import com.bb.recruitment.tags.SuiteNames;
+
+
 import io.qameta.allure.Feature;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.response.Response;
-import properties.PropertyLoader;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Feature("Verification of endpoint for new user registration")
@@ -30,7 +32,7 @@ import properties.PropertyLoader;
 public class RegisterNewUserTest extends BaseApiTest {
 
     @Test
-    @Tag(API_TEST)
+    @Tag(SuiteNames.API_TESTS)
     @DisplayName("Verify new user can be registered successfully")
     void verifyNewUserCanBeCreatedSuccessfully() throws IOException {
 
@@ -46,8 +48,9 @@ public class RegisterNewUserTest extends BaseApiTest {
         User createdUser = parseResponseUserData(response.asString());
 
         //send request to get current user data
-        String endpoint = new PropertyLoader("application.properties").loadProperty("currentUser");
+        String endpoint = propertyLoader.loadProperty("currentUser");
         response = given()
+                .filter(new AllureRestAssured())
                 .auth().basic(basicAuthUsername, basicAuthPassword)
                 .header("jwtauthorization", "Token ".concat(createdUser.getUser().getToken()))
                 .when()
@@ -62,11 +65,14 @@ public class RegisterNewUserTest extends BaseApiTest {
         assertThat(parseResponseUserData(response.asString()).getUser().getEmail())
                 .as("Retrieved email is different that created one")
                 .isEqualTo(createdUser.getUser().getEmail());
+        assertThat(parseResponseUserData(response.asString()).getUser().getPassword())
+                .as("Retrieved password is different that created one")
+                .isEqualTo("Test123!");
     }
 
     @ParameterizedTest
     @MethodSource("unsuccessfulUserCreationData")
-    @Tag(API_TEST)
+    @Tag(SuiteNames.API_TESTS)
     @DisplayName("Verify new user can be registered successfully")
     void verifiedUnsuccessfulUserCreation(String username, String email, String errorMessage) throws IOException {
 

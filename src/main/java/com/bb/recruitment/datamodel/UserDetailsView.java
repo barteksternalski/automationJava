@@ -1,4 +1,4 @@
-package datamodel;
+package com.bb.recruitment.datamodel;
 
 public class UserDetailsView {
     public static class RegisterNewUser {

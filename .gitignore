@@ -2,7 +2,8 @@
 target/
 test-output/
 *.iml
-.settings/
+.settings
 .classpath
 .project
-allure-results
+allure-report/
+build/
