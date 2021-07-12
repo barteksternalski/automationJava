@@ -1,0 +1,5 @@
+Preconditions:
+    - Make sure you have access to the application api
+1. Send request to get user details for non-existing user
+    - verify error info is sent in the response
+    - verify proper http code is sent in response

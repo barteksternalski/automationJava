@@ -2,7 +2,8 @@
 target/
 test-output/
 *.iml
-.settings/
+.settings
 .classpath
 .project
-/src/test/java/AutoGenRunner/
+allure-report/
+build/

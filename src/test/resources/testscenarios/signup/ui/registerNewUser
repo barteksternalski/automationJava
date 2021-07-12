@@ -1,0 +1,8 @@
+Preconditions:
+    - User has access to the application
+1. Open application
+2. Go to registration page
+3. Fill all fields with proper data
+4. Click Sign up button
+    - verify account is created
+    - verify user is auto logged in to the application

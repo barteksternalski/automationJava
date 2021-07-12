@@ -1,0 +1,12 @@
+Preconditions:
+    - User has access to the application
+1. Open application
+2. Go to registration page
+3. Click 'Have an account' link
+    - verify that sign in page is displayed
+4. Go back go registration page
+5. Click Home button
+    - verify that home page is displayed
+6. Go back go registration page
+7. Click Sign in
+    - verify that sign in page is displayed
