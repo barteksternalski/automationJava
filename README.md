@@ -84,7 +84,7 @@ described [here](https://joel-costigliola.github.io/assertj/assertj-core-custom-
 
 ## How to run tests
 
-To run tests just execute one of the following commands
+To run tests update chrome to the latest version and execute one of the following commands
 
 ```bash
 mvn clean test -Dsuite.name=uiTests
@@ -94,7 +94,7 @@ mvn clean test -Dsuite.name=apiTests
 ## Reporting
 
 Library used for reporting test results execution: [allure](http://allure.qatools.ru/)
-All is already setup - so to generate allure report you should:
+To generate report first install allure package and then run the following command to generate report:
 
 ```bash
 allure generate target/allure-results --clean
