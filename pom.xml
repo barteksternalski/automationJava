@@ -22,7 +22,7 @@
         <awaitility.version>4.1.0</awaitility.version>
         <assertj.version>3.20.2</assertj.version>
         <rest.assured.version>4.4.0</rest.assured.version>
-        <jackson.version>2.12.4</jackson.version>
+        <jackson.version>2.12.6.1</jackson.version>
         <suite.name>allTests</suite.name>
     </properties>
 
