@@ -20,7 +20,7 @@
         <aspectj.version>1.9.4</aspectj.version>
         <allure.version>2.13.0</allure.version>
         <awaitility.version>4.1.0</awaitility.version>
-        <assertj.version>3.20.2</assertj.version>
+        <assertj.version>3.27.7</assertj.version>
         <rest.assured.version>4.4.0</rest.assured.version>
         <jackson.version>2.12.4</jackson.version>
         <suite.name>allTests</suite.name>
